@@ -1,0 +1,160 @@
+@media (min-width:1200px) {
+    .modal-dialog {
+        max-width: 80%;
+    }
+
+    #productTypeModal .modal-dialog,
+    #plugModal .modal-dialog {
+        max-width: 65%;
+    }
+
+    #addProductModal .modal-dialog,
+    #editProductModal .modal-dialog,
+    #viewProductModal .modal-dialog {
+        max-width: 75.2%;
+    }
+
+    #deleteProductModal .modal-dialog {
+        max-width: 32.5% !important;
+    }
+
+}
+
+@media screen and (min-width: 1424px) {
+    .page-wrapper.toggled .page-content {
+        padding-left: 300px;
+        padding-top: 30px;
+        padding-right: 32px;
+    }
+
+    .sidebar-wrapper .sidebar-brand #close-sidebar {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 1425px) {
+    .page-wrapper .page-content {
+        padding-top: 30px;
+    }
+
+    a.sidebar_toggle {
+        position: relative;
+        left: 65px;
+        top: 70px;
+        font-size: 26px;
+        margin-right: 20px;
+        color: #646698;
+    }
+
+    #show-sidebar {
+        position: absolute;
+        left: 65px;
+        top: 40px;
+    }
+
+    .container-fluid {
+        padding: 0 60px;
+    }
+
+    .topbar_left {
+        padding-left: 65px;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .topbar_title span {
+        padding: 0 0 0 15px;
+    }
+
+    h3.topbar_title.mb-0 {
+        font-size: 25px;
+    }
+}
+
+@media screen and (max-width: 1199px) {
+    #show-sidebar {
+        left: 15px;
+    }
+
+    .container-fluid {
+        padding: 0 15px;
+    }
+
+    .modal-dialog {
+        max-width: 100% !important;
+    }
+
+    #deleteProductModal .modal-dialog {
+        max-width: 40% !important;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    #deleteProductModal .modal-dialog {
+        max-width: 50% !important;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .search_form {
+        margin: .4em 0em .4em auto;
+    }
+
+    .modal-body {
+        padding: 65px 30px !important;
+    }
+
+    #deleteProductModal .modal-dialog {
+        max-width: 70% !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    .search_form {
+        width: 78%;
+        display: block;
+    }
+
+    .topbar_right {
+        text-align: center;
+    }
+
+    .topbar_left {
+        padding-left: 0;
+        text-align: center;
+    }
+
+    .search_form {
+        width: 78%;
+        display: block;
+        margin: 20px auto 25px auto;
+    }
+
+    #deleteProductModal .modal-dialog {
+        max-width: 100% !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .topbar_left {
+        padding-left: 10px;
+    }
+
+    button.theme_btn.left_topbar_btn {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 380px) {
+
+    .theme_btn {
+        letter-spacing: 0px;
+        padding: 14px 18px;
+        font-weight: 600;
+        margin: 0 0 0 10px;
+        font-size: 16px;
+    }
+}
