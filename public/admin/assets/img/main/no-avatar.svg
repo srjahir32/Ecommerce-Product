@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60 (88103) - https://sketch.com -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-2" stroke="none" stroke-width="0" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(16.000000, -0.000000)" fill="#FFFFFF">
+            <path d="M0,199 C11.7968522,147.339111 39.7968522,121.508666 84,121.508666 C128.203148,121.508666 156.203148,147.339111 168,199 L0,199 Z" id="Path"></path>
+            <path d="M84,0 C100.250607,0 109.084716,5.65078642 116.569301,12.5313528 C129.261522,24.1992911 132.112558,43.8371786 132.112558,62 C132.112558,90.8734109 116.075039,105.310116 84,105.310116 C51.7762589,105.310116 35.6643884,90.8734109 35.6643884,62 C35.6643884,43.8710283 39.9198208,24.1896277 52.6234005,12.5313528 C60.1523902,5.62188062 67.749393,0 84,0 Z" id="Path-2"></path>
+        </g>
+    </g>
+</svg>

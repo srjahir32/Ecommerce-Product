@@ -17,6 +17,15 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::view('/', 'admin/pages/dashboard');
+Route::view('/', 'admin/pages/login');
+Route::get('login', 'admin\LoginregisterController@index');
+Route::post('login_data', 'admin\LoginregisterController@login');
+// Route::view('signup', 'admin/pages/signup');
+Route::get('signup', 'admin\LoginregisterController@careteuser');
+Route::post('signup_data', 'admin\LoginregisterController@storeuser');
+
+
+Route::view('dashboard', 'admin/pages/dashboard');
 Route::view('products', 'admin/pages/products');
+Route::view('pending-orders', 'admin/pages/pendingorders');
 
