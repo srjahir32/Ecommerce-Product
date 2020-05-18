@@ -26,7 +26,7 @@ class UserController extends Controller
            $success['token'] =  $user->createToken('MyApp')-> accessToken; 
             return response()->json(['success' => $success, 'status'=>'1'], $this-> successStatus); 
         } else{ 
-            return response()->json(['error'=>'Invalid Login details'], 401); 
+            return response()->json(['error'=>'Invalid Login details', 'status'=>'0'], 401); 
         } 
     }
 
