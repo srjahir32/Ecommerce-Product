@@ -31,6 +31,10 @@ class UserController extends Controller
             'email' => 'required|email|unique:users', 
             'password' => 'required', 
             'c_password' => 'required|same:password', 
+        ],
+        [
+            'c_password.required' => 'The confirm password field is required.',
+            'c_password.same' => 'The confirm password and password must match.',
         ]);
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors()], 401);            
@@ -51,7 +55,7 @@ class UserController extends Controller
     }
 
     // 4. user details
-    public function details() { 
+    public function userdetails() { 
         $user = Auth::user(); 
         return response()->json(['success' => $user], $this-> successStatus); 
     } 
