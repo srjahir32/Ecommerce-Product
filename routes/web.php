@@ -25,7 +25,8 @@ Route::get('signup', 'admin\LoginregisterController@careteuser');
 Route::post('signup_data', 'admin\LoginregisterController@storeuser');
 
 
-Route::view('dashboard', 'admin/pages/dashboard');
+// Route::view('dashboard', 'admin/pages/dashboard');
+Route::get('dashboard', 'admin\DashboardController@index');
 Route::view('products', 'admin/pages/products');
 Route::view('pending-orders', 'admin/pages/pendingorders');
 

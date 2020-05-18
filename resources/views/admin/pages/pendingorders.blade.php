@@ -5,7 +5,7 @@
         <div class="row align-items-center">
             <div class="col-md-12">
                 <h3 class="topbar_title mb-0"><img class="topbar_title_icon"
-                        src="admin/assets/img/orders/icon-sales-side.svg" alt=""><span>Pending
+                        src="{{ url('admin/assets/img/orders/icon-sales-side.svg') }}" alt=""><span>Pending
                         Orders</span></h3>
             </div>
 
@@ -49,7 +49,7 @@
                         <div class="dropdown">
                             <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img class="toggle_droupdown" src="admin/assets/img/orders/menu-icon.svg"></a>
+                                <img class="toggle_droupdown" src="{{ url('admin/assets/img/orders/menu-icon.svg') }}"></a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" data-toggle="modal"
                                     data-target="#approveOrderModal">Approve</a>
@@ -78,7 +78,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/orders/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/orders/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                         <div class="col-md-5">
@@ -156,7 +156,7 @@
                         </div>
                     </div>
                     <div class="row view_product_name view_pending_order_detail">
-                        <p class="big col-sm-6"><img src="admin/assets/img/orders/invoice_med.svg" alt="">Order Details
+                        <p class="big col-sm-6"><img src="{{ url('admin/assets/img/orders/invoice_med.svg') }}" alt="">Order Details
                         </p>
                         <p class="pending_order_download_txt col-sm-6">Download</p>
                     </div>
@@ -232,14 +232,14 @@
                     <div class="row">
                         <div class="col-md-12 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/orders/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/orders/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                     </div>
                     <div class="delete_product_details approve_order_details ">
                         <div class="text-center">
                             <div class="approve_order_img">
-                                <img src="admin/assets/img/orders/salesicon.svg" alt="">
+                                <img src="{{ url('admin/assets/img/orders/salesicon.svg') }}" alt="">
                             </div>
                             <h3>Approve Order</h3>
                             <p class="big">The invoice will be updated and the customer will be
@@ -281,14 +281,14 @@
                     <div class="row">
                         <div class="col-md-12 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/orders/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/orders/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                     </div>
                     <div class="delete_product_details approve_order_details ">
                         <div class="text-center">
                             <div class="approve_order_img">
-                                <img src="admin/assets/img/orders/salesicon.svg" alt="">
+                                <img src="{{ url('admin/assets/img/orders/salesicon.svg') }}" alt="">
                             </div>
                             <h3>Decline Order</h3>
                             <p class="big">Are you sure you want to decline this order? The customer will be
@@ -330,14 +330,14 @@
                     <div class="row">
                         <div class="col-md-12 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/orders/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/orders/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                     </div>
                     <div class="delete_product_details approve_order_details ">
                         <div class="text-center">
                             <div class="approve_order_img">
-                                <img src="admin/assets/img/orders/salesicon.svg" alt="">
+                                <img src="{{ url('admin/assets/img/orders/salesicon.svg') }}" alt="">
                             </div>
                             <h3>Mark Paid</h3>
                             <p class="big">By marking the sale as paid, we will generate a new updated
@@ -367,7 +367,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/orders/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/orders/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                         <div class="col-md-8">
@@ -392,7 +392,7 @@
                     </div>
                     <div class="row customer_details_content">
                         <div class="col-md-6">
-                            <img class="customer_image" src="admin/assets/img/orders/person-icon.svg" alt="">
+                            <img class="customer_image" src="{{ url('admin/assets/img/orders/person-icon.svg') }}" alt="">
                         </div>
                         <div class="col-md-6">
                             <div class="row">
@@ -528,14 +528,14 @@
                     <div class="row">
                         <div class="col-md-12 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/orders/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/orders/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                     </div>
                     <div class="delete_product_details approve_order_details ">
                         <div class="text-center">
                             <div class="approve_order_img request_data_img">
-                                <img src="admin/assets/img/orders/usericon.svg" alt="">
+                                <img src="{{ url('admin/assets/img/orders/usericon.svg') }}" alt="">
                             </div>
                             <h3>Request Data</h3>
                             <p class="big">Are you sure you want to request the data for the customer ?</p>
@@ -562,13 +562,13 @@
                     <div class="row">
                         <div class="col-md-12 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/orders/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/orders/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                     </div>
                     <div class="delete_product_details text-center">
                         <div class="delete_product_img">
-                            <img src="admin/assets/img/orders/remove-icon.svg" alt="">
+                            <img src="{{ url('admin/assets/img/orders/remove-icon.svg') }}" alt="">
                         </div>
                         <h3>Remove Customer</h3>
                         <p class="big">Are you sure you want to remove the customer?</p>

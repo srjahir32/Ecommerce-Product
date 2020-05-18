@@ -7,7 +7,7 @@
         <div class="row align-items-center">
             <div class="col-sm-6 topbar_left pr-0">
                 <h3 class="topbar_title mb-0"><img class="topbar_title_icon"
-                        src="admin/assets/img/dashboard/icon-dashboard.svg" alt=""><span>Dashboard</span>
+                        src="{{ url('admin/assets/img/dashboard/icon-dashboard.svg') }}" alt=""><span>Dashboard</span>
                 </h3>
             </div>
             <div class="col-sm-6 topbar_right">
@@ -51,7 +51,7 @@
                         <i class="fa fa-check"></i>
                     </div>
                     <img class="dashboard_setup_box_img m-auto d-block product_service_icon"
-                        src="admin/assets/img/dashboard/Add_Product_done.svg">
+                        src="{{ url('admin/assets/img/dashboard/Add_Product_done.svg') }}">
                     <p class="dashboard_setup_box_txt">Add Product or Service</p>
                 </div>
                 <div class="dashboard_setup_box checkout_flow_box not_done_setup_box" data-toggle="modal"
@@ -60,7 +60,7 @@
                         <i class="far fa-stop"></i>
                     </div>
                     <img class="dashboard_setup_box_img m-auto d-block checkout_flow_icon"
-                        src="admin/assets/img/dashboard/Create_Checkout_Flow.svg">
+                        src="{{ url('admin/assets/img/dashboard/Create_Checkout_Flow.svg') }}">
                     <p class="dashboard_setup_box_txt theme_color">Create Checkout Flow</p>
                 </div>
                 <div class="dashboard_setup_box business_settings_box not_done_setup_box" data-toggle="modal"
@@ -69,7 +69,7 @@
                         <i class="far fa-stop"></i>
                     </div>
                     <img class="dashboard_setup_box_img m-auto d-block business_settings_icon"
-                        src="admin/assets/img/dashboard/Setup_Business_Settings.svg">
+                        src="{{ url('admin/assets/img/dashboard/Setup_Business_Settings.svg') }}">
                     <p class="dashboard_setup_box_txt theme_color">Setup Business Settings</p>
                 </div>
                 <div class="dashboard_setup_box mr-0">
@@ -77,7 +77,7 @@
                         <i class="fa fa-check"></i>
                     </div>
                     <img class="dashboard_setup_box_img m-auto d-block publish_sale_icon"
-                        src="admin/assets/img/dashboard/publish_sale_icon_done.svg">
+                        src="{{ url('admin/assets/img/dashboard/publish_sale_icon_done.svg') }}">
                     <p class="dashboard_setup_box_txt">Publish and Make a sale</p>
                 </div>
             </div>
@@ -109,7 +109,7 @@
                 <div class="col-sm-4 products_sold_txt">
                     <p class="graph_tab_top_title_txt">Products Sold</p>
                     <p class="graph_tab_icon_txt"><img class="updown_arrow_img"
-                            src="admin/assets/img/dashboard/products_sold.svg">0</p>
+                            src="{{ url('admin/assets/img/dashboard/products_sold.svg') }}">0</p>
                     <p class="graph_tab_btm_title_txt">Newe</p>
                 </div>
             </div>
@@ -136,7 +136,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/dashboard/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/dashboard/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                         <div class="col-md-10 text-center">
@@ -149,7 +149,7 @@
                     <div class="row product_type_list">
                         <div class="col-md-4 product_type" data-toggle="modal" data-target="#addProductModal">
                             <div class="product_type_inner text-center">
-                                <img class="product_type_img" src="admin/assets/img/dashboard/phyprod.svg">
+                                <img class="product_type_img" src="{{ url('admin/assets/img/dashboard/phyprod.svg') }}">
                                 <p class="product_type_title">Add a Physical Product</p>
                                 <p class="product_type_txt">You are selling physical products and getting
                                     paid with
@@ -174,7 +174,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/dashboard/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/dashboard/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                         <div class="col-md-8">
@@ -616,7 +616,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/dashboard/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/dashboard/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                         <div class="col-md-7">
@@ -856,7 +856,7 @@
                                                 <div class="input-group input_group_field">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><img class="country_map"
-                                                                src="admin/assets/img/dashboard/india.svg" alt="">
+                                                                src="{{ url('admin/assets/img/dashboard/india.svg') }}" alt="">
                                                             +91</span>
                                                     </div>
                                                     <input type="text" name="telephone" id="telephone"
@@ -1619,7 +1619,7 @@
                                             <div class="other_shop_setting_title">
                                                 <h5>Stock Management</h5>
                                                 <img class="other_shop_setting_icon"
-                                                    src="admin/assets/img/dashboard/stockmanagement.svg" alt="">
+                                                    src="{{ url('admin/assets/img/dashboard/stockmanagement.svg') }}" alt="">
                                             </div>
                                             <p>Setup stock management for your tangible goods and services
                                             </p>
@@ -1631,7 +1631,7 @@
                                             <div class="other_shop_setting_title">
                                                 <h5>Currency & Whitelist</h5>
                                                 <img class="other_shop_setting_icon"
-                                                    src="admin/assets/img/dashboard/currencywhitelist.svg" alt="">
+                                                    src="{{ url('admin/assets/img/dashboard/currencywhitelist.svg') }}" alt="">
                                             </div>
                                             <p>Setup your currency, country whitelist and default rounding
                                                 method</p>
@@ -1658,7 +1658,7 @@
                     <div class="row">
                         <div class="col-md-12 back_btn_txt mb-3">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/dashboard/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/dashboard/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                     </div>
@@ -1705,7 +1705,7 @@
                     <div class="row">
                         <div class="col-md-12 back_btn_txt mb-3">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/dashboard/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/dashboard/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                     </div>
@@ -1938,7 +1938,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/dashboard/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/dashboard/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                         <div class="col-md-8">
@@ -1969,7 +1969,7 @@
                                 then add
                                 all your countries where you can ship on your Whitelist. </p>
                         </div>
-                        <img class="adding_restriction_top_img" src="admin/assets/img/dashboard/restrictions1.png"
+                        <img class="adding_restriction_top_img" src="{{ url('admin/assets/img/dashboard/restrictions1.png') }}"
                             alt="">
                         <div class="adding_restriction_title_txt">
                             <p>Restricting buyers is also available for individual shopping carts and can be
@@ -1993,13 +1993,13 @@
                                 General Settings section. Choose the countries you wish to include and hit
                                 Save. </p>
                         </div>
-                        <img class="adding_restriction_center_img" src="admin/assets/img/dashboard/restrictions2.png"
+                        <img class="adding_restriction_center_img" src="{{ url('admin/assets/img/dashboard/restrictions2.png') }}"
                             alt="">
                         <div class="adding_restriction_title_txt">
                             <p>In those countries that aren't on your whitelist, this message will show up:
                             </p>
                         </div>
-                        <img class="adding_restriction_btm_img" src="admin/assets/img/dashboard/restrictions3.png"
+                        <img class="adding_restriction_btm_img" src="{{ url('admin/assets/img/dashboard/restrictions3.png') }}"
                             alt="">
                         <div class="adding_restriction_title_txt">
                             <p>The Checkout Country Whitelist option is also available for individual
@@ -2024,7 +2024,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/dashboard/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/dashboard/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                         <div class="col-md-8">
@@ -2041,7 +2041,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="payment_option_box text-center">
-                                <img src="admin/assets/img/dashboard/cashondelivery.svg" alt="">
+                                <img src="{{ url('admin/assets/img/dashboard/cashondelivery.svg') }}" alt="">
                                 <p>with Cash on delivery</p>
                                 <a href="" class="themecolor" id="payment_select">select</a>
                             </div>

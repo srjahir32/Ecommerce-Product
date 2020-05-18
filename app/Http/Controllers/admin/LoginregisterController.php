@@ -45,8 +45,7 @@ class LoginregisterController extends Controller
     $request = Request::create('/api/register', 'POST', $data);
     $res = app()->handle($request);
     $response = json_decode($res->getContent(), true); 
-    return response()->json(['data' =>$response]);
-    
+    return response()->json(['data' =>$response]);   
 
    }
 }

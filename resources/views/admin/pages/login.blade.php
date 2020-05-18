@@ -47,7 +47,8 @@
                         <div class="login_form_btn"><button type="submit" id="login_form_submit"
                                 class="theme_btn dark_btn ml-0 w-100">Continue</button>
                         </div>
-                    <p id="form_error" class="text-center"></p>
+                    <!-- <span id="form_error" class="text-center"></span> -->
+                    <span id="form_status" class="text-center"></span>
 
                         <p><a href="{{ url('signup') }}" class="login_form_btm_txt themecolor">Create an Account!</a>
                         </p>
@@ -66,7 +67,7 @@
 
         email = $('#email').val();
         password = $('#password').val();
-
+        $("#login_form_submit").html("processing...");
         $.ajax({
             headers: {
 
@@ -80,6 +81,7 @@
                 password: password,
             },
             success: function(res) {
+                $("#login_form_submit").html("Continue");
                 console.log(res);
                 if (!$.isEmptyObject(res.data.error)) {
                     printErrorMsg(res.data.error);
@@ -88,15 +90,11 @@
                     // console.log(res.data.data);
                     if (res.data.data) {
                         $(".error").remove();
-
-                    $("p#form_error").after('<span class="error"><b> invalid login</b></span>');
+                        $("#form_status").after('<p class="error text-center mt-4"><b> '+res.data.data+'</b></p>');
                     } else {
-                        $(".error").remove();
-
+                        $(".error").remove();                       
                         $("#login_form")[0].reset();
-                        // setTimeout(function() {
-                        //         window.location.href = "{{ url('dashboard') }}");
-                        // }, 3000);
+                        window.location.href = "{{ url('dashboard') }}";
                     }
                 }
             },

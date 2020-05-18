@@ -11,7 +11,7 @@
                 </div>
                 <div class="header_top">
                     <div class="logo">
-                        <img class="img-responsive logo_img " src="admin/assets/img/logo.png" alt="User picture">
+                        <img class="img-responsive logo_img " src="{{ url('admin/assets/img/logo.png') }}" alt="User picture">
                     </div>
                 </div>
                 <div class="sidebar-menu">

@@ -7,16 +7,17 @@
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
-    <link rel="stylesheet" href="admin/css/ripple.css">
-    <link href="admin/css/dropzone.css" rel="stylesheet" />
-    <link href="admin/css/cropper.css" rel="stylesheet" />
-    <link href="admin/css/selectize.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="admin/assets/css/sidebar.css" />
-    <link rel="stylesheet" type="text/css" href="admin/assets/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="admin/assets/css/media.css" />
+    <link rel="stylesheet" href="{{ url('admin/css/ripple.css') }} " type="text/css">
+    <link href="{{ url('admin/css/dropzone.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ url('admin/css/cropper.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ url('admin/css/selectize.css') }}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="{{ url('admin/assets/css/sidebar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url('admin/assets/css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url('admin/assets/css/media.css') }}" />
 </head>
 
 <body>
+<?php print_r($user); ?>
     <div class="page-wrapper chiller-theme toggled">
 
         @include('admin.include.sidebar')
@@ -67,7 +68,7 @@
                     <div class="modal-body editProfileModal_body">
                         <div class="row">
                             <div class="col-md-12 back_btn_txt">
-                                <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
+                                <a class="back_btn_link" href=" data-dismiss="modal" aria-label="Close"><img
                                         class="back_btn_img" src="admin/assets/img/dashboard/back-arrow.svg" alt="">
                                     <span>Back</span></a>
 
@@ -77,7 +78,7 @@
                                     <img class="droupdown_menu_img" src="admin/assets/img/main/menu-icon.svg"
                                         alt=""></a>
                                 <div class="dropdown-menu" aria-labelledby="productDropdownMenu">
-                                    <a class="dropdown-item" href="#">Duplicate</a>
+                                    <a class="dropdown-item" href="">Duplicate</a>
                                     <a class="dropdown-item text-danger" data-toggle="modal"
                                         data-target="#deleteAccountModal">Remove</a>
                                 </div>
@@ -328,19 +329,19 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5/tinymce.min.js">
     </script>
-    <script src="admin/js/apexcharts.min.js"></script>
-    <script src="admin/js/dropzone.js" />
+    <script src="{{ url('admin/js/apexcharts.min.js') }}"></script>
+    <script src="{{ url('admin/js/dropzone.js') }}" />
     </script>
-    <script src="admin/js/cropper.js" />
+    <script src="{{ url('admin/js/cropper.js') }}" />
     </script>
-    <script src="admin/js/jqueryui.js"></script>
-    <script src="admin/js/selectize.js"></script>
-    <script src="admin/js/jqueryui.js"></script>
-    <script src="admin/js/ripple.js"></script>
+    <script src="{{ url('admin/js/jqueryui.js') }}"></script>
+    <script src="{{ url('admin/js/selectize.js') }}"></script>
+    <script src="{{ url('admin/js/jqueryui.js') }}"></script>
+    <script src="{{ url('admin/js/ripple.js') }}"></script>
 
-    <script src="admin/assets/js/sidebar.js" />
+    <script src="{{ url('admin/assets/js/sidebar.js') }}" />
     </script>
-    <script src="admin/assets/js/imgecroper.js" />
+    <script src="{{ url('admin/assets/js/imgecroper.js') }}" />
     </script>
 
 

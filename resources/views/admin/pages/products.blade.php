@@ -5,7 +5,7 @@
         <div class="row align-items-center">
             <div class="col-lg-4 topbar_left pr-0">
                 <h3 class="topbar_title mb-0"><img class="topbar_title_icon"
-                        src="admin/assets/img/products/icon-products.svg" alt=""><span>Products &
+                        src="{{ url('admin/assets/img/products/icon-products.svg') }}" alt=""><span>Products &
                         Services</span></h3>
             </div>
             <div class="col-lg-8 topbar_right">
@@ -65,7 +65,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><img src="admin/assets/img/products/placeholder-person.jpg" alt="" class="product_img"><span
+                    <td><img src="{{ url('admin/assets/img/products/placeholder-person.jpg') }}" alt="" class="product_img"><span
                             class="product_name">Product1</span></td>
                     <td><span class="currency_symbol">₹</span>1230</td>
                     <td>0</td>
@@ -86,7 +86,7 @@
                         <div class="dropdown">
                             <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img class="toggle_droupdown" src="admin/assets/img/products/menu-icon.svg"></a>
+                                <img class="toggle_droupdown" src="{{ url('admin/assets/img/products/menu-icon.svg') }}"></a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" data-toggle="modal" data-target="#viewProductModal">View
                                     Product</a>
@@ -99,7 +99,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><img src="admin/assets/img/products/placeholder-person.jpg" alt="" class="product_img"><span
+                    <td><img src="{{ url('admin/assets/img/products/placeholder-person.jpg') }}" alt="" class="product_img"><span
                             class="product_name">Product1</span></td>
                     <td><span class="currency_symbol">₹</span>1230</td>
                     <td>0</td>
@@ -120,7 +120,7 @@
                         <div class="dropdown">
                             <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img class="toggle_droupdown" src="admin/assets/img/products/menu-icon.svg"></a>
+                                <img class="toggle_droupdown" src="{{ url('admin/assets/img/products/menu-icon.svg') }}"></a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" data-toggle="modal" data-target="#viewProductModal">View
                                     Product</a>
@@ -152,7 +152,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link text-left" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/products/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/products/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
 
                         </div>
@@ -165,7 +165,7 @@
                     <div class="row product_type_list">
                         <div class="col-md-4 product_type" data-toggle="modal" data-target="#addProductModal">
                             <div class="product_type_inner text-center">
-                                <img class="product_type_img" src="admin/assets/img/products/phyprod.svg">
+                                <img class="product_type_img" src="{{ url('admin/assets/img/products/phyprod.svg') }}">
                                 <p class="product_type_title">Add a Physical Product</p>
                                 <p class="product_type_txt">You are selling physical products and getting
                                     paid with
@@ -190,7 +190,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/products/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/products/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                         <div class="col-md-10 text-center">
@@ -203,7 +203,7 @@
                     <div class="row product_type_list">
                         <div class="col-md-4 product_type" data-toggle="modal" data-target="#addProductModal">
                             <div class="product_type_inner text-center">
-                                <img class="product_type_img" src="admin/assets/img/products/phyprod.svg">
+                                <img class="product_type_img" src="{{ url('admin/assets/img/products/phyprod.svg') }}">
                                 <p class="product_type_title">Add a Physical Product</p>
                                 <p class="product_type_txt">You are selling physical products and getting
                                     paid with
@@ -228,7 +228,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/products/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/products/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                         <div class="col-md-8">
@@ -670,7 +670,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/products/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/products/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                         <div class="col-md-7">
@@ -697,7 +697,7 @@
                     </div>
                     <div class="view_product_details">
                         <div class="view_product_name">
-                            <p class="big"><img src="admin/assets/img/products/icon-products-side.svg" alt="">test</p>
+                            <p class="big"><img src="{{ url('admin/assets/img/products/icon-products-side.svg') }}" alt="">test</p>
                         </div>
                         <div class="row view_product_detail_inner">
                             <div class="col-md-3 col-sm-6 ">
@@ -847,7 +847,7 @@
                     <div class="row">
                         <div class="col-md-2 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/products/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/products/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                         <div class="col-md-8">
@@ -1209,13 +1209,13 @@
                     <div class="row">
                         <div class="col-md-12 back_btn_txt">
                             <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="admin/assets/img/products/back-arrow.svg" alt="">
+                                    class="back_btn_img" src="{{ url('admin/assets/img/products/back-arrow.svg') }}" alt="">
                                 <span>Back</span></a>
                         </div>
                     </div>
                     <div class="delete_product_details text-center">
                         <div class="delete_product_img">
-                            <img src="admin/assets/img/products/remove-icon.svg" alt="">
+                            <img src="{{ url('admin/assets/img/products/remove-icon.svg') }}" alt="">
                         </div>
                         <h3>Remove Product</h3>
                         <p class="big">Are you sure you want to remove this product ?</p>
