@@ -41,5 +41,6 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('business/view', 'API\UserbusinessController@view');
     Route::post('business/edit', 'API\UserbusinessController@edit');
     Route::post('order/create', 'API\CreateorderController@create');
+    Route::get('order/view', 'API\CreateorderController@view');
 });
 
