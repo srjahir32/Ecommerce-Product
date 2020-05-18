@@ -13,21 +13,22 @@ class UserController extends Controller
     public $successStatus = 200;
 
     // 1. user login
-    public function login(Request $request) { 
-        $validator = Validator::make($request->all(), [ 
-            'email' => 'required|email', 
-            'password' => 'required', 
+    public function login(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
-        if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors(), 'status'=>'0'], 401);            
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors(), 'status'=>'0'], 401);
+        } else {
+            if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+                $user = Auth::user();
+                $success['token'] = $user->createToken('MyApp')-> accessToken;
+                return response()->json(['success' => $success, 'status'=>'1'], $this-> successStatus);
+            } else {
+                return response()->json(['data'=>'Invalid Login details', 'status'=>'0'], 401);
+            }
         }
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
-           $user = Auth::user(); 
-           $success['token'] =  $user->createToken('MyApp')-> accessToken; 
-            return response()->json(['success' => $success, 'status'=>'1'], $this-> successStatus); 
-        } else{ 
-            return response()->json(['error'=>'Invalid Login details', 'status'=>'0'], 401); 
-        } 
     }
 
     // 2. user register

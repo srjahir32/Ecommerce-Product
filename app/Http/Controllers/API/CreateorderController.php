@@ -33,6 +33,9 @@ class CreateorderController extends Controller
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
         $view_order = Order::where('id', $order_id)->get();
+        $ad = $view_order[0]['order_details'];
+        $result = $ad->toArray();
+        return $populars = $result["data"];
         if($view_order->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
