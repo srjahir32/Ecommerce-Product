@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<?php print_r($user); ?>
+
     <div class="page-wrapper chiller-theme toggled">
 
         @include('admin.include.sidebar')
