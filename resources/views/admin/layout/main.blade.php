@@ -2,22 +2,22 @@
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css') }}">
     <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap"
+        href="{{ asset('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap') }}"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
-    <link rel="stylesheet" href="{{ url('admin/css/ripple.css') }} " type="text/css">
-    <link href="{{ url('admin/css/dropzone.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ url('admin/css/cropper.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ url('admin/css/selectize.css') }}" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="{{ url('admin/assets/css/sidebar.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url('admin/assets/css/style.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url('admin/assets/css/media.css') }}" />
+    <link rel="stylesheet" href="{{ asset('https://pro.fontawesome.com/releases/v5.10.0/css/all.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin/css/ripple.css') }} " type="text/css">
+    <link href="{{ asset('admin/css/dropzone.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('admin/css/cropper.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('admin/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/sidebar.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/media.css') }}" />
 </head>
 
 <body>
-<?php print_r($user); ?>
+
     <div class="page-wrapper chiller-theme toggled">
 
         @include('admin.include.sidebar')
@@ -26,39 +26,10 @@
             @yield('content')
 
         </main>
-        <div class="profile_setting_txt">
-            <div class=""><a class="profile_setting_button ripple_btn" id="profile_setting"><img
-                        src="admin/assets/img/main/apps-icon.svg"></a></div>
-            <div class="profile_setting_box">
+      
 
-                <div class="profile_setting_inner_top">
-                    <p class="whitelabel_txt" id="superbolt_text" data-toggle="modal" data-target="#superboltsModal">
-                        <img class="white_label_img" src="admin/assets/img/main/spb-logo-square-white.svg"><span>NEW!
-                            Superbolts: re-sell sanalpos.co whitelabel</span></p>
-                    <img class="profile_setting_close_btn" src="admin/assets/img/main/icon-close.svg" alt="">
-                </div>
-                <div class="profile_setting_inner_btm">
-                    <div id="edit_profile" class="edit_profile_text" data-toggle="modal"
-                        data-target="#editProfileModal">
-                        <img class="edit_profile_img" src="admin/assets/img/main/no-avatar.svg" alt="">
-                        <div class="edit_profile_inner">
-                            <p class="ellipsis_text profile-name mb-0"><b>puja ponkiy</b></p>
-                            <p class="mb-0">Edit Profile</p>
-                        </div>
-                    </div>
-                    <div class="logout_profile_text ripple_btn">
-                        <img src="admin/assets/img/main/logout.svg" alt="">
-                        <p class="mb-0" p>Logout</p>
-                    </div>
-                    <div id="support_profile" class="support_profile_text ripple_btn" data-toggle="modal"
-                        data-target="#supportModal">
-                        <img src="admin/assets/img/main/live-help.svg" alt="">
-                        <p class="mb-0">Support</p>
-                    </div>
-                </div>
 
-            </div>
-        </div>
+
 
         <!-- edit profile model -->
         <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog"
@@ -68,7 +39,7 @@
                     <div class="modal-body editProfileModal_body">
                         <div class="row">
                             <div class="col-md-12 back_btn_txt">
-                                <a class="back_btn_link" href=" data-dismiss="modal" aria-label="Close"><img
+                                <a class="back_btn_link" href=" data-dismiss=" modal" aria-label="Close"><img
                                         class="back_btn_img" src="admin/assets/img/dashboard/back-arrow.svg" alt="">
                                     <span>Back</span></a>
 
@@ -324,48 +295,50 @@
         </div>
         <!-- superbolts Modal end-->
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5/tinymce.min.js">
+    <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js') }}"></script>
+    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js') }}"></script>
+    <script src="{{ asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js') }}"></script>
+    <script
+        src="{{ asset('https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/5/tinymce.min.js') }}">
     </script>
-    <script src="{{ url('admin/js/apexcharts.min.js') }}"></script>
-    <script src="{{ url('admin/js/dropzone.js') }}" />
+    <script src="{{ asset('admin/js/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('admin/js/dropzone.js') }}" />
     </script>
-    <script src="{{ url('admin/js/cropper.js') }}" />
+    <script src="{{ asset('admin/js/cropper.js') }}" />
     </script>
-    <script src="{{ url('admin/js/jqueryui.js') }}"></script>
-    <script src="{{ url('admin/js/selectize.js') }}"></script>
-    <script src="{{ url('admin/js/jqueryui.js') }}"></script>
-    <script src="{{ url('admin/js/ripple.js') }}"></script>
+    <script src="{{ asset('admin/js/jqueryui.js') }}"></script>
+    <script src="{{ asset('admin/js/selectize.js') }}"></script>
+    <script src="{{ asset('admin/js/jqueryui.js') }}"></script>
+    <script src="{{ asset('admin/js/ripple.js') }}"></script>
 
-    <script src="{{ url('admin/assets/js/sidebar.js') }}" />
+    <script src="{{ asset('admin/assets/js/sidebar.js') }}" />
     </script>
-    <script src="{{ url('admin/assets/js/imgecroper.js') }}" />
+    <script src="{{ asset('admin/assets/js/imgecroper.js') }}" />
     </script>
 
 
     @yield('scripts')
     <script>
-        $("#profile_setting").click(function () {
-            $(".profile_setting_box").show();
-            $("#profile_setting").hide();
-        })
+    $("#profile_setting").click(function() {
+        $(".profile_setting_box").show();
+        $("#profile_setting").hide();
+    })
 
-        $(".profile_setting_close_btn, #edit_profile, #support_profile, #superbolt_text").click(function () {
-            $(".profile_setting_box").hide();
-            $("#profile_setting").show();
-        })
+    $(".profile_setting_close_btn, #edit_profile, #support_profile, #superbolt_text").click(function() {
+        $(".profile_setting_box").hide();
+        $("#profile_setting").show();
+    })
     </script>
     <script>
-        $(document).on('click', '[href="#"]', function (e) {
-            e.preventDefault();
-        })
-        window.rippler = $.ripple('.ripple_btn', {
-            debug: true,
-            multi: true
-        });
+    $(document).on('click', '[href="#"]', function(e) {
+        e.preventDefault();
+    })
+    window.rippler = $.ripple('.ripple_btn', {
+        debug: true,
+        multi: true
+    });
     </script>
+    <script></script>
 </body>
 
 </html>
