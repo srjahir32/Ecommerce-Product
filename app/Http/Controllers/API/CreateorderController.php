@@ -11,15 +11,14 @@ class CreateorderController extends Controller
 {
     // 1. create order
     public function create(Request $request) {
+        $input = $request->all();
         $validator = Validator::make($request->all(), [
             'product_id' => 'required',
         ]);
-        $product_id = $request->input("product_id");
-        $order_details = $request->input("order_details");
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $insert_order = Order::insert(['product_id' => $product_id, 'order_details' => $order_details]);
+        $insert_order = Order::create($input);
         return response()->json(['message'=>'success', 'status'=>'1', 'data'=>'create order successfully.']);     
     }
 
@@ -33,12 +32,10 @@ class CreateorderController extends Controller
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
         $view_order = Order::where('id', $order_id)->get();
-        $ad = $view_order[0]['order_details'];
-        $result = $ad->toArray();
-        return $populars = $result["data"];
         if($view_order->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
         return response()->json(['message'=>'success', 'status'=>'1', 'data'=>$view_order]);     
     }
+
 }

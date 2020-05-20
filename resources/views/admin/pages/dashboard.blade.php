@@ -1,10 +1,14 @@
 @extends('admin.layout.main')
 @section('content')
 
+<<<<<<< HEAD
 
 
 
 
+=======
+<?php print_r($json_data); ?>
+>>>>>>> 5c17a2837d976bd79e0fbef7d81bb0b7bb04753f
 <div class="container-fluid">
     <div class="top-bar">
         <div class="row align-items-center">
@@ -17,6 +21,7 @@
                 <div class="topbar_btn">
                     <button class="theme_btn ripple_btn dark_btn" data-toggle="modal" data-target="#plugModal">Create
                         Plug</button>
+                        
                 </div>
             </div>
         </div>
