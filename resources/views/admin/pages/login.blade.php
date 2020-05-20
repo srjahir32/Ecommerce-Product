@@ -37,12 +37,12 @@
                         <div class="form-group">
                             <label>Email Address<span>*</span></span>
                             </label>
-                            <input class="form-control form_field" id="email" name="email" placeholder="Email Address">
+                            <input type="text" class="form-control form_field" id="email" name="email" placeholder="Email Address">
                         </div>
                         <div class="form-group">
                             <label>Password<span>*</span></span>
                             </label>
-                            <input class="form-control form_field" id="password" name="password" placeholder="Password">
+                            <input type="password"  class="form-control form_field" id="password" name="password" placeholder="Password">
                         </div>
                         <div class="login_form_btn"><button type="submit" id="login_form_submit"
                                 class="theme_btn dark_btn ml-0 w-100">Continue</button>
