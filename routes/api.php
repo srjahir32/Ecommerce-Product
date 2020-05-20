@@ -23,6 +23,7 @@ Route::post('register', 'API\UserController@register');
 Route::group(['middleware' => 'auth:api'], function(){
     Route::post('logout', 'API\UserController@logout');
     Route::post('user_details', 'API\UserController@userdetails');
+    Route::post('products/category', 'API\ProductController@category');
     Route::post('products', 'API\ProductController@index');
     Route::post('products/create', 'API\ProductController@create');
     Route::post('products/view', 'API\ProductController@view');

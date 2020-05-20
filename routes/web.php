@@ -14,19 +14,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::get('/', function () {
-//     return view('welcome');
+// return view('welcome');
 // });
 
 Route::view('/', 'admin/pages/login');
-Route::get('login', 'admin\LoginregisterController@index');
+Route::get('login', 'admin\LoginregisterController@index')->name('login');
 Route::post('login_data', 'admin\LoginregisterController@login');
 // Route::view('signup', 'admin/pages/signup');
 Route::get('signup', 'admin\LoginregisterController@careteuser');
 Route::post('signup_data', 'admin\LoginregisterController@storeuser');
+Route::get('logout', 'admin\LoginregisterController@logout');
+Route::get('userdetail', 'admin\LoginregisterController@userdetail');
 
 
 // Route::view('dashboard', 'admin/pages/dashboard');
 Route::get('dashboard', 'admin\DashboardController@index');
-Route::view('products', 'admin/pages/products');
-Route::view('pending-orders', 'admin/pages/pendingorders');
-
+Route::get('products', 'admin\ProductContrller@index');
+Route::post('product_data', 'admin\ProductContrller@saveproduct');
+Route::get('pending-orders', 'admin\PendingorderController@index');

@@ -265,4 +265,13 @@ class ProductController extends Controller
             return response()->json(['message'=>'success', 'status'=>'1']);
         }
     }
+
+    // 15. view all category
+    public function category() {
+        $category = category::all();
+        if($category->isEmpty()){
+            return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
+        }
+        return response()->json(['message'=>'success', 'status'=>'1', 'data'=>$category]);
+    }
 }
