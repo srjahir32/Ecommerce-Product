@@ -29,6 +29,12 @@ span.error {
 .warning_txt {
     color: #f47336 !important;
 }
+#status .alert{
+    position: fixed;
+    left: 0;
+    z-index: 999;
+    bottom: 0;
+}
 /* .blue_color {
     color: #466afc !important;
     cursor: pointer;
@@ -235,6 +241,7 @@ span.error {
     padding: 8px;
     margin: 0 0.5%;
     border-radius: 12px;
+    color: #fff;
 }
 
 .logout_profile_text:hover,
@@ -785,7 +792,7 @@ input.width_field {
     padding-top: 20px;
 }
 
-.view_product_detail_txt label, .customer_details_txt label {
+.view_product_detail_txt label, .customer_details_txt label, .view_product_date_detail_txt label {
     font-size: 14px;
     color: #878ae0;
     line-height: 19px;

@@ -2,6 +2,8 @@
     <title>Bootstrap Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="stylesheet" href="{{ asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css') }}">
     <link
         href="{{ asset('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap') }}"
@@ -26,7 +28,7 @@
             @yield('content')
 
         </main>
-      
+
 
 
 
@@ -295,6 +297,9 @@
         </div>
         <!-- superbolts Modal end-->
     </div>
+
+    <p id="status"></p>
+
     <script src="{{ asset('https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js') }}"></script>
     <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js') }}"></script>
     <script src="{{ asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js') }}"></script>
@@ -313,8 +318,10 @@
 
     <script src="{{ asset('admin/assets/js/sidebar.js') }}" />
     </script>
-    <script src="{{ asset('admin/assets/js/imgecroper.js') }}" />
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+    <!-- <script src="{{ asset('admin/assets/js/imgecroper.js') }}" />
+    </script> -->
 
 
     @yield('scripts')
@@ -338,7 +345,11 @@
         multi: true
     });
     </script>
-    <script></script>
+    <script>
+    setTimeout(function() {
+        $("#status .alert").fadeOut();
+    }, 8000);
+    </script>
 </body>
 
 </html>

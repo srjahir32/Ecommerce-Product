@@ -15,7 +15,8 @@ class DashboardController extends Controller {
    }
    public function index(){
       // return view('admin.pages.dashboard');
-      $path = URL();
+
+   
       $Bearer_token = session()->get('token');
       $request = Request::create(url('/api/user_details'), 'POST');
       $request->headers->set('Accept', 'application/json');
@@ -26,6 +27,8 @@ class DashboardController extends Controller {
       // return $this->user_id;
       // return response()->json(['data' =>$response ]);
       return view('admin.pages.dashboard', compact('response'));
+     
+      
    }
 
 }

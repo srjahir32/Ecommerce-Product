@@ -34,7 +34,8 @@ class ProductController extends Controller
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
         $insert_product = Product::create($input);
-        return response()->json(['message'=>'success', 'status'=>'1', 'data'=>'insert product successfully.']);
+        $latest_product_id = $insert_product->id;
+        return response()->json(['message'=>'success',  'status'=>'1', 'latest_product_id'=>$latest_product_id, 'data'=>'insert product successfully.']);
     }
 
     // 3. view single product
@@ -53,34 +54,35 @@ class ProductController extends Controller
         return response()->json(['message'=>'success', 'status'=>'1', 'data'=>$view_product]);
     }
 
-    // 4. edit product
-    public function edit(Request $request) {
-        $product_id = $request->input('product_id');
-        $validator = Validator::make($request->all(), [
-            'product_id' => 'required',
-            'product_name' => 'required',
-            'price' => 'required|numeric|gt:0',
-            'stock' => 'required|numeric|gt:0',
-        ]);
-        $product_name = $request->input('product_name');
-        $short_desc = $request->input('short_desc');
-        $long_desc = $request->input('long_desc');
-        $price = $request->input('price');
-        $stock = $request->input('stock');
-        $user_id = $request->input('user_id');
-        $product_type = $request->input('product_type');
-        $category_id = $request->input('category_id');
-        if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
+        // 4. edit product
+        public function edit(Request $request) {
+            $product_id = $request->input('product_id');
+            $validator = Validator::make($request->all(), [
+                'product_id' => 'required',
+                'product_name' => 'required',
+                'price' => 'required|numeric|gt:0',
+                'stock' => 'required|numeric|gt:0',
+            ]);
+            $product_name = $request->input('product_name');
+            $short_desc = $request->input('short_desc');
+            $long_desc = $request->input('long_desc');
+            $order_limit = $request->input('order_limit');
+            $price = $request->input('price');
+            $stock = $request->input('stock');
+            $user_id = $request->input('user_id');
+            $product_type = $request->input('product_type');
+            $category_id = $request->input('category_id');
+            if ($validator->fails()) { 
+                return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
+            }
+            $update_product = Product::where('id', $product_id)->update(['product_name' => $product_name, 'short_desc' => $short_desc, 'long_desc' => $long_desc, 'order_limit' => $order_limit, 'price' => $price, 'stock' => $stock, 'user_id' => $user_id, 'product_type' => $product_type, 'category_id' => $category_id]);
+            if ($update_product != 1) {
+                return response()->json(['message'=>'fail', 'status'=>'0']);
+            }
+            else {
+                return response()->json(['message'=>'success', 'status'=>'1']);
+            }
         }
-        $update_product = Product::where('id', $product_id)->update(['product_name' => $product_name, 'short_desc' => $short_desc, 'long_desc' => $long_desc, 'price' => $price, 'stock' => $stock, 'user_id' => $user_id, 'product_type' => $product_type, 'category_id' => $category_id]);
-        if ($update_product != 1) {
-            return response()->json(['message'=>'fail', 'status'=>'0']);
-        }
-        else {
-            return response()->json(['message'=>'success', 'status'=>'1']);
-        }
-    }
 
     // 5. remove product
     public function remove(Request $request) {

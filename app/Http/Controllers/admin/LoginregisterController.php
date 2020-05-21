@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\admin;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Route, URL;
+use Session;
+
 class LoginregisterController extends Controller
 {
 
@@ -50,28 +52,8 @@ class LoginregisterController extends Controller
 
    }
    public function logout(){
-    $Bearer_token = session()->get('token');
-    $request = Request::create(url('/api/user_details'), 'POST');
-    $request->headers->set('Accept', 'application/json');
-    $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
-    $res = app()->handle($request);
-    $response = json_decode($res->getContent()); 
-    session()->forget('token');
-    return  $response;
-    // return view('admin.pages.login')->with('data', $response);
-    return redirect()->route('login')->with('response',$response);
+        Session::flush();
+        Auth::logout();
+        return Redirect('login');
    }
-
-//    public function userdetail(){
-       
-//        $path =  URL();
-//         $Bearer_token = session()->get('token');
-//         $request = Request::create(url('/api/user_details'), 'POST');
-//         $request->headers->set('Accept', 'application/json');
-//         $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
-//         $res = app()->handle($request);
-//         $response = json_decode($res->getContent()); 
-//         // return response()->json(['data' =>$response ]);
-//         return view('admin.layout.main', compact('response'));
-//    }
 }

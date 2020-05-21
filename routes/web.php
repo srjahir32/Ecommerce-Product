@@ -20,15 +20,20 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'admin/pages/login');
 Route::get('login', 'admin\LoginregisterController@index')->name('login');
 Route::post('login_data', 'admin\LoginregisterController@login');
-// Route::view('signup', 'admin/pages/signup');
 Route::get('signup', 'admin\LoginregisterController@careteuser');
 Route::post('signup_data', 'admin\LoginregisterController@storeuser');
 Route::get('logout', 'admin\LoginregisterController@logout');
-Route::get('userdetail', 'admin\LoginregisterController@userdetail');
+
+// Route::get('userdetail', 'admin\LoginregisterController@userdetail');
 
 
 // Route::view('dashboard', 'admin/pages/dashboard');
 Route::get('dashboard', 'admin\DashboardController@index');
 Route::get('products', 'admin\ProductContrller@index');
 Route::post('product_data', 'admin\ProductContrller@saveproduct');
+Route::post('deleteproduct/{id}', 'admin\ProductContrller@deleteproduct');
+Route::post('getproduct/{id}', 'admin\ProductContrller@getproduct');
+Route::post('editproduct/{id}', 'admin\ProductContrller@editproduct');
+
+Route::post('imageupload', 'admin\ProductContrller@saveimage');
 Route::get('pending-orders', 'admin\PendingorderController@index');
