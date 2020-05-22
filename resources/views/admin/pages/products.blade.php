@@ -70,7 +70,7 @@
                 <tr class="product{{$product['id']}}">
                     <td><img src="{{ asset('admin/assets/img/products/placeholder-person.jpg') }}" alt=""
                             class="product_img"><span class="product_name">{{$product['product_name']}}</span></td>
-                    <td><span class="currency_symbol">₹</span>{{$product['price']}}</td>
+                    <td><span class="currency_symbol">₹</span><span class="product_price">{{$product['price']}}</span></td>
                     <td>0</td>
                     <td>
                         <div class="datetime_layout">
@@ -495,58 +495,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="row mt-4">
-                                        <div class="col-sm-12">
-                                            <div class="form_images_upload">
-                                                <label class="form_inner_label">Product
-                                                    Dimensions</label>
-                                                <p class="big">Product dimensions are important
-                                                    when
-                                                    calculating
-                                                    shipping rates, since rates different from
-                                                    package size
-                                                    to
-                                                    package
-                                                    size.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label for="title">Weight (kg)*</label>
-                                                <input type="text"
-                                                    class="form-control form_field"
-                                                    placeholder="in kgs" id="weight"
-                                                    name="weight">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <div class="row">
-                                                <div class="product_dimension">
-                                                    <label for="title">Height (cm)</label>
-                                                    <input type="text"
-                                                        class="height_field form-control form_field"
-                                                        id="height" name="height"
-                                                        placeholder="in cm">
-                                                </div>
-                                                <div class="product_dimension">
-                                                    <label for="title">Length (cm)</label>
-                                                    <input type="text"
-                                                        class="length_field form-control form_field"
-                                                        id="length" name="length"
-                                                        placeholder="in cm">
-                                                </div>
-                                                <div class="product_dimension">
-                                                    <label for="title">Width (cm)</label>
-                                                    <input type="text"
-                                                        class="width_field form-control form_field"
-                                                        id="width" name="width"
-                                                        placeholder="in cm">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                   
                                     <div class="form_images_upload text-center mt-4">
                                         <p class="big">Once you are done, click save button
                                             below.</p>
@@ -610,18 +559,18 @@
                         <div class="view_product_name">
                             <p class="big"><img
                                     src="{{ asset('admin/assets/img/products/icon-products-side.svg') }}"
-                                    alt=""><span id="product_name">test</span></p>
+                                    alt=""><span id="product_name"></span></p>
                         </div>
                         <div class="row view_product_detail_inner">
                             <div class="col-md-3 col-sm-6 ">
                                 <div class="view_product_detail_txt">
                                     <label>Category</label>
-                                    <p id="product_category">Antiques</p>
+                                    <p id="product_category"></p>
                                 </div>
                                 <div class="view_product_detail_txt">
                                     <label>Price</label>
                                     <p><span
-                                            class="view_product_currency_symbol"><b>₹</b></span ><b id="product_price">1000.0</b>
+                                            class="view_product_currency_symbol"><b>₹</b></span ><b id="product_price"></b>
                                     </p>
                                 </div>
                             </div>
@@ -1009,7 +958,7 @@
                                                                 backspace to remove
                                                             </label>
                                                             <input type="text"
-                                                                id="variation_one"
+                                                                id="variation_one" name="variation_one"
                                                                 class="variation_one demo-default "
                                                                 placeholder="Enter variations options">
                                                         </div>
@@ -1069,57 +1018,7 @@
                                             </div>
 
                                         </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col-sm-12">
-                                            <div class="form_images_upload">
-                                                <label class="form_inner_label">Product
-                                                    Dimensions</label>
-                                                <p class="big">Product dimensions are important
-                                                    when
-                                                    calculating
-                                                    shipping rates, since rates different from
-                                                    package size
-                                                    to
-                                                    package
-                                                    size.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label for="title">Weight (kg)*</label>
-                                                <input type="text"
-                                                    class="form-control form_field"
-                                                    placeholder="in kgs" id="weight"
-                                                    name="weight">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <div class="row">
-                                                <div class="product_dimension">
-                                                    <label for="title">Height (cm)</label>
-                                                    <input type="text"
-                                                        class="height_field form-control form_field"
-                                                        placeholder="in cm">
-                                                </div>
-                                                <div class="product_dimension">
-                                                    <label for="title">Length (cm)</label>
-                                                    <input type="text"
-                                                        class="length_field form-control form_field"
-                                                        placeholder="in cm">
-                                                </div>
-                                                <div class="product_dimension">
-                                                    <label for="title">Width (cm)</label>
-                                                    <input type="text"
-                                                        class="width_field form-control form_field"
-                                                        placeholder="in cm">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                    </div>                                   
                                     <div class="form_images_upload text-center mt-4">
                                         <p class="big">Once you are done, click save button
                                             below.</p>
@@ -1189,13 +1088,14 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div id="cropimg"></div>
-                    <div id="cropbtn"></div>
+                    <div id="testimg"></div>
+                    <div id="testbtn"></div>
                 </div>
 
             </div>
         </div>
     </div>
+    
     <!--Image CropModal Modal end-->
 
     <div class="profile_setting_txt">
@@ -1318,23 +1218,24 @@
         ],
         toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
     });
-    </script>
-    <script>
+</script>
+<script>
     Dropzone.options.myDropzone = {
-        url: '{{ url("imageupload") }}',
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: 'saveproductimage',
         acceptedFiles: 'image/jpeg,image/png',
         dictDefaultMessage: '',
-        transformFile: function(file, done) {
-
-
+        maxfilesexceeded: function(file) {
+            this.removeAllFiles();
+            this.addFile(file);
+        },
+        transformFile: function (file, done) {
             var myDropZone = this;
-
             $('#imageCropModal').modal('show');
             $(".dz-preview").remove();
 
-
             // Create the image editor overlay
-            var editor = document.createElement('div');
+            var editor = document.createElement('div'); 
             editor.setAttribute("id", "editor_area");
             editor.style.zIndex = 9999;
             editor.style.backgroundColor = '#000';
@@ -1344,7 +1245,7 @@
             confirm.setAttribute("id", "confirm_btn");
             confirm.style.zIndex = 9999;
             confirm.textContent = 'Confirm';
-            confirm.addEventListener('click', function() {
+            confirm.addEventListener('click', function () {
 
                 // Get the canvas with image data from Cropper.js
                 var canvas = cropper.getCroppedCanvas({
@@ -1353,8 +1254,8 @@
                 });
 
                 // Turn the canvas into a Blob (file object without a name)
-                canvas.toBlob(function(blob) {
-
+                canvas.toBlob(function (blob) {
+                    
                     // Update the image thumbnail with the new image data
                     myDropZone.createThumbnail(
                         blob,
@@ -1362,17 +1263,15 @@
                         myDropZone.options.thumbnailHeight,
                         myDropZone.options.thumbnailMethod,
                         false,
-                        function(dataURL) {
+                        function (dataURL) {
 
                             // Update the Dropzone file thumbnail
-                            myDropZone.emit('thumbnail', file,
-                                dataURL);
-
+                            myDropZone.emit('thumbnail', file, dataURL);
+                            
                             // Return modified file to dropzone
                             done(blob);
                         }
                     );
-
                 });
 
                 // Remove the editor from view
@@ -1380,13 +1279,10 @@
                 $("#confirm_btn").remove();
                 $('#imageCropModal').modal('hide');
                 $(".dz-preview").remove();
-                $('.upload_image_area').prepend(
-                    '<img id="theImg" src="uploads/' + file.upload
-                    .filename + '" />')
+        });
 
-            });
-            $('#cropbtn').empty().append(confirm);
-
+        $('#testbtn').empty().append(confirm);
+            
             // Load the image
             var image = new Image();
             image.src = URL.createObjectURL(file);
@@ -1394,16 +1290,18 @@
 
             // Append the editor to the page
             // document.body.appendChild(editor);
-            $('#cropimg').empty().append(editor);
+            $('#testimg').empty().append(editor);
 
             // Create Cropper.js and pass image
             var cropper = new Cropper(image, {
                 // aspectRatio: 1,
             });
 
-        }
-
-    };
+        },
+        success: function (file, response) {
+                $('.upload_image_area').append('<span class="product_selected_img"><img id="theImg" src="products/image/'+response["success"]+'" /><i class="fas fa-trash-alt remove_product_img" id="remove_img"></i></span>')
+        },
+    };   
 </script>
 <script>
     $("#add_variation").click(function() {
@@ -1446,10 +1344,10 @@
                     $("#variations_table > tbody").empty();
                     for (var k = 0; k < variation_array.length; k++) {
                         $("#variations_table > tbody").append(
-                            "<tr><td><div class='dropzone' id='tableDropzone'></div></td><td>" +
+                            "<tr class='variation_row_"+k+"'><td><div class='dropzone' id='tableDropzone'></div></td><td>" +
                             variation_array[k][0] + "</td><td>" +
                             variation_array[k][1] +
-                            "</td><td><input type='number' name='price' id='price' class='form-control price_width' placeholder='Enter a price'></td><td><input type='number' name='stock' id='stock' class='form-control stock_width' placeholder='Enter stock'></td></tr>"
+                            "</td><td><input type='number' name='price"+k+"' id='price"+k+"' class='form-control price_width' placeholder='Enter a price'></td><td><input type='number' name='stock"+k+"' id='stock"+k+"' class='form-control stock_width' placeholder='Enter stock'></td></tr>"
                         );
                         console.log(variation_array[k]);
                     }
@@ -1459,86 +1357,7 @@
 
     });
 </script>
-<script>
-    var  monthNames = ["January", "February", "March",
-                            "April", "May", "June", "July", "August",
-                            "September", "October", "November",
-                            "December"
-                        ];
-    $('#product_submit').on('click', function(event) {
-        console.log("click working");
-        event.preventDefault();
-        var data = $("#add_product").serialize();
-        console.log(data);
-        $.ajax({
-            headers: {
 
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
-            },
-            url: "{{ url('product_data') }}",
-            type: "POST",
-            data: data,
-            success: function(res) {
-                console.log(res);
-
-                if ($.isEmptyObject(res.data.error)) {
-                    if (res['data']['message'] == "success") {
-
-                        var data = res['data']['data'][0];
-                        var date = moment.utc(data['created_at']);
-         
-
-                        $("#add_product_list").append('<tr class="product' +
-                            data.id +
-                            '"><td><img src="{{ asset("admin/assets/img/products/placeholder-person.jpg") }}" alt=""class="product_img"><span class="product_name">' +
-                            data.product_name +
-                            '</span></td><td><span class="currency_symbol">₹</span>' +
-                            data.price +
-                            '</td><td>0</td><td><div class="datetime_layout"><div class="datetime_txt"><p class="month_txt">' +
-                            date.format('MMMM') +
-                            '</p><p class="day_txt">' + date.format('DD') +
-                            '</p></div><p class="datetime_separator"><span>at</span></p><div class="time_layout"><p><span class="hour_txt">' +
-                            date.format('h') +
-                            '</span>:<span class="hour_txt">' + date.format('mm') +
-                            '<span></p></div></div></td><td>Instock</td><td><div class="dropdown"><a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="toggle_droupdown"src="{{ asset("admin/assets/img/products/menu-icon.svg") }}"></a><div class="dropdown-menu" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" data-toggle="modal" data-target=" #viewProductModal">View Product</a><a class="dropdown-item" data-toggle="modal" data-target="#editProductModal" data-id="' +
-                            data.id + '}}" onclick="editProduct(' + data
-                            .id +
-                            '}})">Edit</a> <a class=" dropdown-item" href="#" ">Duplicate</a> <a class=" dropdown-item text-danger deleteproduct" data-toggle="modal" data-target="#deleteProductModal" onclick="deleteProduct(' +
-                            data.id +
-                            '}})" ">Remove</a></div></div></td></tr>')
-                        $("#add_product")[0].reset();
-
-                        $("#addProductModal, #productTypeModal").modal(
-                            'hide');
-                        $("#status").html(
-                            '<div class="alert alert-success"><strong>Success!</strong>Product Add Successfully</div>'
-                        );
-                    } else {
-                        printErrorMsg(res.data.error);
-                    }
-                }
-            },
-            error: function(jqXHR, textStatus, errorMessage) {
-                console.log(errorMessage); // Optional
-            }
-        });
-    });
-
-    function printErrorMsg(msg) {
-        $(".error").remove();
-        if (msg.product_name) {
-            $("#title").after('<span class="error">' + msg.product_name + '</span>');
-        }
-        if (msg.price) {
-            $("#price_error").after('<span class="error">' + msg.price + '</span>');
-        }
-        if (msg.stock) {
-            $("#product_stock").after('<span class="error">' + msg.stock + '</span>');
-        }
-
-    }
-</script>
 
 <script>
     function viewProduct(id) {
@@ -1554,8 +1373,9 @@
                 console.log(response);
                 var res = response['data']['data'][0];
                 var date = moment.utc(res['created_at']);
-         
+                
                 $("#viewProductModal #product_name").text(res['product_name']);
+                $("#viewProductModal #product_category").text(res['category_name']);
                 $("#viewProductModal #product_price").text(res['price']);
                 $("#viewProductModal #product_month").text(date.format('MMMM'));
                 $("#viewProductModal #product_day").text(date.format('DD'));
@@ -1605,7 +1425,6 @@
         event.preventDefault();
         var data = $("#editproduct").serialize();
         var edit_id = $("#product_edit_id").val();
-        // console.log(edit_id);
         $.ajax({
             headers: {
 
@@ -1620,9 +1439,9 @@
                 if ($.isEmptyObject(res.data.error)) {
                     if (res['data']['message'] == "success") {
                         $("#editproduct")[0].reset();
-                        // var res = res['data']['data'][0];
-                        // $("#editproduct #title").val(res['product_name']);
-                        // $("#editproduct #product_price").val(res['price']);
+                            var res = res['data']['data'][0];
+                        $(".product"+edit_id+" .product_name").text(res['product_name']);
+                        $(".product"+edit_id+" .product_price").text(res['price']);
                         $("#editProductModal").modal('hide');
                         $("#status").html(
                             '<div class="alert alert-success"><strong>Success!</strong>Product Update Successfully</div>'
@@ -1690,7 +1509,105 @@
     
 var local = moment.utc("{{$product['created_at']}}").local();
 console.log( local.format('MMMM'), local.format('DD') , local.format('HH'), local.format('mm'));
- 
-</script> -->
 
+</script> -->
+<script>
+    $('#product_submit').on('click', function(event) {
+        console.log("click working");
+        console.log($("#variation_one").val());
+        event.preventDefault();
+        var data = $("#add_product").serialize();
+        console.log(data);
+      
+        var title = $('#title').val(); 
+        var category = $('#category').val();
+        var product_price = $('#product_price').val();
+        var order_limit = $('#order_limit').val();
+        var product_stock = $('#product_stock').val();
+        var order_limit = $('#order_limit').val();
+        var product_stock = $('#product_stock').val();
+        var short_description = $('#short_description').val();
+        var long_description = $('#long_description').val();
+
+        if($('#option1').val() != ""|| $('#option1').val() != 'undefined' || $('#option1').val() != null ){
+            var option1 = $('#option1').val();
+        }
+        if($('#variation_one').val() != "" || $('#variation_one').val() != 'undefined' || $('#variation_one').val() != null ){
+            var variation_one = $('#variation_one').val();
+        }
+        if($('#option2').val() != "" || $('#option2').val() != 'undefined' || $('#option2').val() != null ){
+            var option2 = $('#option2').val();
+        }
+        if($('#variation_two').val() != "" || $('#variation_two').val() != 'undefined' || $('#variation_two').val() != null ){
+            var variation_two = $('#variation_two').val();
+        }
+        $.ajax({
+            headers: {
+
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+            },
+            url: "{{ url('product_data') }}",
+            type: "POST",
+            data: 'title='+title+'&category='+category+'&product_price='+product_price+'&order_limit='+order_limit+'&product_stock='+product_stock+'&order_limit='+order_limit+'&product_stock='+product_stock+'&short_description='+short_description+'&long_description='+long_description+'&option1='+option1+'&variation_one='+variation_one+'&option2='+option2+'&variation_two='+variation_two,
+            success: function(res) {
+                console.log(res);
+
+                if ($.isEmptyObject(res.data.error)) {
+                    if (res['data']['message'] == "success") {
+
+                        var data = res['data']['data'][0];
+                        var date = moment.utc(data['created_at']);
+        
+
+                        $("#add_product_list").append('<tr class="product' +
+                            data.id +
+                            '"><td><img src="{{ asset("admin/assets/img/products/placeholder-person.jpg") }}" alt=""class="product_img"><span class="product_name">' +
+                            data.product_name +
+                            '</span></td><td><span class="currency_symbol">₹</span>' +
+                            data.price +
+                            '</td><td>0</td><td><div class="datetime_layout"><div class="datetime_txt"><p class="month_txt">' +
+                            date.format('MMMM') +
+                            '</p><p class="day_txt">' + date.format('DD') +
+                            '</p></div><p class="datetime_separator"><span>at</span></p><div class="time_layout"><p><span class="hour_txt">' +
+                            date.format('h') +
+                            '</span>:<span class="hour_txt">' + date.format('mm') +
+                            '<span></p></div></div></td><td>Instock</td><td><div class="dropdown"><a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="toggle_droupdown"src="{{ asset("admin/assets/img/products/menu-icon.svg") }}"></a><div class="dropdown-menu" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" data-toggle="modal" data-target=" #viewProductModal">View Product</a><a class="dropdown-item" data-toggle="modal" data-target="#editProductModal" data-id="' +
+                            data.id + '}}" onclick="editProduct(' + data
+                            .id +
+                            '}})">Edit</a> <a class=" dropdown-item" href="#" ">Duplicate</a> <a class=" dropdown-item text-danger deleteproduct" data-toggle="modal" data-target="#deleteProductModal" onclick="deleteProduct(' +
+                            data.id +
+                            '}})" ">Remove</a></div></div></td></tr>')
+                        $("#add_product")[0].reset();
+
+                        $("#addProductModal, #productTypeModal").modal(
+                            'hide');
+                        $("#status").html(
+                            '<div class="alert alert-success"><strong>Success!</strong>Product Add Successfully</div>'
+                        );
+                    } else {
+                        printErrorMsg(res.data.error);
+                    }
+                }
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                console.log(errorMessage); // Optional
+            }
+        });
+    });
+
+    function printErrorMsg(msg) {
+        $(".error").remove();
+        if (msg.product_name) {
+            $("#title").after('<span class="error">' + msg.product_name + '</span>');
+        }
+        if (msg.price) {
+            $("#price_error").after('<span class="error">' + msg.price + '</span>');
+        }
+        if (msg.stock) {
+            $("#product_stock").after('<span class="error">' + msg.stock + '</span>');
+        }
+
+    }
+</script>
 @endsection

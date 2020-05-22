@@ -29,11 +29,15 @@ Route::get('logout', 'admin\LoginregisterController@logout');
 
 // Route::view('dashboard', 'admin/pages/dashboard');
 Route::get('dashboard', 'admin\DashboardController@index');
-Route::get('products', 'admin\ProductContrller@index');
+Route::get('product', 'admin\ProductContrller@index');
 Route::post('product_data', 'admin\ProductContrller@saveproduct');
 Route::post('deleteproduct/{id}', 'admin\ProductContrller@deleteproduct');
 Route::post('getproduct/{id}', 'admin\ProductContrller@getproduct');
 Route::post('editproduct/{id}', 'admin\ProductContrller@editproduct');
+Route::post('saveproductimage', 'admin\ProductContrller@saveproductimage');
 
 Route::post('imageupload', 'admin\ProductContrller@saveimage');
 Route::get('pending-orders', 'admin\PendingorderController@index');
+
+Route::view('image', 'admin/pages/image');
+Route::get('test','admin\DashboardController@test');

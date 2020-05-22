@@ -674,10 +674,12 @@ form label {
 .quantity_filed {
     width: 150px;
 }
-
-div#myDropzone {
+.dropzone {
+    min-height: 120px;
+}
+#myDropzone {
     width: 152px;
-    display: table-cell;
+    display: inline-block;
     height: 120px;
     border: 1px solid #d3d4fc;
     border-radius: 4px;
@@ -722,7 +724,15 @@ div#myDropzone {
     vertical-align: top;
     padding: 10px;
 }
-
+span.product_selected_img {
+    position: relative;
+}
+.remove_product_img {
+    position: absolute;
+    right: 15%;
+    margin-top: 15%;
+    color: #e21313 ;
+}
 .variations_table {
     background: #fff;
 }

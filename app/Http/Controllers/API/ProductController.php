@@ -15,7 +15,7 @@ class ProductController extends Controller
 {
     // 1. view all product
     public function index() {
-        $product = Product::all();
+        $product = Product::join('categorys', 'categorys.id', '=', 'products.category_id')->select('products.id', 'products.product_name', 'products.short_desc', 'products.long_desc', 'products.price', 'products.user_id', 'products.product_type', 'products.category_id', 'categorys.category_name', 'products.order_limit', 'products.stock', 'products.created_at', 'products.updated_at')->get();
         if($product->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
@@ -47,42 +47,42 @@ class ProductController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $view_product = Product::where('id', $product_id)->get();
+        $view_product = Product::join('categorys', 'categorys.id', '=', 'products.category_id')->select('products.id', 'products.product_name', 'products.short_desc', 'products.long_desc', 'products.price', 'products.user_id', 'products.product_type', 'products.category_id', 'categorys.category_name', 'products.order_limit', 'products.stock', 'products.created_at', 'products.updated_at')->where('products.id', $product_id)->get();
         if($view_product->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
         return response()->json(['message'=>'success', 'status'=>'1', 'data'=>$view_product]);
     }
 
-        // 4. edit product
-        public function edit(Request $request) {
-            $product_id = $request->input('product_id');
-            $validator = Validator::make($request->all(), [
-                'product_id' => 'required',
-                'product_name' => 'required',
-                'price' => 'required|numeric|gt:0',
-                'stock' => 'required|numeric|gt:0',
-            ]);
-            $product_name = $request->input('product_name');
-            $short_desc = $request->input('short_desc');
-            $long_desc = $request->input('long_desc');
-            $order_limit = $request->input('order_limit');
-            $price = $request->input('price');
-            $stock = $request->input('stock');
-            $user_id = $request->input('user_id');
-            $product_type = $request->input('product_type');
-            $category_id = $request->input('category_id');
-            if ($validator->fails()) { 
-                return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
-            }
-            $update_product = Product::where('id', $product_id)->update(['product_name' => $product_name, 'short_desc' => $short_desc, 'long_desc' => $long_desc, 'order_limit' => $order_limit, 'price' => $price, 'stock' => $stock, 'user_id' => $user_id, 'product_type' => $product_type, 'category_id' => $category_id]);
-            if ($update_product != 1) {
-                return response()->json(['message'=>'fail', 'status'=>'0']);
-            }
-            else {
-                return response()->json(['message'=>'success', 'status'=>'1']);
-            }
+    // 4. edit product
+    public function edit(Request $request) {
+        $product_id = $request->input('product_id');
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required',
+            'product_name' => 'required',
+            'price' => 'required|numeric|gt:0',
+            'stock' => 'required|numeric|gt:0',
+        ]);
+        $product_name = $request->input('product_name');
+        $short_desc = $request->input('short_desc');
+        $long_desc = $request->input('long_desc');
+        $order_limit = $request->input('order_limit');
+        $price = $request->input('price');
+        $stock = $request->input('stock');
+        $user_id = $request->input('user_id');
+        $product_type = $request->input('product_type');
+        $category_id = $request->input('category_id');
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
+        $update_product = Product::where('id', $product_id)->update(['product_name' => $product_name, 'short_desc' => $short_desc, 'long_desc' => $long_desc, 'order_limit' => $order_limit, 'price' => $price, 'stock' => $stock, 'user_id' => $user_id, 'product_type' => $product_type, 'category_id' => $category_id]);
+        if ($update_product != 1) {
+            return response()->json(['message'=>'fail', 'status'=>'0']);
+        }
+        else {
+            return response()->json(['message'=>'success', 'status'=>'1']);
+        }
+    }
 
     // 5. remove product
     public function remove(Request $request) {
@@ -154,15 +154,16 @@ class ProductController extends Controller
     // 9. add product variation option
     public function addoption(Request $request) {
         $product_id = $request->input('product_id');
-        $validator = Validator::make($request->all(), [
-            'product_id' => 'required',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'product_id' => 'required',
+        // ]);
+       
         $variation_option_name = $request->input('variation_option_name');
         $variation_option_value = $request->input('variation_option_value');
-        if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
-        }
-        $insert_variation_option = Productoption::insert(['product_id' => $product_id, 'variation_option_name' => $variation_option_name, 'variation_option_value' => $variation_option_value]);
+        // if ($validator->fails()) { 
+        //     return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
+        // }
+        $insert_variation_option = Productoption::insert($request->all());
         return response()->json(['message'=>'success', 'status'=>'1', 'data'=>'insert product option successfully.']);
     }
 
@@ -206,12 +207,12 @@ class ProductController extends Controller
 
     // 12. add product variations
     public function addvariation(Request $request) {
-        $product_id = $request->input('product_id');
-        $product_option_id = $request->input('product_option_id');
+        // $product_id = $request->input('product_id');
+        // $product_option_id = $request->input('product_option_id');
         $validator = Validator::make($request->all(), [
-            'product_id' => 'required',
-            'product_option_id' => 'required',
-            'stock' => 'required',
+            // 'product_id' => 'required',
+            // 'product_option_id' => 'required',
+            // 'stock' => 'required',
         ]);
         $option_1 = $request->input('option_1');
         $option_2 = $request->input('option_2');
@@ -219,10 +220,11 @@ class ProductController extends Controller
         $stock = $request->input('stock');
         $price = $request->input('price');
         $image_path = $request->input('image_path');
-        if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
-        }
-        $insert_variation = Productvariation::insert(['product_id' => $product_id, 'product_option_id' => $product_option_id, 'option_1' => $option_1, 'option_2' => $option_2, 'product_sku' => $product_sku, 'stock' => $stock, 'price' => $price, 'image_path' => $image_path]);
+            // if ($validator->fails()) { 
+            //     return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
+            // }
+        // $insert_variation = Productvariation::insert(['product_id' => $product_id, 'product_option_id' => $product_option_id, 'option_1' => $option_1, 'option_2' => $option_2, 'product_sku' => $product_sku, 'stock' => $stock, 'price' => $price, 'image_path' => $image_path]);
+        $insert_variation = Productvariation::create($request->all());
         return response()->json(['message'=>'success', 'status'=>'1', 'data'=>'insert product variation successfully.']);
     }
 

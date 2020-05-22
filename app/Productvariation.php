@@ -8,4 +8,5 @@ class Productvariation extends Model
 {
     protected $table = 'product_variations';
     public $timestamps = false;
+  
 }
