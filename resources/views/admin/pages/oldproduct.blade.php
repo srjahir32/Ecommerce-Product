@@ -66,21 +66,10 @@
             </thead>
             <tbody id="add_product_list">
                 @foreach ($products['data'] as $product)
-                @php
-                $image_path = DB::table('product_image')->where('product_id', $product['id'])->pluck('image_path')->first();
-                @endphp
-                
               
                 <tr class="product{{$product['id']}}">
-                    <td>
-                    @if($image_path == '')         
-                    <img src="{{ asset('admin/assets/img/products/placeholder-person.jpg')}}" alt=""
-                            class="product_img">       
-                    @else
-                    <img src="{{ asset('products/image/').'/'.$image_path }}" alt=""
-                            class="product_img"> 
-                    @endif
-                            <span class="product_name">{{$product['product_name']}}</span></td>
+                    <td><img src="{{ asset('admin/assets/img/products/placeholder-person.jpg') }}" alt=""
+                            class="product_img"><span class="product_name">{{$product['product_name']}}</span></td>
                     <td><span class="currency_symbol">₹</span><span class="product_price">{{$product['price']}}</span></td>
                     <td>0</td>
                     <td>
@@ -198,8 +187,8 @@
                         </div>
                     </div>
                     <div class="row product_type_list">
-                        <div class="col-md-4 product_type" id="choosephysiacalproduct" data-toggle="modal"
-                            data-target="#ChooseProductModal">
+                        <div class="col-md-4 product_type" data-toggle="modal"
+                            data-target="#addProductModal">
                             <div class="product_type_inner text-center">
                                 <img class="product_type_img"
                                     src="{{ asset('admin/assets/img/products/phyprod.svg') }}">
@@ -219,51 +208,6 @@
         <!-- modal-dialog -->
     </div>
     <!-- Cerate plug Modal end -->
-
-     <!-- Choose Products Modal -->
-     <div class="modal fade" id="ChooseProductModal" tabindex="-1" role="dialog"
-        aria-labelledby="ChooseProductModalLabel">
-        <div class="modal-dialog modal_width_1155" role="document">
-            <div class="modal-content">
-                <div class="modal-body ChooseProductModal_body">
-                    <div class="row">
-                        <div class="col-md-2 back_btn_txt">
-                            <a class="back_btn_link" href="" data-dismiss="modal"
-                                aria-label="Close"><img class="back_btn_img"
-                                    src="{{ asset('admin/assets/img/products/back-arrow.svg') }}"
-                                    alt="">
-                                <span>Back</span></a>
-                        </div>
-                        <div class="col-md-8 text-center">
-                            <h3 class="modal_title">Choose Products</h3>
-                            <p class="modal_subtitle mb-5">The products you choose will appear during checkout. You can add as many as you like.</p>
-                        </div>
-                        <div class="col-md-2 save_btn_txt text-right">
-                          <input type="button" class="theme_btn ripple_btn dark_btn" id="choose_product_submit" value="Continue">
-                        </div>
-                    </div>
-                    <div class="row product_type_list align-items-center">
-                       
-                        <span class="choose_product_data"></span>
-                       
-                        <div class="col-md-3 product_type  add_choose_product_box" data-toggle="modal"
-                            data-target="#addProductModal">
-                            <div class="choose_product_inner text-center w-100">
-                            <i class="fa fa-plus-square themecolor add_product_icon"></i>
-                                <div class="add_choose_product_link">
-                                <a class="themecolor">Add a Product</a>
-                                </div>
-                            </div>
-                        </div>
-                   
-                    </div>
-                </div>
-            </div>
-            <!-- modal-content -->
-        </div>
-        <!-- modal-dialog -->
-    </div>
-    <!-- Choose Products Modal end -->
 
     <!-- Add New product Modal -->
     <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog"
@@ -1150,133 +1094,9 @@
 
             </div>
         </div>
-    </div>    
+    </div>
+    
     <!--Image CropModal Modal end-->
-
-    <!-- payment option Modal -->
-    <div class="modal fade" id="paymentoptionModal" tabindex="-1" role="dialog" aria-labelledby="paymentoptionModalLabel">
-        <div class="modal-dialog modal_width_1155" role="document">
-            <div class="modal-content">
-                <div class="modal-body paymentoptionModal_body">
-                    <div class="row">
-                        <div class="col-md-2 back_btn_txt">
-                            <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="{{ asset('admin/assets/img/dashboard/back-arrow.svg') }}" alt="">
-                                <span>Back</span></a>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="text-center">
-                                <h3 class="modal_title">How will customers pay?</h3>
-                                <p class="modal_subtitle mb-5">Select payment options
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-2 save_btn_txt text-right">
-                            <input type="button" class="theme_btn ripple_btn dark_btn" id="select_payment_submit" value="Finish">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                        <label class="paymnet_type_label"><input type="radio" id="paymnet_type" name="paymnet_type" value="Cash on delivery" />
-                            <div class="payment_option_box text-center">
-                                <img src="{{ asset('admin/assets/img/dashboard/cashondelivery.svg') }}" alt="">
-                                <p>with Cash on delivery</p>
-                                <a href="" class="themecolor" id="payment_select">select</a>
-                            </div>
-                        </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- modal-content -->
-        </div>
-        <!-- modal-dialog -->
-    </div>
-    <!-- paymentoption Modal end-->
-
-    <!-- selling product Modal -->
-    <div class="modal fade" id="sellingProductModal" tabindex="-1" role="dialog"
-        aria-labelledby="sellingProductModalLabel">
-        <div class="modal-dialog modal_width_1155" role="document">
-            <div class="modal-content">
-                <div class="modal-body sellingProductModal_body">
-                    <div class="row">
-                        <div class="col-md-6 back_btn_txt">
-                            <a class="back_btn_link" href="" data-dismiss="modal"
-                                aria-label="Close"><img class="back_btn_img"
-                                    src="{{ asset('admin/assets/img/products/back-arrow.svg') }}"
-                                    alt="">
-                                <span>Back</span></a>
-                        </div>
-                       
-                        <div class="col-md-6 save_btn_txt text-right">
-                            <div class="product_view_edit_btn"><p class="text-success">Active</p></div>
-                            <div class="dropdown product_view_droupdown">
-                                <a class="dropdown-toggle" id="productDropdownMenu"
-                                    data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v"></i></a>
-                                <div class="dropdown-menu"
-                                    aria-labelledby="productDropdownMenu">
-                                    <a class="dropdown-item" href="#">Delete</a>
-                                    <a class="dropdown-item text-danger" data-toggle="modal"
-                                        data-target="#">Archive</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>          
-                   
-                   <div class="checkout_details text-center">
-                   <h3 class="modal_title">Selling <span id="selling_product_name"></span> with <span id="selling_payment"></span></h3>
-                    <p class="checkout_page_txt">Checkout Page</p>
-                    <p class="checkout_link_txt" id="product_checkout_link"></p>
-                    <p class="checkout_clipboard_txt">Copy to Clipboard</p>
-                   </div>
-                </div>
-            </div>
-            <!-- modal-content -->
-        </div>
-        <!-- modal-dialog -->
-    </div>
-    <!-- selling product Modal end-->
-
-      <!-- Delete Image Modal -->
-      <div class="modal fade" id="deleteImageModal" tabindex="-1" role="dialog"
-        aria-labelledby="deleteImageModalLabel">
-        <div class="modal-dialog modal_width_500" role="document">
-            <div class="modal-content">
-                <div class="modal-body deleteImageModal_body">
-                    <div class="row">
-                        <div class="col-md-12 back_btn_txt">
-                            <a class="back_btn_link" href="" data-dismiss="modal"
-                                aria-label="Close"><img class="back_btn_img"
-                                    src="{{ asset('admin/assets/img/products/back-arrow.svg') }}"
-                                    alt="">
-                                <span>Back</span></a>
-                        </div>
-                    </div>
-                    <div class="delete_product_details text-center">
-                        <div class="delete_product_img">
-                            <img src="{{ asset('admin/assets/img/products/remove-icon.svg') }}"
-                                alt="">
-                        </div>
-                        <h3>Remove Image</h3>
-                        <p class="big">Are you sure you want to remove the image?</p>
-                        <p class="text-danger">(This action cannot be reverted)</p>
-                        <input type="hidden" id="delet_id" name="delet_id">
-                        <div class="product_remove_btn">
-                            <button class="theme_btn ripple_btn dark_btn w-100 ml-0"
-                                id="delet_image">Yes, remove
-                                it</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- modal-content -->
-        </div>
-        <!-- modal-dialog -->
-    </div>
-    <!-- Delete Image Modal end-->
 
     <div class="profile_setting_txt">
         <div class=""><a class="profile_setting_button ripple_btn" id="profile_setting"><img
@@ -1401,7 +1221,6 @@
 </script>
 <script>
     var product_image_arr = [];
-    console.log(product_image_arr);
     var i = 0;
 
     Dropzone.options.myDropzone = {
@@ -1484,106 +1303,13 @@
         },
         success: function (file, response) {
                 i++;
-                $('.upload_image_area').append('<span class="product_selected_img" id="image_preview'+i+'" name="'+response["success"]+'"><img id="theImg" src="products/image/'+response["success"]+'" /><i class="fas fa-trash-alt remove_product_img" id="remove_img" data-toggle="modal" data-target="#deleteImageModal"   onClick="deleteImage('+i+')"></i></span>')
+                $('.upload_image_area').append('<span class="product_selected_img" id="image_preview'+i+'"><img id="theImg" src="products/image/'+response["success"]+'" /><i class="fas fa-trash-alt remove_product_img" id="remove_img" onClick="deleteImage('+i+')"></i></span>')
                 product_image_arr.push(response["success"]);
-                console.log("add image", product_image_arr);
         },
     };   
-    
-    function deleteImage(id) {      
-        $("#delet_image").click(function (){
-            // product_image_arr.remove($("#image_preview"+id).attr('name'));
-            
-            // alert($("#image_preview"+id).remove());
-            $("#image_preview"+id).remove()
-            $("span #image_preview"+id).css("display", "none");
-            $("#deleteImageModal").modal('hide');
-            product_image_arr = $.grep(product_image_arr, function(value) {
-                return value != $("#image_preview"+id).attr('name');
-            });
-            console.log("del image", product_image_arr);
-        });
+    function deleteImage(id) {
+        $("#image_preview"+id).remove();
     }
-</script>
-<script>
-    $("#choosephysiacalproduct").click( function(){
-        console.log("inside model");
-        $.ajax({
-            url: "{{ url('product_list') }}",
-            type: "GET",
-           success: function(res) {
-                console.log(res);
-                res = res['success']['data'];
-                for (var j = 0; j < res.length; j++) {
-                $(".product_type_list").prepend('<div class="col-md-3 product_type choose_product_box mb-4"> <label class="choose_product_box_label w-100"><input type="radio" id="choose_product_name" name="choose_product_name" value="'+res[j]['id']+'" /><div class="choose_product_inner text-center"><div class="choose_product_type_image"><i class="fa fa-star"></i></div><p class="choose_product_type_title">'+res[j]['product_name']+'</p><p class="choose_product_type_price"><span class="currency_symbol">₹</span><span class="product_price">'+res[j]['price']+'</span></p><a class="product_type_link themecolor">Select</a></div></label></div>');
-                }
-                
-            },
-            error: function(jqXHR, textStatus, errorMessage) {
-                console.log(errorMessage); // Optional
-            }
-        });
-    });
-    var choose_product_id;
-    $("#choose_product_submit").click(function(){
-        var radioValue = $("input[name='choose_product_name']:checked");
-    
-        if (radioValue.length == 0) {
-            $("#status").html(
-                '<div class="alert alert-danger"><strong> Select a product</strong></div>'
-            );
-           
-         return false;
-      }
-      else{
-        choose_product_id = $("input[name='choose_product_name']:checked").val();
-        $("#paymentoptionModal").modal('show');
-      }
-          
-    });
-    var paymnet_type;
-    $("#select_payment_submit").click(function(){
-        var radioValue = $("input[name='paymnet_type']:checked");
-    
-        if (radioValue.length == 0) {
-            $("#status").html(
-                '<div class="alert alert-danger"><strong> Select a Paymnet</strong></div>'
-            );
-           
-         return false;
-      }
-      else{
-        paymnet_type = $("input[name='paymnet_type']:checked").val();
-        $("#plugModal, #ChooseProductModal, #paymentoptionModal").modal('hide');
-        $("#sellingProductModal").modal('show');
-        $.ajax({
-            headers: {
-
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
-            },
-            url: "{{ url('checkout_link') }}",
-            type: "POST",
-            data: "choose_product_id=" + choose_product_id+ "&paymnet_type=" + paymnet_type,
-            success: function(res) {
-                console.log(res);
-                if(res['payment_type']== "Cash on delivery"){
-                    var payment = "Cash";
-                }
-                $("#selling_product_name").text(res['product_name']);
-                $("#product_checkout_link").text(res['checkout_link']);
-                $("#selling_payment").text(payment);
-                                
-            },
-            error: function(jqXHR, textStatus, errorMessage) {
-                console.log(errorMessage); // Optional
-            }
-        });
-        
-      }
-          
-    });
-    
 </script>
 <script>
     $("#add_variation").click(function() {
@@ -1662,7 +1388,11 @@
                 $("#viewProductModal #product_month").text(date.format('MMMM'));
                 $("#viewProductModal #product_day").text(date.format('DD'));
                 $("#viewProductModal #product_hour").text(date.format('h'));
-                $("#viewProductModal #product_miniute").text(date.format('mm'));  
+                $("#viewProductModal #product_miniute").text(date.format('mm'));
+               
+                
+               
+
             },
             error: function(jqXHR, textStatus, errorMessage) {
                 console.log(errorMessage); // Optional
@@ -1672,7 +1402,71 @@
     }
     // <!-- edit product -->       
     function editProduct(id) {
-        $('.upload_image_area').empty();
+        $(".product_variations_form").removeClass("variations_demo");
+
+        $(".product_variations_form").addClass("variations_demo");
+        
+        
+        // $(".product_variations_form").addClass("variations_form"+id);
+        // $("#edit_variations_table").addClass("edit_variations_table"+id);
+
+       
+        $("#edit_add_variation").click(function() {
+            $(".product_variations_form").show();
+            $("#edit_add_variation").hide();
+
+        })
+        $(".variations_form"+id+" #option1").on('input', function() {
+            console.log(".variations_form"+id);
+            var opt1 = $(this).val();
+            $(".variations_form"+id+" #opt_label1").html(opt1);
+            console.log(opt1);
+        });
+
+        $(".variations_form"+id+" #option2").on('input', function() {
+            var opt2 = $(this).val();
+            $(".variations_form"+id+" #opt_label2").html(opt2);
+            console.log(opt2);
+        });
+        variation1_arr = [];
+        variation2_arr = [];
+        $('.test_demo').selectize({
+            plugins: ['drag_drop'],
+            delimiter: ',',
+            persist: false,
+            create: true,
+            onChange: function(value) {
+                console.log("value",value);
+                var str1 = $('.edit_variation1').val();
+                var str2 = $('#edit_variation2').val();
+                console.log("combos1", $('.edit_variation1').val());
+                console.log("combos2", str2);
+                variation1_arr = str1.split(",");
+                variation2_arr = str2.split(",");
+
+                
+                variation_array = []
+
+                for (var i = 0; i < variation1_arr.length; i++) {
+                    for (var j = 0; j < variation2_arr.length; j++) {
+                        variation_array.push([variation1_arr[i], variation2_arr[j]]);
+                        console.log(variation_array.length + " " + variation_array);
+                        $("#edit_variations_table > tbody").empty();
+                        for (var k = 0; k < variation_array.length; k++) {
+                            $("#edit_variations_table > tbody").append(
+                                "<tr class='variation_row_"+k+"'><td><div class='dropzone' id='tableDropzone'></div></td><td>" +
+                                variation_array[k][0] + "</td><td>" +
+                                variation_array[k][1] +
+                                "</td><td><input type='number' name='price"+k+"' id='price"+k+"' class='form-control price_width' placeholder='Enter a price'></td><td><input type='number' name='stock"+k+"' id='stock"+k+"' class='form-control stock_width stock_field' placeholder='Enter stock'></td></tr>"
+                            );
+                            console.log(variation_array[k]);
+                        }
+                    }
+                }
+            }
+
+        });
+
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1682,27 +1476,51 @@
             data: id,
             success: function(response) {
                 console.log(response);
-                if( response['data']['product']['status'] == "1"){
-                    var res = response['data']['product']['data'][0];
-                    $("#editproduct #product_edit_id").val(res['id']);
-                    $("#editproduct #title").val(res['product_name']);
-                    $("#editproduct #category option[value=" + res['category_id'] + "]")
-                        .attr('selected', 'selected');
-                    $("#editproduct #product_price").val(res['price']);
-                    $("#editproduct #order_limit").val(res['order_limit']);
-                    $("#editproduct #product_stock").val(res['stock']);
-                    $("#editproduct #short_description").val(res['short_desc']);
-                    $("#editproduct #long_description").val(res['long_desc']);
+                var res = response['data']['product']['data'][0];
+                console.log(res['product_name']);
+
+                $("#editproduct #product_edit_id").val(res['id']);
+                $("#editproduct #title").val(res['product_name']);
+                $("#editproduct #category option[value=" + res['category_id'] + "]")
+                    .attr('selected', 'selected');
+                $("#editproduct #product_price").val(res['price']);
+                $("#editproduct #order_limit").val(res['order_limit']);
+                $("#editproduct #product_stock").val(res['stock']);
+                $("#editproduct #short_description").val(res['short_desc']);
+                $("#editproduct #long_description").val(res['long_desc']);
+
+                if(response['data']['viewoption']['status'] == "1"){                    
+                    $("#edit_add_variation").hide();
+                    $(".product_variations_form").show();
+                    var res = response['data']['viewoption']['data'];
+                    // console.log(res);
+                    var arr = res[0]['variation_option_value'];
+
+
+                    $("#editproduct #option1").val(res[0]['variation_option_name']);
+                    $("#editproduct #option2").val(res[1]['variation_option_name']);
+                    $("#editproduct #variation_one").val("aa,bb");
                 }
-                
-                if(response['data']['productimage']['status'] == "1"){
-                    var res = response['data']['productimage']['data'];
-                    
-                    for(var i=0; i<res.length; i++){
-                        $('.upload_image_area').append('<span class="product_selected_img" id="image_preview'+res[i]["id"]+'"><img id="theImg" src="products/image/'+res[i]["image_path"]+'" /><i class="fas fa-trash-alt remove_product_img" id="remove_img" data-toggle="modal" data-target="#deleteImageModal"  onClick="deletepProductImage('+res[i]["id"]+')"></i></span>');                
+                 // dispaly product variation table
+                 if(response['data']['variationdata']['status'] == "1"){   
+                    var res = response['data']['variationdata']['data'];
+                    console.log(res);           
+                         
+                    for (var i = 0; i < res.length; i++) {
+                        $(".edit_variations_table" +
+                            res[i]['product_id']+ " > tbody").append(
+                            "<tr class='variation_row_"+i+"'><td><div class='dropzone' id='tableDropzone'></div></td><td>" +
+                            res[i]['option_1']+ "</td><td>" +
+                            res[i]['option_2']+
+                            "</td><td><input type='number' name='price"+i+"' id='price"+i+"' class='form-control price_width' placeholder='Enter a price' value='" +res[i]['price']+ "'></td><td><input type='number' name='stock"+i+"' id='stock"+i+"' value='" +
+                            res[i]['stock']+ "' class='form-control stock_width stock_field' placeholder='Enter stock'></td></tr>"
+                        );
+                        
                     }
-               
                 }
+              
+        
+
             },
             error: function(jqXHR, textStatus, errorMessage) {
                 console.log(errorMessage); // Optional
@@ -1724,7 +1542,7 @@
             },
             url: "{{ url('editproduct') }}/" + edit_id,
             type: "POST",
-            data: data + "&product_image=" + product_image_arr,
+            data: data,
             success: function(res) {
                 console.log(res);
                 if ($.isEmptyObject(res.data.error)) {
@@ -1762,43 +1580,12 @@
 
     }
 
-    // delete edit modal product image
-    var delete_img_id;
-    function deletepProductImage(id) {   
-        $("#delet_image").click(function (){
-            console.log(id);
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "{{ url('delete_product_image') }}/" + id,
-                type: "POST",
-                data: id,
-                success: function(res) {
-                    console.log(res);
-                    if (res['data']['message'] == "success") {
-                        $("span #image_preview"+id).hide();
-                        $("span #image_preview"+id).css("display", "none");
-                        $("#deleteImageModal").modal('hide');
-                        $("#status").html(
-                        '<div class="alert alert-success"><strong>Success!</strong></div>'
-                    );
-                    }
-                },
-                error: function(jqXHR, textStatus, errorMessage) {
-                    console.log(errorMessage); // Optional
-                }
-            });
-            
-        });
-    }
-
-
     // <!-- delete product -->
-    var delete_product_id;
+    var delet_id;
+
     function deleteProduct(id) {
-        delete_product_id = id
-        console.log(delete_product_id);
+        delet_id = id
+        console.log(delet_id);
     }
     $('#delet_product').on('click', function(event) {
         event.preventDefault();
@@ -1806,9 +1593,9 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: "{{ url('deleteproduct') }}/" + delete_product_id,
+            url: "{{ url('deleteproduct') }}/" + delet_id,
             type: "POST",
-            data: delete_product_id,
+            data: delet_id,
             success: function(res) {
                 console.log(res);
                 if (res['data']['message'] == "success") {
@@ -1816,7 +1603,7 @@
                     $("#status").html(
                         '<div class="alert alert-success"><strong>Success!</strong>Product Delete Successfully</div>'
                     );
-                    $(".product" + delete_product_id).remove();
+                    $(".product" + delet_id).remove();
                     $("#deleteProductModal").modal('hide');
                 }
             },
@@ -1889,8 +1676,7 @@ console.log( local.format('MMMM'), local.format('DD') , local.format('HH'), loca
                             data.id + '" onclick="editProduct(' + data
                             .id +')">Edit</a> <a class=" dropdown-item" href="#" ">Duplicate</a> <a class=" dropdown-item text-danger deleteproduct" data-toggle="modal" data-target="#deleteProductModal" onclick="deleteProduct(' +
                             data.id +
-                            ')" ">Remove</a></div></div></td></tr>');
-                        
+                            ')" ">Remove</a></div></div></td></tr>')
                         $("#add_product")[0].reset();
 
                         $("#addProductModal, #productTypeModal").modal(

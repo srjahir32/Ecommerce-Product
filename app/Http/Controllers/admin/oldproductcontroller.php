@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Productoption;
+use App\Productvariation;
 use App\Productimage;
 use Illuminate\Http\Request;
 
@@ -44,16 +46,7 @@ class ProductContrller extends Controller
         $products = json_decode($res->getContent(), true);
         return view('admin.pages.products', compact('userdetail', 'productcategory', 'products'));
     }
-    public function productlist(){
-        
-        $Bearer_token = session()->get('token');
-        $request = Request::create(url('/api/products'), 'POST');
-        $request->headers->set('Accept', 'application/json');
-        $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
-        $res = app()->handle($request);
-        $products = json_decode($res->getContent(), true);
-        return response()->json(['success' => $products]);
-    }
+
     public function saveproductimage(Request $request)
     {
         $image = $request->file('file');
@@ -64,28 +57,32 @@ class ProductContrller extends Controller
         $imagestorename = $filename . "_" . $milliseconds . "." . $extension;
         $image->move(public_path('products/image'), $imagestorename);
         return response()->json(['success' => $imagestorename]);
-    }
 
-    public function deleteproductimage($id)
-    {
-        $data = [
-            'image_id' => $id,
-        ];
-        $Bearer_token = session()->get('token');
-        $request = Request::create(url('/api/products/removeimage'), 'POST', $data);
-        $request->headers->set('Accept', 'application/json');
-        $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
-        $res = app()->handle($request);
-        $response = json_decode($res->getContent(), true);
-        return response()->json(['data' => $response]);
     }
 
     public function saveproduct(Request $request)
     {
+
         $user_id = session()->get('user_id');
         $input = request()->all();
+        $option1 = $input['option1'];
+        $variation_one = $input['variation_one'];
         $product_image = $input['product_image'];
         $product_image_arr = explode(",", $product_image);
+               
+        if (!empty($variation_one)) {
+            $variation_one_arr = explode(",", $variation_one);
+        } else {
+            $variation_one_arr = [];
+        }
+        $option2 = $input['option2'];
+
+        $variation_two = $input['variation_two'];
+        if (!empty($variation_two)) {
+            $variation_two_arr = explode(",", $variation_two);
+        } else {
+            $variation_two_arr = [];
+        }
 
         //call product create api
         $data = [
@@ -118,6 +115,48 @@ class ProductContrller extends Controller
             $product_image_data[] = array('product_id' => $latest_product_id, 'image_path' => $imagename);
         }
         $insert_product_image = Productimage::insert($product_image_data);
+        // return $insert_product_image;
+
+        // call insert product variation option api
+        $data = [
+            'product_id' => $latest_product_id,
+        ];
+        $Bearer_token = session()->get('token');
+        $request = Request::create(url('/api/products/view'), 'POST', $data);
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
+        $res = app()->handle($request);
+        $response = json_decode($res->getContent());
+
+        if ((!empty($input['option1'])) && (!empty($input['variation_one']))) {
+            $option_variation_one = array('product_id' => $latest_product_id, 'variation_option_name' => $option1, 'variation_option_value' => json_encode($variation_one_arr));
+        } else {
+            $option_variation_one = array();
+        }
+        if ((!empty($input['option2'])) && (!empty($input['variation_two']))) {
+            $option_variation_two = array('product_id' => $latest_product_id, 'variation_option_name' => $option2, 'variation_option_value' => json_encode($variation_two_arr));
+        } else {
+            $option_variation_two = array();
+        }
+        $option_variation_data = array(
+            $option_variation_one,
+            $option_variation_two,
+        );
+        $option_variation_data = array_filter(array_map('array_filter', $option_variation_data));
+
+        $insert_variation_option = Productoption::insert($option_variation_data);
+
+        // call insert product variation option value table api
+        $combination_variation = array();
+        $i = 0;
+        foreach ($variation_one_arr as $key1) {
+            foreach ($variation_two_arr as $key2) {
+                $combination_variation[] = array('product_id' => $latest_product_id, 'option_1' => $key1, 'option_2' => $key2, 'stock' => $input['stock' . $i], 'price' => $input['price' . $i], 'image_path' => 'image_path');
+                $i++;
+            }
+        }
+
+        $insert_variation = Productvariation::insert($combination_variation);
         return response()->json(['data' => $response]);
 
     }
@@ -133,32 +172,30 @@ class ProductContrller extends Controller
         $request->headers->set('Accept', 'application/json');
         $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
         $res = app()->handle($request);
-        $product_data = json_decode($res->getContent());
+        $response = json_decode($res->getContent());
 
-        // get product iamge
-        $request = Request::create(url('/api/products/viewimage'), 'POST', $data);
+        // get product option and option value
+        $request = Request::create(url('api/products/viewoption'), 'POST', $data);
         $request->headers->set('Accept', 'application/json');
         $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
         $res = app()->handle($request);
-        $product_image_data = json_decode($res->getContent());
+        $viewoption_data = json_decode($res->getContent());
 
-        return response()->json(['data' => ['product' => $product_data, 'productimage' => $product_image_data]]);
+        // get product variation table data
+        $request = Request::create(url('api/products/viewvariation'), 'POST', $data);
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
+        $res = app()->handle($request);
+        $variation_data = json_decode($res->getContent());
+
+        return response()->json(['data' => ['product' => $response, 'viewoption' => $viewoption_data, 'variationdata' => $variation_data]]);
+        // return response()->json(['data' => $response, 'viewoption' => $viewoption_data]);
     }
 
     public function editproduct($id)
     {
         $input = request()->all();
         $user_id = session()->get('user_id');
-        $product_image = $input['product_image'];
-        $product_image_arr = explode(",", $product_image);
-
-        // save product image
-        $product_image_data = array();
-        foreach ($product_image_arr as $imagename) {
-            $product_image_data[] = array('product_id' => $id, 'image_path' => $imagename);
-        }
-    
-        $insert_product_image = Productimage::insert($product_image_data);
         $data = [
             'product_id' => $id,
             'product_name' => $input['title'],
@@ -187,9 +224,6 @@ class ProductContrller extends Controller
         $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
         $res = app()->handle($request);
         $response = json_decode($res->getContent());
-
-      
-
         return response()->json(['data' => $response]);
     }
 

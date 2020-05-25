@@ -32,7 +32,7 @@ span.error {
 #status .alert{
     position: fixed;
     left: 0;
-    z-index: 999;
+    z-index: 1051;
     bottom: 0;
 }
 /* .blue_color {
@@ -497,6 +497,7 @@ span.tox-statusbar__branding,
 .modal_title {
     color: #646698;
     font-weight: 300;
+    font-size: 28px;
 }
 
 .modal_subtitle {
@@ -511,7 +512,7 @@ span.tox-statusbar__branding,
     flex-wrap: wrap;
 }
 
-.product_type_inner {
+.product_type_inner, .choose_product_inner {
     padding: 35px 15px;
     box-shadow: 0 3px 4px rgba(22, 86, 160, 0.13);
     background: white;
@@ -770,7 +771,79 @@ input.width_field {
 
 /* Add product modal css end*/
 
+/* choose product modal css */
 
+.add_product_icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+.choose_product_box_label>input, .paymnet_type_label>input {
+    visibility: hidden;
+    position: absolute;
+}
+
+.choose_product_box_label>input+.choose_product_inner, .paymnet_type_label>input+.payment_option_box {
+    cursor: pointer;
+    /* border: 2px solid transparent; */
+}
+
+.choose_product_box_label>input:checked+.choose_product_inner, .paymnet_type_label>input:checked+.payment_option_box {
+    border: 1px solid #466afc;
+    box-shadow: 0 0 1px 1px #466afc;
+}
+ 
+.choose_product_inner{
+    box-shadow: none;
+    border: 1px solid #e0e9f3;
+}
+.add_choose_product_box .choose_product_inner {
+    
+    border: unset;
+    background: unset;
+}
+.choose_product_type_price{
+    color: #646698;
+    font-weight: bold;
+    font-size: 18px;
+}
+.choose_product_type_title {
+    font-size: 16px;
+    color: #646698;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+.choose_product_type_image {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 130px;
+}
+.choose_product_type_image i {
+    padding-top: 20px;
+    color: #8085fb !important;
+    font-size: 70px;
+}
+/* choose product modal css */
+
+/* Selling  modal css */
+p.checkout_page_txt {
+    font-size: 18px;
+    color: #8084fb !important;
+    margin-bottom: 0;
+    padding-top: 40px;
+}
+.checkout_link_txt {
+    color: #466afc;
+    font-size: 36px;
+    font-weight: 200;
+    margin-bottom: 0;
+}
+p.checkout_clipboard_txt {
+    font-size: 14px;
+    color: #466afc;
+}
+/* Selling  modal css end*/
 
 /* view product css */
 .product_view_droupdown,
@@ -1382,7 +1455,7 @@ img.other_shop_setting_icon {
     margin-bottom: 0;
     line-height: 22px;
 }
-.other_shop_setting_box:hover {
+.other_shop_setting_box:hover, .choose_product_inner:hover {
     transform: translateY(-3px) scale(1.005) translateZ(0);
     box-shadow: 0 16px 26px rgba(0,0,0,0.11), 0 16px 36px rgba(128,133,251,0.33);
 }

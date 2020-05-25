@@ -347,7 +347,7 @@
     </script>
     <script>
     setTimeout(function() {
-        $("#status .alert").fadeOut();
+        $(".alert").hide();
     }, 8000);
     </script>
 </body>

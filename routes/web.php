@@ -30,14 +30,20 @@ Route::get('logout', 'admin\LoginregisterController@logout');
 // Route::view('dashboard', 'admin/pages/dashboard');
 Route::get('dashboard', 'admin\DashboardController@index');
 Route::get('product', 'admin\ProductContrller@index');
+Route::get('product_list', 'admin\ProductContrller@productlist');
 Route::post('product_data', 'admin\ProductContrller@saveproduct');
 Route::post('deleteproduct/{id}', 'admin\ProductContrller@deleteproduct');
 Route::post('getproduct/{id}', 'admin\ProductContrller@getproduct');
 Route::post('editproduct/{id}', 'admin\ProductContrller@editproduct');
 Route::post('saveproductimage', 'admin\ProductContrller@saveproductimage');
+Route::post('delete_product_image/{id}', 'admin\ProductContrller@deleteproductimage');
 
 Route::post('imageupload', 'admin\ProductContrller@saveimage');
 Route::get('pending-orders', 'admin\PendingorderController@index');
 
-Route::view('image', 'admin/pages/image');
-Route::get('test','admin\DashboardController@test');
+Route::post('checkout_link', 'admin\ProductplugController@createlink');
+Route::get('{code}', 'admin\ProductplugController@redirectlink');
+Route::get('cart/{code}', 'admin\ProductplugController@cartlink');
+
+
+Route::view('checkout', 'front/pages/checkout');

@@ -444,7 +444,9 @@ body {
     box-shadow: -4px 0px 10px rgba(100, 102, 152, 0.3);
     z-index: 5000;
 }
-
+.modal {
+    background-color: rgba(100,102,152,.4);
+}
 /* ----- MODAL STYLE ----- */
 .modal-content {
     border-radius: 0;

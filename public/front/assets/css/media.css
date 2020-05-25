@@ -1,0 +1,49 @@
+/*media query css start*/
+@media (min-width: 992px) {
+    .checkout_form_box {
+        background-color: #fff;
+        border-radius: 50px 0 50px 0;
+        box-shadow: 0 3px 8px rgba(22,86,160,0.2);
+    }
+    .checkout_part_1 {
+        border-right: 2px solid #e0e9f3;
+    }
+    .product_title {
+        padding: 50px 30px 20px;
+    }
+}
+@media (max-width: 991px) {
+    .checkout_part_1, .checkout_part_2 {
+        background-color: #fff;
+        border-radius: 9px;
+        box-shadow: 0 0 3px 1px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    .corner-nav {
+        display: none;
+    }
+    .product_title {
+        padding: 30px 15px 50px;
+    }
+    .overview_area {
+        padding: 30px 30px 30px 15px;
+    }
+    .close_btn {
+        top: 100px;
+    }
+    #msform .in_progressbar {
+        display: none;
+    }
+    #msform fieldset {
+        padding: 0;
+    }
+    .out_progressbar {
+        display: block;
+    }
+}
+@media (max-width: 576px)  {
+    .checkout_form_box {
+        padding: 0 15px;
+    }
+}
+/*media query css end*/

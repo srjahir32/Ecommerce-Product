@@ -66,7 +66,7 @@ class DashboardController extends Controller
             }
         }
 
-        return(count($array3));
+        return($array3);
 
     }
 }
