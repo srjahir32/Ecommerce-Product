@@ -1229,8 +1229,8 @@
                    <div class="checkout_details text-center">
                    <h3 class="modal_title">Selling <span id="selling_product_name"></span> with <span id="selling_payment"></span></h3>
                     <p class="checkout_page_txt">Checkout Page</p>
-                    <p class="checkout_link_txt" id="product_checkout_link"></p>
-                    <p class="checkout_clipboard_txt">Copy to Clipboard</p>
+                    <p class="checkout_link_txt mb-0" ><a href="" id="product_checkout_link" target="_blank"></p>
+                    <p class="checkout_clipboard_txt" data-clipboard-target="#product_checkout_link">Copy to Clipboard</p>
                    </div>
                 </div>
             </div>
@@ -1573,6 +1573,7 @@
                 $("#selling_product_name").text(res['product_name']);
                 $("#product_checkout_link").text(res['checkout_link']);
                 $("#selling_payment").text(payment);
+                $("#product_checkout_link").attr("href", res['checkout_link']);
                                 
             },
             error: function(jqXHR, textStatus, errorMessage) {
@@ -1924,5 +1925,9 @@ console.log( local.format('MMMM'), local.format('DD') , local.format('HH'), loca
         }
 
     }
+    $(function(){
+    new Clipboard('.checkout_clipboard_txt');
+    });
+    
 </script>
 @endsection

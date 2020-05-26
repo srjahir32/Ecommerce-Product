@@ -833,7 +833,7 @@ p.checkout_page_txt {
     margin-bottom: 0;
     padding-top: 40px;
 }
-.checkout_link_txt {
+.checkout_link_txt a{
     color: #466afc;
     font-size: 36px;
     font-weight: 200;

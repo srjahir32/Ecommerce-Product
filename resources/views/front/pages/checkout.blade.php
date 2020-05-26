@@ -1,10 +1,11 @@
 @extends('front.layout.main')
 @section('content')
     <!-- Checkout MultiStep Form -->
+    <?php //print_r($cartproduct);?>
     <div class="container">
         <div class="row">
             <div class="col-md-12 checkout_header">
-                <h2 class="checkout_title">Raxit</h2>
+                <h2 class="checkout_title">{{$userdetails['success']['first_name']}}</h2>
             </div>
         </div>
         <div class="row">
@@ -40,9 +41,11 @@
                 </div>
                 <!-- product detail area -->
                 <div class="product_title">
-                    <h2 class="title">test <span>(<span id="variation_1"></span>/<span id="variation_2"></span>)</span></h2>
-                    <p class="short_desc">test product short descripation</p>
-                    <h2 id="p_price">₹<span>100.00</span></h2>
+                    <h2 class="title">{{$cartproduct['data'][0]['product_name']}} 
+                    <!-- <span>(<span id="variation_1"></span>/<span id="variation_2"></span>)</span> -->
+                    </h2>
+                    <p class="short_desc">{{$cartproduct['data'][0]['short_desc']}}</p>
+                    <h2 id="p_price">₹<span>{{$cartproduct['data'][0]['price']}}</span></h2>
                     <div class="row variations_option">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -69,7 +72,7 @@
                     <div>
                         <span><i id="p-quantity-minus"
                                 class="fas fa-minus-circle quantity_btn quantity_btn_disable"></i></span>
-                        <span><input type="text" id="p_quantity" name="p_quantity" max="18" value="1" disabled /></span>
+                        <span><input type="text" id="p_quantity" name="p_quantity" max="{{$cartproduct['data'][0]['stock']}}" value="1" disabled /></span>
                         <span><i id="p-quantity-plus" class="fas fa-plus-circle  quantity_btn"></i></span>
                     </div>
                     <button class="add_to_cart">Add to Cart <i class="fas fa-chevron-right"></i></button>
@@ -86,13 +89,13 @@
                             <!-- The slideshow -->
                             <div class="carousel-inner">
                               <div class="carousel-item active">
-                                <img src="admin/assets/img/checkout/1.jpg" alt="">
+                                <img src="{{ url('front/assets/img/1.jpg') }}" alt="">
                               </div>
                               <div class="carousel-item">
-                                <img src="admin/assets/img/checkout/2.jpg" alt="">
+                                <img src="{{ url('front/assets/img/2.jpg') }}" alt="">
                               </div>
                               <div class="carousel-item">
-                                <img src="admin/assets/img/checkout/3.jpg" alt="">
+                                <img src="{{ url('front/assets/img/3.jpg') }}" alt="">
                               </div>
                             </div>
                             
@@ -106,7 +109,7 @@
                           </div>
                     </div>
                     <div class="product-description">
-                        <p>In this article, we will learn how to implement sweetalert in laravel 5 application. Here i am going to use uxweb/sweet-alert package for Sweet Alert Messages in laravel 5 application. we can simply use with laravel 5 all version like 5.1, 5.2, 5.3, 5.4 and next upcoming 5.5 too.</p>
+                        <p>{{$cartproduct['data'][0]['long_desc']}}</p>
                     </div>
                 </div>
                 <!-- product overview area -->
@@ -117,10 +120,10 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <img src="admin/assets/img/checkout/placeholder.png" alt="" class="itme_img">
-                                        <span class="item_name">test</span>
+                                        <img src="{{ url('front/assets/img/placeholder.png') }}" alt="" class="itme_img">
+                                        <span class="item_name">{{$cartproduct['data'][0]['product_name']}}</span>
                                     </td>
-                                    <td>₹100.00</td>
+                                    <td>₹{{$cartproduct['data'][0]['price']}}</td>
                                     <td class="text-right pr-0">
                                         <span><i id="minus1"
                                                 class="fas fa-minus-square quantity_btn quantity_btn_disable"></i></span>
@@ -149,7 +152,7 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <img src="admin/assets/img/checkout/placeholder.png" alt="" class="itme_img">
+                                        <img src="{{ url('front/assets/img/placeholder.png')}}" alt="" class="itme_img">
                                         <span class="item_name">test</span>
                                     </td>
                                     <td>₹100.00</td>
@@ -300,7 +303,7 @@
                         <input type="button" name="next" class="next1 action-button" value="Next" />
                         <div class="payment_options_desc">
                             <p>Payment Options</p>
-                            <img src="admin/assets/img/checkout/cash.svg" alt="cash">
+                            <img src="{{url('front/assets/img/cash.svg')}}" alt="cash">
                         </div>
                     </fieldset>
                     <!-- form 2 fieldsets -->
@@ -392,7 +395,7 @@
                             <span>Secure Shopping</span>
                         </div>
                         <div class="col-md-6 form-right-detail">
-                            <p>Raxit</p>
+                            <p>{{$userdetails['success']['first_name']}}</p>
                             <p>India</p>
                         </div>
                     </div>

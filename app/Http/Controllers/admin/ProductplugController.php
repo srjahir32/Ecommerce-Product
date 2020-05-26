@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\User;
 use App\Product;
 use App\Productplug;
 use Illuminate\Support\Str;
@@ -26,26 +27,35 @@ class ProductplugController extends Controller
         return response()->json(['product_id' => $input['product_id'], 'checkout_link' => $checkout_link, 'product_name'  => $product_name, 'payment_type'  => $input['payment_type']]);
     }
 
-    public function redirectlink(){
+    public function redirectlink($code){
         return redirect('cart/'.$code);
     }
 
-    public function cartlink(){
+    public function cartlink($code){
+        $user_id = session()->get('user_id');
         $product_id = Productplug::where('code', $code)->value('product_id');
-        $Bearer_token = "";
+       $Bearer_token = session()->get('token');
         $data = [
             'product_id' => $product_id,
         ];
-        $request = Request::create('/api/products/view', 'POST', $data);
+        $request = Request::create(url('/api/products/view'), 'POST', $data);
         $request->headers->set('Accept', 'application/json');
         $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
         $res = app()->handle($request);
-        $response = json_decode($res->getContent(), true); 
+        $cartproduct = json_decode($res->getContent(), true); 
+        
+        $request = Request::create(url('/api/user_details'), 'POST');
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
+        $res = app()->handle($request);
+        $userdetails = json_decode($res->getContent(), true); 
+        // return  $userdetails;
         // return $response['status'];
         // if($response['status'] == 1) {
         //     $token = $response['success']['token'];
         //     session()->put('token', $token);
         // }
-        return response()->json(['data' =>$response]);
+        // response()->json(['data' =>$response]);
+        return view('front.pages.checkout', compact("cartproduct", "userdetails"));
     }
 }
