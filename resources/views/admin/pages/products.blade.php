@@ -1827,13 +1827,6 @@
         });
     });
 </script>
-
-<!-- <script>
-    
-var local = moment.utc("{{$product['created_at']}}").local();
-console.log( local.format('MMMM'), local.format('DD') , local.format('HH'), local.format('mm'));
-
-</script> -->
 <script>
     $('#product_submit').on('click', function(event) {
         console.log("click working");

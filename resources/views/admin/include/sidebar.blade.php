@@ -30,7 +30,7 @@
                             </a>
                         </li>
                         <li class="nav_menu">
-                            <a href="products">
+                            <a href="product">
                                 <i class="far fa-gem"></i>
                                 <span>Products</span>
                             </a>

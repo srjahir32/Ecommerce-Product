@@ -36,8 +36,11 @@ class ProductContrller extends Controller
         $productcategory = json_decode($res->getContent(), true);
 
         //get all peoducts
-
-        $request = Request::create(url('/api/products'), 'POST');
+        $user_id = session()->get('user_id');
+        $data = [
+            'user_id' => $user_id,
+        ];
+        $request = Request::create(url('/api/products'), 'POST', $data);
         $request->headers->set('Accept', 'application/json');
         $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
         $res = app()->handle($request);
@@ -45,9 +48,12 @@ class ProductContrller extends Controller
         return view('admin.pages.products', compact('userdetail', 'productcategory', 'products'));
     }
     public function productlist(){
-        
+        $user_id = session()->get('user_id');
+        $data = [
+            'user_id' => $user_id,
+        ];
         $Bearer_token = session()->get('token');
-        $request = Request::create(url('/api/products'), 'POST');
+        $request = Request::create(url('/api/products'), 'POST', $data);
         $request->headers->set('Accept', 'application/json');
         $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
         $res = app()->handle($request);
@@ -111,6 +117,17 @@ class ProductContrller extends Controller
             return response()->json(['data' => $response]);
         }
         $latest_product_id = json_decode($res->getContent(), true)['latest_product_id'];
+
+        // get product detail from last inserted id
+        $data = [
+            'product_id' => $latest_product_id,
+        ];
+        $Bearer_token = session()->get('token');
+        $request = Request::create(url('/api/products/view'), 'POST', $data);
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
+        $res = app()->handle($request);
+        $response = json_decode($res->getContent(), true);
 
         // save product image
         $product_image_data = array();

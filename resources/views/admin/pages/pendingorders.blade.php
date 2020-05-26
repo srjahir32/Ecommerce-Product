@@ -1,5 +1,7 @@
 @extends('admin.layout.main')
 @section('content')
+<?php //print_r($response);?><br>
+<?php //print_r($orderlist)[0];?>
 <div class="container-fluid">
     <div class="top-bar">
         <div class="row align-items-center">
@@ -26,25 +28,42 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Puja</td>
-                    <td><span class="currency_symbol">₹</span>1.0K</td>
+            <tbody> 
+            @php
+                $i = 0;
+            @endphp
+            @foreach ($orderlist['data'] as $order)
+            @php
+                $i ++;
+            @endphp
+                <tr class="order_{{$order['id']}}">
+                    <td>{{$i}}</td>
+                    <td>{{$order['product_name']}}</td>
+                    <td><span class="currency_symbol">₹</span>{{$order['total']}}</td>
+                    @if($order['payment_type'] == "Cash on delivery")
                     <td>Cash</td>
+                    @else
+                    <td>{{$order['payment_type']}}</td>
+                    @endif
                     <td>
                         <div class="datetime_layout">
                             <div class="datetime_txt">
-                                <p class="month_txt">MAY</p>
-                                <p class="day_txt">16</p>
+                                <p class="month_txt">{{ date('F', strtotime($order['created_at'])) }}</p>
+                                <p class="day_txt">{{ date('d', strtotime($order['created_at'])) }}</p>
                             </div>
                             <p class="datetime_separator"><span>at</span></p>
                             <div class="time_layout">
-                                <p><span class="hour_txt">10</span> : <span class="hour_txt">10<span></p>
+                                <p><span class="hour_txt">{{ date('h', strtotime($order['created_at'])) }}</span> : <span class="hour_txt">{{ date('i', strtotime($order['created_at'])) }}<span></p>
                             </div>
                         </div>
                     </td>
-                    <td class="warning_txt">Pending (unpaid)</td>
+                    @if($order['order_status'] == "0")
+                        <td class="warning_txt" id="order_status">Pending (unpaid)</td>
+                    @elseif($order['order_status'] == "1")
+                        <td class="" id="order_status">New (unpaid)</td>
+                    @elseif($order['order_status'] == "2")
+                        <td class="text-success" id="order_status">New (paid)</td>
+                    @endif
                     <td>
                         <div class="dropdown">
                             <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
@@ -52,15 +71,16 @@
                                 <img class="toggle_droupdown" src="{{ asset('admin/assets/img/orders/menu-icon.svg') }}"></a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" data-toggle="modal"
-                                    data-target="#approveOrderModal">Approve</a>
+                                    data-target="#approveOrderModal" onClick="approvedOrder({{$order['id']}})">Approve</a>
                                 <a class="dropdown-item" data-toggle="modal"
-                                    data-target="#declineOrderModal">Decline</a>
+                                    data-target="#declineOrderModal" onClick="declineOrder({{$order['id']}})">Decline</a>
                                 <a class="dropdown-item text-danger" data-toggle="modal"
-                                    data-target="#viewOrderModal">View Page</a>
+                                    data-target="#viewOrderModal" onClick="viewOrder({{$order['id']}})">View Page</a>
                             </div>
                         </div>
                     </td>
                 </tr>
+            @endforeach
             </tbody>
         </table>
     </div>
@@ -119,39 +139,48 @@
                         <div class="view_pending_order_detail_inner">
                             <div class="view_product_detail_txt">
                                 <label>Purchased</label>
-                                <p><a href="" class="themecolor" data-toggle="modal" data-target="#">testing</a></p>
+                                <p><a href="" class="themecolor" data-toggle="modal" data-target="#" id="product_name">testing</a></p>
                             </div>
                             <div class="view_product_detail_txt">
                                 <label>Customer</label>
                                 <p><a href="" class="themecolor" data-toggle="modal"
-                                        data-target="#customerDetailModal">puja</a></p>
+                                        data-target="#customerDetailModal" id="customer_name">puja</a></p>
                             </div>
 
                             <div class="view_product_detail_txt">
                                 <label>Bought from</label>
-                                <p>test@gmail.com</p>
+                                <p id="customer_email">127.0.0.1:8000.com</p>
                             </div>
                             <div class="view_product_detail_txt">
                                 <label>Plug</label>
-                                <p>Selling testing with C</p>
+                                <p id="order_plug"></p>
                             </div>
 
                             <div class="view_product_detail_txt">
                                 <label>Payment Gateway</label>
-                                <p>Cash on delivery</p>
+                                <p id="payment_type">Cash on delivery</p>
                             </div>
                             <div class="view_product_detail_txt">
                                 <label>Checkout Duration</label>
-                                <p>3 Minutes 48 Secon</p>
+                                <p id="checkout_time">3 Minutes 48 Secon</p>
                             </div>
 
                             <div class="view_product_detail_txt">
                                 <label>Status</label>
-                                <p>Pending (Unpaid)</p>
+                                <p id="order_status">Pending (Unpaid)</p>
                             </div>
                             <div class="view_product_detail_txt">
                                 <label>Date</label>
-                                <p>MAY 07 at 11:03</p>
+                                <div class="datetime_layout">
+                            <div class="datetime_txt mt-1">
+                                <p class="month_txt" id="order_month">{{ date('F', strtotime($order['created_at'])) }}</p>
+                                <p class="day_txt" id="order_day">{{ date('d', strtotime($order['created_at'])) }}</p>
+                            </div>
+                            <p class="datetime_separator"><span>at</span></p>
+                            <div class="time_layout">
+                                <p><span class="hour_txt" id="order_hour">{{ date('h', strtotime($order['created_at'])) }}</span> : <span class="hour_txt" id="order_miniute">{{ date('i', strtotime($order['created_at'])) }}<span></p>
+                            </div>
+                        </div>
                             </div>
                         </div>
                     </div>
@@ -160,7 +189,7 @@
                         </p>
                         <p class="pending_order_download_txt col-sm-6">Download</p>
                     </div>
-                    <div class="row"></div>
+                    
                     <div class="col-sm-12 pending_order_table">
                         <table class="table " cellpadding="0" cellspacing="0">
                             <tbody>
@@ -251,15 +280,14 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label for="message">Enter a message for the
-                                            customer<span>*</span></label>
+                                            customer<span></span></label>
                                         <input type="text" class="form-control form_field"
-                                            placeholder="Enter a message for the customer" id="email" name="email">
+                                            placeholder="Enter a message for the customer" id="approved_message" name="approved_message">
                                     </div>
                                 </div>
                             </div>
                             <div class="approve_order_btn">
-                                <button class="theme_btn ripple_btn dark_btn w-100 ml-0">Yes, Approve
-                                    Order</button>
+                                <input type="button" class="theme_btn ripple_btn dark_btn w-100 ml-0" id="approved_order" value="Yes, Approve Order">
                             </div>
                         </form>
 
@@ -300,15 +328,14 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label for="message">Enter a message for the
-                                            customer<span>*</span></label>
+                                            customer<span></span></label>
                                         <input type="text" class="form-control form_field"
-                                            placeholder="Enter a message for the customer" id="email" name="email">
+                                            placeholder="Enter a message for the customer" id="message" name="message">
                                     </div>
                                 </div>
                             </div>
                             <div class="approve_order_btn">
-                                <button class="theme_btn ripple_btn dark_btn w-100 ml-0">Yes, Decline
-                                    Order</button>
+                            <input type="button" class="theme_btn ripple_btn dark_btn w-100 ml-0" id="decline_order" value="Yes, Decline Order">
                             </div>
                         </form>
 
@@ -626,6 +653,102 @@
 
 @section('scripts')
 <script>
+function approvedOrder(id){
+  $("#approved_order").click(function(){
+     $.ajax({
+        headers: {
 
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        },
+        url: "{{ url('approveorder') }}/" + id,
+        type: "POST",
+        success: function(res) {
+            console.log(res);
+            if(res['data']['status']== "1"){
+                $(".order_"+id+" #order_status").html("<span class='unpaid_text' style='color: #646698 !important;'>New (unpaid)</span>");
+                $("#approveOrderModal").modal('hide');
+            }
+        },
+        error: function(jqXHR, textStatus, errorMessage) {
+            console.log(errorMessage); // Optional
+        }
+    });
+  })
+    
+}
+function declineOrder(id){
+    $("#decline_order").click(function(){
+    $.ajax({
+        headers: {
+
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        },
+        url: "{{ url('declineorder') }}/" + id,
+        type: "POST",
+        success: function(res) {
+            console.log(res);
+            if(res['data']['status']== "1"){
+                $(".order_"+id+"").remove();
+                $("#declineOrderModal").modal('hide');
+            }
+        },
+        error: function(jqXHR, textStatus, errorMessage) {
+            console.log(errorMessage); // Optional
+        }
+    });
+  })
+
+}
+function viewOrder(id){
+    console.log(id);
+    var product_staus;
+    $.ajax({
+        headers: {
+
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+        },
+        url: "{{ url('vieworderdetail') }}/" + id,
+        type: "POST",
+        success: function(res) {
+            console.log(res);
+            if(res['data']['status']== "1"){
+                var res = res['data']['data'][0];
+                if(res['order_status']== "0")   {
+                    product_staus = "Pending (Unpaid)";
+                }      
+                else if(res['order_status']== "1")   {
+                    product_staus = "New (unpaid)";
+                }
+                else   {
+                    product_staus = "New (Paid))";
+
+                }  
+                $("#order_plug").html('Selling <span id="product_name">'+res['product_name']+'</span> with <span id="payment_type_opt">'+res['payment_type']+'</span>');
+                var date = moment.utc(res['created_at']);
+                $("#viewOrderModal #product_name").text(res['product_name']);
+                $("#viewOrderModal #customer_name").text(res['customer_name']);
+                $("#viewOrderModal #payment_type_opt").text(res['payment_type']);
+                $("#viewOrderModal #payment_type").text(res['payment_type']);
+                $("#viewOrderModal #order_status").text(product_staus);
+                $("#viewOrderModal #order_month").text(date.format('MMMM'));
+                $("#viewOrderModal #order_day").text(date.format('DD'));
+                $("#viewOrderModal #order_hour").text(date.format('h'));
+                $("#viewOrderModal #order_miniute").text(date.format('mm'));
+                var plug = $("#order_plug").text();
+                var plu_str = plug.substring(0,15)+"..."; 
+                $("#order_plug").text(plu_str);              
+//                 var str = "Hello world!";
+// var res = str.substring(1,4);
+                
+            }
+        },
+        error: function(jqXHR, textStatus, errorMessage) {
+            console.log(errorMessage); // Optional
+        }
+    });
+}
 </script>
 @endsection

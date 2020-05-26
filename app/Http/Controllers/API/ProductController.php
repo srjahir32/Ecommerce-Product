@@ -14,8 +14,15 @@ use Validator;
 class ProductController extends Controller
 {
     // 1. view all product
-    public function index() {
-        $product = Product::join('categorys', 'categorys.id', '=', 'products.category_id')->select('products.id', 'products.product_name', 'products.short_desc', 'products.long_desc', 'products.price', 'products.user_id', 'products.product_type', 'products.category_id', 'categorys.category_name', 'products.order_limit', 'products.stock', 'products.created_at', 'products.updated_at')->get();
+    public function index(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+        ]);
+        $user_id = $request->input("user_id");
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
+        }
+        $product = Product::join('categorys', 'categorys.id', '=', 'products.category_id')->select('products.id', 'products.product_name', 'products.short_desc', 'products.long_desc', 'products.price', 'products.user_id', 'products.product_type', 'products.category_id', 'categorys.category_name', 'products.order_limit', 'products.stock', 'products.created_at', 'products.updated_at')->where('products.user_id', $user_id)->get();
         if($product->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }

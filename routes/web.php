@@ -46,4 +46,12 @@ Route::get('{code}', 'admin\ProductplugController@redirectlink');
 Route::get('cart/{code}', 'admin\ProductplugController@cartlink');
 
 
-Route::view('checkout', 'front/pages/checkout');
+// Route::view('checkout', 'front/pages/checkout');
+
+
+
+Route::post('orderdata', 'front\OrderController@saveorderdetail');
+Route::post('approveorder/{id}', 'admin\PendingorderController@approveorder');
+Route::post('declineorder/{id}', 'admin\PendingorderController@declineorder');
+Route::post('vieworderdetail/{id}', 'admin\PendingorderController@getorderdetail');
+

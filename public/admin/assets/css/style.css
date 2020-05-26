@@ -454,12 +454,12 @@ span.tox-statusbar__branding,
 .month_txt {
     margin-bottom: 0;
     width: 40px;
-    height: 12px;
+    height: 12px !important;
     background-color: #f1f5f9;
-    font-size: 10px;
-    color: #a6a8d0;
+    font-size: 10px !important;
+    color: #a6a8d0 !important;
     text-align: center;
-    line-height: 11px;
+    line-height: 11px !important;
 }
 .datetime_separator {
     display: inline-block;
@@ -476,6 +476,11 @@ span.tox-statusbar__branding,
     line-height: 16px;
     background: white;
     margin-bottom: 0 !important;
+}
+.view_product_detail_txt .time_layout p {
+    line-height: unset;
+    letter-spacing: 0;
+    margin: 2px 0 0;
 }
 .time_layout {
     display: inline-block;

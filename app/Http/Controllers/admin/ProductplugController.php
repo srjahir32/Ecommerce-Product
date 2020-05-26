@@ -34,7 +34,7 @@ class ProductplugController extends Controller
     public function cartlink($code){
         $user_id = session()->get('user_id');
         $product_id = Productplug::where('code', $code)->value('product_id');
-       $Bearer_token = session()->get('token');
+        $Bearer_token = session()->get('token');
         $data = [
             'product_id' => $product_id,
         ];
@@ -49,13 +49,13 @@ class ProductplugController extends Controller
         $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
         $res = app()->handle($request);
         $userdetails = json_decode($res->getContent(), true); 
-        // return  $userdetails;
-        // return $response['status'];
-        // if($response['status'] == 1) {
-        //     $token = $response['success']['token'];
-        //     session()->put('token', $token);
-        // }
-        // response()->json(['data' =>$response]);
-        return view('front.pages.checkout', compact("cartproduct", "userdetails"));
+
+        $request = Request::create(url('/api/products/viewimage'), 'POST', $data);
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
+        $res = app()->handle($request);
+        $productimg = json_decode($res->getContent(), true); 
+        
+        return view('front.pages.checkout', compact("cartproduct", "userdetails", "productimg"));
     }
 }

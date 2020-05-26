@@ -577,17 +577,17 @@
     margin-bottom: 0;
     color: #646698;
 }
-.success_order .fa-check-circle {
+.success_order .fa-check-circle, .fail_order i {
     font-size: 100px;
     color: #5cb85c;
     margin-bottom: 20px;
 }
-.success_order h2 {
+.success_order h2, .fail_order h2 {
     font-size: 30px;
     color: #646698;
     margin-bottom: 15px;
 }
-.success_order p {
+.success_order p, .fail_order p {
     font-size: 17px;
     color: #646698;
 }

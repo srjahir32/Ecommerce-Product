@@ -1,7 +1,8 @@
 @extends('front.layout.main')
 @section('content')
     <!-- Checkout MultiStep Form -->
-    <?php //print_r($cartproduct);?>
+    <?php //print_r($productimg);?><br>
+    <?php//  print_r($cartproduct);?> 
     <div class="container">
         <div class="row">
             <div class="col-md-12 checkout_header">
@@ -41,12 +42,13 @@
                 </div>
                 <!-- product detail area -->
                 <div class="product_title">
+                <input type="hidden" id="product_id" name="product_id" value="{{$cartproduct['data'][0]['id']}}">
                     <h2 class="title">{{$cartproduct['data'][0]['product_name']}} 
                     <!-- <span>(<span id="variation_1"></span>/<span id="variation_2"></span>)</span> -->
                     </h2>
                     <p class="short_desc">{{$cartproduct['data'][0]['short_desc']}}</p>
                     <h2 id="p_price">₹<span>{{$cartproduct['data'][0]['price']}}</span></h2>
-                    <div class="row variations_option">
+                    <div class="row variations_option d-none">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="variations_option1">color</label>
@@ -85,28 +87,29 @@
                         </div>
                     </div>
                     <div class="image_area">
+                    @if(!empty($productimg['data']))
                         <div id="p_image" class="carousel slide" data-interval="false" data-ride="carousel" >
                             <!-- The slideshow -->
                             <div class="carousel-inner">
-                              <div class="carousel-item active">
-                                <img src="{{ url('front/assets/img/1.jpg') }}" alt="">
-                              </div>
-                              <div class="carousel-item">
-                                <img src="{{ url('front/assets/img/2.jpg') }}" alt="">
-                              </div>
-                              <div class="carousel-item">
-                                <img src="{{ url('front/assets/img/3.jpg') }}" alt="">
-                              </div>
+                                @foreach ($productimg['data'] as $tag)
+                                    <div class="carousel-item">                                
+                                            <img src="{{ asset('products/image/').'/'.$tag['image_path'] }}" alt="slider"> 
+                                    </div>
+                                @endforeach
+                          
                             </div>
                             
                             <!-- Left and right controls -->
-                            <a class="carousel-control-prev" href="#p_image" data-slide="prev">
-                              <span class="prev-icon"><i class="fas fa-chevron-left"></i></span>
-                            </a>
-                            <a class="carousel-control-next" href="#p_image" data-slide="next">
-                              <span class="next-icon"><i class="fas fa-chevron-right"></i></span>
-                            </a>
-                          </div>
+                            @if(count($productimg['data'])>1)
+                                <a class="carousel-control-prev" href="#p_image" data-slide="prev">
+                                <span class="prev-icon"><i class="fas fa-chevron-left"></i></span>
+                                </a>
+                                <a class="carousel-control-next" href="#p_image" data-slide="next">
+                                <span class="next-icon"><i class="fas fa-chevron-right"></i></span>
+                                </a>
+                            @endif
+                          </div>                          
+                    @endif
                     </div>
                     <div class="product-description">
                         <p>{{$cartproduct['data'][0]['long_desc']}}</p>
@@ -120,10 +123,15 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <img src="{{ url('front/assets/img/placeholder.png') }}" alt="" class="itme_img">
+                                    @if(empty($productimg['data']))
+                                        <img src="{{ url('front/assets/img/placeholder.png')}}" alt="" class="itme_img"> 
+                                    @else
+                                    <img src="{{ asset('products/image/').'/'.$productimg['data'][0]['image_path'] }}" alt=""
+                                            class="itme_img">
+                                    @endif
                                         <span class="item_name">{{$cartproduct['data'][0]['product_name']}}</span>
                                     </td>
-                                    <td>₹{{$cartproduct['data'][0]['price']}}</td>
+                                    <td >₹{{$cartproduct['data'][0]['price']}}</td>
                                     <td class="text-right pr-0">
                                         <span><i id="minus1"
                                                 class="fas fa-minus-square quantity_btn quantity_btn_disable"></i></span>
@@ -152,11 +160,16 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <img src="{{ url('front/assets/img/placeholder.png')}}" alt="" class="itme_img">
-                                        <span class="item_name">test</span>
+                                    @if(empty($productimg['data']))
+                                        <img src="{{ url('front/assets/img/placeholder.png')}}" alt="" class="itme_img"> 
+                                    @else
+                                        <img src="{{ asset('products/image/').'/'.$productimg['data'][0]['image_path'] }}" alt=""
+                                            class="itme_img">
+                                    @endif
+                                        <span class="item_name"  id="product_name">{{$cartproduct['data'][0]['product_name']}}</span>
                                     </td>
-                                    <td>₹100.00</td>
-                                    <td>x<span class="cart_item"></span></td>
+                                    <td >₹<span id="product_price">{{$cartproduct['data'][0]['price']}}</span></td>
+                                    <td>x<span class="cart_item" id="cart_item"></span></td>
                                     <td class="text-right pr-0">
                                         <span id="total_price">₹<span>100.00</span></span>
                                     </td>
@@ -168,7 +181,7 @@
                             <span id="total_price" class="total_right">₹<span>100.00</span></span>
                         </div>
                         <div class="sub_total text-right">
-                            <span class="total_txt">Total:</span> <span id="sub_total_price">₹<span>100.00</span></span>
+                            <span class="total_txt">Total:</span> <span id="sub_total_price">₹<span  id="product_total_price">100.00</span></span>
                         </div>
                     </div>
                     <span class="empty_cart">Your basket is empty</span>
@@ -388,6 +401,11 @@
                             <p>Thank you for your purchase. Your payment is being processed and you will receive an
                                 email as soon as it’s confirmed.</p>
                         </div>
+                        <div class="fail_order" style="display:none;">
+                            <i class="far fa-times-circle text-danger"></i>
+                            <h2>Something Wrong</h2>
+                            <p>Invalid fomm data.</p>
+                        </div>
                     </fieldset>
                     <div class="row form_footer">
                         <div class="col-md-6 form-left-detail">
@@ -406,6 +424,248 @@
     </div>
     <!-- Checkout MultiStep Form -->
 
+@endsection
+@section('scripts')
+<script>
+    $('.carousel-item').first().addClass('active');
+    $('#p_image').carousel();
+</script>
+<script>
+$(document).ready(function () {
+    $(window).resize(function () {
+        if ($(window).width() >= 992) {
+            $(".in_progressbar").attr("id", "progressbar");
+            $(".out_progressbar").attr("id", "");
+            $(".corner-nav").show();
+            $(".top-corner-nav").hide();
+        } else {
+            $(".in_progressbar").attr("id", "");
+            $(".out_progressbar").attr("id", "progressbar");
+            $(".corner-nav").hide();
+            $(".top-corner-nav").show();
+        }
+    }).resize();
+});
+
+// cart button
+$(".cart_button_right").click(function () {
+    $(".cart_button_right, .product_title").hide();
+    $(".cart_button_right2, .overview_area").show();
+});
+$(".cart_button_right2").click(function () {
+    $(".cart_button_right2, .overview_area").hide();
+    $(".cart_button_right, .product_title").show();
+});
+
+//variation option
+$("#variation_1").text($("#variations_option1").val());
+$("#variations_option1").change(function () {
+    $("#variation_1").text($(this).val());
+});
+
+$("#variation_2").text($("#variations_option2").val());
+$("#variations_option2").change(function () {
+    $("#variation_2").text($(this).val());
+});
+
+//product info switch
+$(".product-info-switch").click(function () {
+    $(".product-info-switch, .image_area").hide();
+    $(".product-info-switch2, .product-description").show();
+});
+$(".product-info-switch2").click(function () {
+    $(".product-info-switch2, .product-description").hide();
+    $(".product-info-switch, .image_area").show();
+});
+
+// empty cart button
+$(".close_btn").click(function () {
+    $(".overview_cart").hide();
+    $(".empty_cart").show();
+    $(".add_to_cart").show();
+    $(".cart_item").text("0");
+    $(".next1").addClass("next1-disable");
+});
+
+// add to cart button
+$(".add_to_cart").click(function () {
+    $(".overview_cart").show();
+    $(".empty_cart").hide();
+    $(".add_to_cart").hide();
+    $(".cart_item").text($input.val());
+    $(".next1").removeClass("next1-disable");
+});
+
+// product detail area
+var $input = $("#p_quantity, #o_quantity");
+var $price = $("#p_price").find("span");
+var $price_value = $price.text();
+var $max_qty = $("#p_quantity").attr("max");
+$(".cart_item").text($input.val());
+var $sub_total = $("#sub_total_price, #total_price").find("span");
+$sub_total.text($price.text());
+$(".quantity_btn").click(function () {
+    $("#p-quantity-plus, #plus1").removeClass("quantity_btn_disable");
+    $("#p-quantity-minus, #minus1").removeClass("quantity_btn_disable");
+    if ($(this).attr("id") === "p-quantity-plus" || $(this).attr("id") === "plus1") {
+        if ($input.val() < parseInt($max_qty)) {
+            $input.val(parseInt($input.val()) + 1);
+            $price.text((parseFloat($price_value) * $input.val()).toFixed(2));
+            $(".cart_item").text($input.val());
+            $sub_total.text($price.text());
+        }
+        if ($input.val() == $max_qty) {
+            $("#p-quantity-plus, #plus1").addClass("quantity_btn_disable");
+        }
+    } else if ($input.val() > 1) {
+        $input.val(parseInt($input.val()) - 1);
+        $price.text((parseFloat($price_value) * $input.val()).toFixed(2));
+        $(".cart_item").text($input.val());
+        $sub_total.text($price.text());
+        if ($input.val() == 1) {
+            $("#p-quantity-minus, #minus1").addClass("quantity_btn_disable");
+        }
+    }
+});
+
+// checkout form 1 validation
+function validform1() {
+    var valid = true;
+    $(".form-control").removeClass("form-control-error");
+    if ($("#email").val() === "") {
+        $("#email").addClass("form-control-error");
+        valid = false;
+    } else {
+        var regex = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
+        if (!regex.test($("#email").val())) {
+            $("#email").addClass("form-control-error");
+            valid = false;
+        }
+    }
+    if ($("#country").val() === "") {
+        $("#country").addClass("form-control-error");
+        valid = false;
+    }
+    return valid;
+}
+
+// checkout form 2 validation
+function validform2() {
+    var valid = true;
+    $(".form-control").removeClass("form-control-error");
+    if ($("#name").val() === "") {
+        $("#name").addClass("form-control-error");
+        valid = false;
+    }
+    if ($("#address").val() === "") {
+        $("#address").addClass("form-control-error");
+        valid = false;
+    }
+    if ($("#city").val() === "") {
+        $("#city").addClass("form-control-error");
+        valid = false;
+    }
+    if ($("#zip").val() === "") {
+        $("#zip").addClass("form-control-error");
+        valid = false;
+    }
+    if ($("#country").val() == "India") {
+        if ($("#state").val() === "") {
+            $("#state").addClass("form-control-error");
+            valid = false;
+        }
+    }
+    return valid;
+}
+
+//multistep form next button
+var current_fs, next_fs, previous_fs; //fieldsets
+$(".next1").click(function () {
+    if (validform1()) {
+        $(".next1").attr("value", "Please Wait...");
+        current_fs = $(this).parent();
+        next_fs = $(this).parent().next();
+        //activate next step on progressbar using the index of next_fs
+        $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+        $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+        //disable state dropudown
+        if ($("#country").val() !== "India") {
+            $(".stategroup").css("display", "none");
+            $("#state").prepend($("<option value=' '></option>"));
+            $("#state option[value=' ']").attr('selected', true);
+        }
+        // show the next fieldset
+        next_fs.show();
+        current_fs.hide();
+
+        $(".corner-nav").hide();
+        $(".top-corner-nav").hide();
+        $(".product_title").hide();
+        $(".overview_area").hide();
+        $(".next_overview").attr('style', 'display: block !important');
+    }
+});
+
+$(".next2").click(function () {
+    if (validform2()) {
+        $(".next2").attr("value", "Please Wait...");
+        current_fs = $(this).parent();
+        next_fs = $(this).parent().next();
+        //activate next step on progressbar using the index of next_fs
+        $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+        $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+        // show the next fieldset
+        next_fs.show();
+        current_fs.hide();
+        var name = $("#name").val();
+        var email = $("#email").val();
+        var address = $("#address").val();
+        var city = $("#city").val()+" "+$("#state").val()+" "+$("#zip").val();
+        var country = $("#country").val();
+
+        $('#formdata').html("<p>"+name+"</p><p>"+email+"</p><p>"+address+"</p><p>"+city+"</p><p>"+country+"</p>")
+
+
+    }
+});
+
+$(".submit").click(function () {
+    $(".submit").attr("value", "Please Wait...");
+    current_fs = $(this).parent();
+    next_fs = $(this).parent().next();
+    // show the next fieldset
+    next_fs.show();
+    current_fs.hide();
+    $("#progressbar").hide();
+
+        product_id = $("#product_id").val();
+        product_name = $("#product_name").text();
+        product_price = $("#product_price").text();
+        cart_item = $("#cart_item").text();
+        product_total_price = $("#product_total_price").text();
+        console.log(product_name, product_price, cart_item, product_total_price);
+    $.ajax({
+            headers: {
+
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+            },
+            type: 'POST',
+            url: "{{ url('orderdata') }}",
+            data: $('#msform').serialize()+ "&product_name=" + product_name+ "&product_price=" + product_price + "&cart_item=" + cart_item + "&product_total_price=" + product_total_price + "&product_id=" + product_id,
+            contentType: "application/x-www-form-urlencoded",
+            success: function (response) {
+                console.log(response);
+                if (response['data']['status'] == '1') {
+                    $("#msform")[0].reset();
+                    $('.success_order').show()
+                } else {
+                    $('.fail_order').show();
+                }
+            }
+        });
+})
+</script>
 @endsection
 </body>
 
