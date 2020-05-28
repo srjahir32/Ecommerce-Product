@@ -1,7 +1,6 @@
 @extends('admin.layout.main')
 @section('content')
-<?php //print_r($response);?><br>
-<?php //print_r($orderlist)[0];?>
+
 <div class="container-fluid">
     <div class="top-bar">
         <div class="row align-items-center">
@@ -29,6 +28,7 @@
                 </tr>
             </thead>
             <tbody> 
+            @if($orderlist['status'] == "1")
             @php
                 $i = 0;
             @endphp
@@ -40,11 +40,7 @@
                     <td>{{$i}}</td>
                     <td>{{$order['product_name']}}</td>
                     <td><span class="currency_symbol">₹</span>{{$order['total']}}</td>
-                    @if($order['payment_type'] == "Cash on delivery")
                     <td>Cash</td>
-                    @else
-                    <td>{{$order['payment_type']}}</td>
-                    @endif
                     <td>
                         <div class="datetime_layout">
                             <div class="datetime_txt">
@@ -81,6 +77,7 @@
                     </td>
                 </tr>
             @endforeach
+            @endif
             </tbody>
         </table>
     </div>
@@ -173,12 +170,12 @@
                                 <label>Date</label>
                                 <div class="datetime_layout">
                             <div class="datetime_txt mt-1">
-                                <p class="month_txt" id="order_month">{{ date('F', strtotime($order['created_at'])) }}</p>
-                                <p class="day_txt" id="order_day">{{ date('d', strtotime($order['created_at'])) }}</p>
+                                <p class="month_txt" id="order_month"></p>
+                                <p class="day_txt" id="order_day"></p>
                             </div>
                             <p class="datetime_separator"><span>at</span></p>
                             <div class="time_layout">
-                                <p><span class="hour_txt" id="order_hour">{{ date('h', strtotime($order['created_at'])) }}</span> : <span class="hour_txt" id="order_miniute">{{ date('i', strtotime($order['created_at'])) }}<span></p>
+                                <p><span class="hour_txt" id="order_hour"></span> : <span class="hour_txt" id="order_miniute"><span></p>
                             </div>
                         </div>
                             </div>
@@ -613,42 +610,6 @@
     <!--Remove Customer Modal end-->
 
 </div>
-<div class="profile_setting_txt">
-            <div class=""><a class="profile_setting_button ripple_btn" id="profile_setting"
-                    ><img src="admin/assets/img/main/apps-icon.svg"></a></div>
-            <div class="profile_setting_box">
-
-                <div class="profile_setting_inner_top">
-                    <p class="whitelabel_txt" id="superbolt_text" data-toggle="modal" data-target="#superboltsModal">
-                        <img class="white_label_img" src="admin/assets/img/main/spb-logo-square-white.svg"><span>NEW!
-                            Superbolts: re-sell sanalpos.co whitelabel</span></p>
-                    <img class="profile_setting_close_btn" src="admin/assets/img/main/icon-close.svg" alt="">
-                </div>
-                <div class="profile_setting_inner_btm">
-                    @foreach ($response as $data)
-                    <div id="edit_profile" class="edit_profile_text" data-toggle="modal"
-                        data-target="#editProfileModal">
-                        <img class="edit_profile_img" src="admin/assets/img/main/no-avatar.svg" alt="">
-                        <div class="edit_profile_inner">
-                            <p class="ellipsis_text profile-name mb-0"><b> {{ $data->first_name }}
-                                    {{ $data->last_name }}</b></p>
-                            <p class="mb-0">Edit Profile</p>
-                        </div>
-                    </div>
-                    @endforeach
-                    <a class="logout_profile_text ripple_btn" href="{{ url('logout') }}">
-                        <img src="admin/assets/img/main/logout.svg" alt="">
-                        <p class="mb-0" p>Logout</p>
-                    </a>
-                    <div id="support_profile" class="support_profile_text ripple_btn" data-toggle="modal"
-                        data-target="#supportModal">
-                        <img src="admin/assets/img/main/live-help.svg" alt="">
-                        <p class="mb-0">Support</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
 @endsection
 
 @section('scripts')

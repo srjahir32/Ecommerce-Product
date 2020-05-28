@@ -1,12 +1,13 @@
 @extends('front.layout.main')
 @section('content')
     <!-- Checkout MultiStep Form -->
-    <?php //print_r($productimg);?><br>
-    <?php//  print_r($cartproduct);?> 
+  
     <div class="container">
         <div class="row">
             <div class="col-md-12 checkout_header">
-                <h2 class="checkout_title">{{$userdetails['success']['first_name']}}</h2>
+                <h2 class="checkout_title">@if(Session::has('user'))
+                                    {{ Session::get('user')['first_name'] }}
+                                    @endif</h2>
             </div>
         </div>
         <div class="row">
@@ -87,7 +88,7 @@
                         </div>
                     </div>
                     <div class="image_area">
-                    @if(!empty($productimg['data']))
+                    @if(!empty($productimg['data']) || count($productimg['data'])>0)
                         <div id="p_image" class="carousel slide" data-interval="false" data-ride="carousel" >
                             <!-- The slideshow -->
                             <div class="carousel-inner">
@@ -413,7 +414,9 @@
                             <span>Secure Shopping</span>
                         </div>
                         <div class="col-md-6 form-right-detail">
-                            <p>{{$userdetails['success']['first_name']}}</p>
+                            <p>@if(Session::has('user'))
+                                    {{ Session::get('user')['first_name'] }}
+                                    @endif</p>
                             <p>India</p>
                         </div>
                     </div>

@@ -15,7 +15,9 @@ a:hover{
 .themecolor {
     color: #466afc !important;
 }
-
+.tox-notification.tox-notification--in.tox-notification--warning {
+    display: none;
+}
 .big {
     font-size: 18px;
 }
@@ -248,6 +250,7 @@ span.error {
 .support_profile_text:hover {
     background: #3957d2;
     transition: all 0.3s;
+    color: #fff;
 }
 
 .profile_setting_inner_top,

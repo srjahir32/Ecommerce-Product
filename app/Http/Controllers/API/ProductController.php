@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
-use App\category;
+use App\Category;
 use App\Productimage;
 use App\Productoption;
 use App\Productvariation;
@@ -22,7 +22,7 @@ class ProductController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $product = Product::join('categorys', 'categorys.id', '=', 'products.category_id')->select('products.id', 'products.product_name', 'products.short_desc', 'products.long_desc', 'products.price', 'products.user_id', 'products.product_type', 'products.category_id', 'categorys.category_name', 'products.order_limit', 'products.stock', 'products.created_at', 'products.updated_at')->where('products.user_id', $user_id)->get();
+        $product = Product::join('categorys', 'categorys.id', '=', 'products.category_id')->select('products.id', 'products.product_name', 'products.short_desc', 'products.long_desc', 'products.price', 'products.user_id', 'products.product_type', 'products.category_id', 'categorys.category_name', 'products.order_limit', 'products.stock', 'products.link', 'products.payment_type', 'products.created_at', 'products.updated_at')->where('products.user_id', $user_id)->get();
         if($product->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
@@ -54,7 +54,7 @@ class ProductController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $view_product = Product::join('categorys', 'categorys.id', '=', 'products.category_id')->select('products.id', 'products.product_name', 'products.short_desc', 'products.long_desc', 'products.price', 'products.user_id', 'products.product_type', 'products.category_id', 'categorys.category_name', 'products.order_limit', 'products.stock', 'products.created_at', 'products.updated_at')->where('products.id', $product_id)->get();
+        $view_product = Product::join('categorys', 'categorys.id', '=', 'products.category_id')->select('products.id', 'products.product_name', 'products.short_desc', 'products.long_desc', 'products.price', 'products.user_id', 'products.product_type', 'products.category_id', 'categorys.category_name', 'products.order_limit', 'products.stock', 'products.link', 'products.payment_type', 'products.created_at', 'products.updated_at')->where('products.id', $product_id)->get();
         if($view_product->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
@@ -279,7 +279,7 @@ class ProductController extends Controller
 
     // 15. view all category
     public function category() {
-        $category = category::all();
+        $category = Category::all();
         if($category->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }

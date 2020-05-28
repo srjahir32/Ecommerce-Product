@@ -94,6 +94,7 @@
                     } else {
                         $(".error").remove();                       
                         $("#login_form")[0].reset();
+                        // $("#form_status").remove();
                         window.location.href = "{{ url('dashboard') }}";
                     }
                 }

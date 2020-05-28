@@ -24,7 +24,7 @@ class UserController extends Controller
             if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
                 $user = Auth::user();
                 $success['token'] = $user->createToken('MyApp')-> accessToken;
-                return response()->json(['success' => $success, 'status'=>'1'], $this-> successStatus);
+                return response()->json(['success' => $success, 'user' => $user, 'status'=>'1'], $this-> successStatus);
             } else {
                 return response()->json(['data'=>'Invalid Login details', 'status'=>'0'], 401);
             }
@@ -37,7 +37,7 @@ class UserController extends Controller
             'first_name' => 'required', 
             'last_name' => 'required', 
             'email' => 'required|email|unique:users', 
-            'password' => 'required', 
+            'password' => 'required|min:6', 
             'c_password' => 'required|same:password', 
         ],
         [

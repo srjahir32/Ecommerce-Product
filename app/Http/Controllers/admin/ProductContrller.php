@@ -4,7 +4,10 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Productimage;
+use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class ProductContrller extends Controller
 {
@@ -15,19 +18,8 @@ class ProductContrller extends Controller
     }
     public function index()
     {
-        //get user detail
+        
         $Bearer_token = session()->get('token');
-        $request = Request::create(url('/api/user_details'), 'POST');
-        $request->headers->set('Accept', 'application/json');
-        $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
-        $res = app()->handle($request);
-        $userdetail = json_decode($res->getContent());
-        $userdata = json_decode($res->getContent(), true);
-        if ($userdata) {
-            $user_id = $userdata['success']['id'];
-            session()->put('user_id', $user_id);
-        }
-
         //get product category
         $request = Request::create(url('/api/products/category'), 'POST');
         $request->headers->set('Accept', 'application/json');
@@ -36,7 +28,8 @@ class ProductContrller extends Controller
         $productcategory = json_decode($res->getContent(), true);
 
         //get all peoducts
-        $user_id = session()->get('user_id');
+        $user_id = session()->get('user')['id'];
+
         $data = [
             'user_id' => $user_id,
         ];
@@ -45,10 +38,10 @@ class ProductContrller extends Controller
         $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
         $res = app()->handle($request);
         $products = json_decode($res->getContent(), true);
-        return view('admin.pages.products', compact('userdetail', 'productcategory', 'products'));
+        return view('admin.pages.products', compact('productcategory', 'products'));
     }
     public function productlist(){
-        $user_id = session()->get('user_id');
+        $user_id =  session()->get('user')['id'];
         $data = [
             'user_id' => $user_id,
         ];
@@ -88,11 +81,20 @@ class ProductContrller extends Controller
 
     public function saveproduct(Request $request)
     {
-        $user_id = session()->get('user_id');
+        $user_id =  session()->get('user')['id'];
         $input = request()->all();
+        
         $product_image = $input['product_image'];
+    //  return $product_image;
+     if(!empty($product_image)){     
         $product_image_arr = explode(",", $product_image);
-
+    }
+    else{
+        $product_image_arr = [];
+    }
+    //   return ;
+            
+        
         //call product create api
         $data = [
             'product_name' => $input['title'],
@@ -104,8 +106,10 @@ class ProductContrller extends Controller
             'product_type' => "physiacal",
             'category_id' => $input['category'],
             'order_limit' => $input['order_limit'],
+            'link' => str::random(8),
+            'payment_type' => "Cash",
         ];
-
+// return $data;
         $Bearer_token = session()->get('token');
         $request = Request::create(url('/api/products/create'), 'POST', $data);
         $request->headers->set('Accept', 'application/json');
@@ -134,7 +138,9 @@ class ProductContrller extends Controller
         foreach ($product_image_arr as $imagename) {
             $product_image_data[] = array('product_id' => $latest_product_id, 'image_path' => $imagename);
         }
+        if(count($product_image_arr)>0){
         $insert_product_image = Productimage::insert($product_image_data);
+        }
         return response()->json(['data' => $response]);
 
     }
@@ -165,17 +171,23 @@ class ProductContrller extends Controller
     public function editproduct($id)
     {
         $input = request()->all();
-        $user_id = session()->get('user_id');
+        $user_id =  session()->get('user')['id'];
         $product_image = $input['product_image'];
-        $product_image_arr = explode(",", $product_image);
+        if(!empty($product_image)){     
+            $product_image_arr = explode(",", $product_image);
+        }
+        else{
+            $product_image_arr = [];
+        }
 
         // save product image
         $product_image_data = array();
         foreach ($product_image_arr as $imagename) {
             $product_image_data[] = array('product_id' => $id, 'image_path' => $imagename);
         }
-    
+        if(count($product_image_arr)>0){
         $insert_product_image = Productimage::insert($product_image_data);
+        }
         $data = [
             'product_id' => $id,
             'product_name' => $input['title'],
@@ -223,5 +235,29 @@ class ProductContrller extends Controller
         $response = json_decode($res->getContent());
         return response()->json(['data' => $response]);
     }
+    public function productlink($link){
+        return redirect('cart/'.$link);
+    }
 
+    public function productlinkdata($link){
+        $user_id = session()->get('user')['id'];
+        $product_id = Product::where('link', $link)->value('id');
+        $Bearer_token = session()->get('token');
+        $data = [
+            'product_id' => $product_id,
+        ];
+        $request = Request::create(url('/api/products/view'), 'POST', $data);
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
+        $res = app()->handle($request);
+        $cartproduct = json_decode($res->getContent(), true); 
+
+        $request = Request::create(url('/api/products/viewimage'), 'POST', $data);
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
+        $res = app()->handle($request);
+        $productimg = json_decode($res->getContent(), true); 
+        
+        return view('front.pages.checkout', compact("cartproduct",  "productimg"));
+    }
 }

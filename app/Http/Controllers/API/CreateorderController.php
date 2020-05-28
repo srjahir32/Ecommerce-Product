@@ -18,7 +18,7 @@ class CreateorderController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $order = Order::join('product_plug', 'product_plug.product_id', '=', 'orders.product_id')->select('orders.*', 'product_plug.payment_type')->where('orders.user_id', $user_id)->get();
+        $order = Order::where('user_id', $user_id)->get();
         if($order->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
@@ -47,7 +47,7 @@ class CreateorderController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $view_order = Order::join('product_plug', 'product_plug.product_id', '=', 'orders.product_id')->select('orders.*', 'product_plug.payment_type')->where('orders.id', $order_id)->get();
+        $view_order = Order::where('id', $order_id)->get();
         if($view_order->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }

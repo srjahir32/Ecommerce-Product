@@ -97,7 +97,7 @@
             email = $('#email').val();
             password = $('#password').val();
             c_password = $('#c_password').val();
-
+            $("#register_form_submit").html("processing...");
             $.ajax({
                     headers: {
 
@@ -114,6 +114,7 @@
                         c_password: c_password,
                     },
                     success: function(res) {
+                        $("#register_form_submit").html("Continue");
                         console.log(res);
                         if ($.isEmptyObject(res.data.error)) {
                             $("#signup_form")[0].reset();

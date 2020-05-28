@@ -26,7 +26,7 @@
                             <a href="pending-orders">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Pending Orders</span>
-                                <span class="badge badge-pill badge-danger">3</span>
+                                <span class="badge badge-pill badge-danger" id="pending_order_count" style="display:none;">3</span>
                             </a>
                         </li>
                         <li class="nav_menu">

@@ -1,6 +1,6 @@
 @extends('admin.layout.main')
 @section('content')
-
+<?php ?>
 <div class="container-fluid">
     <div class="top-bar">
         <div class="row align-items-center">
@@ -46,12 +46,22 @@
         <p class="follow_setup_step_title">Follow these easy steps to complete your setup</p>
         <div class="row ">
             <div class="col-sm-12 dashboard_setup_step equal_row">
-                <div class="dashboard_setup_box ml-0">
+                <!-- <div class="dashboard_setup_box ml-0">
                     <div class="dashboard_setup_done_icon">
                         <i class="fa fa-check"></i>
                     </div>
                     <img class="dashboard_setup_box_img m-auto d-block product_service_icon"
                         src="{{ asset('admin/assets/img/dashboard/Add_Product_done.svg') }}">
+                    <p class="dashboard_setup_box_txt">Add Product or Service</p>
+                </div> -->
+                
+                <div class="dashboard_setup_box not_done_setup_box ml-0" data-toggle="modal"
+                    data-target="#addProductModal">
+                    <div class="dashboard_setup_done_icon">
+                        <i class="fa fa-stop"></i>
+                    </div>
+                    <img class="dashboard_setup_box_img m-auto d-block product_service_icon"
+                        src="{{ asset('admin/assets/img/dashboard/Add_Product.svg') }}">
                     <p class="dashboard_setup_box_txt">Add Product or Service</p>
                 </div>
                 <div class="dashboard_setup_box checkout_flow_box not_done_setup_box" data-toggle="modal"
@@ -63,6 +73,7 @@
                         src="{{ asset('admin/assets/img/dashboard/Create_Checkout_Flow.svg') }}">
                     <p class="dashboard_setup_box_txt theme_color">Create Checkout Flow</p>
                 </div>
+                
                 <div class="dashboard_setup_box business_settings_box not_done_setup_box" data-toggle="modal"
                     data-target="#shopSettingsModal">
                     <div class="dashboard_setup_done_icon">
@@ -166,447 +177,7 @@
     </div>
     <!-- Cerate plug Modal end -->
 
-    <!-- Add New product Modal -->
-    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel">
-        <div class="modal-dialog modal_width_1155" role="document">
-            <div class="modal-content">
-                <div class="modal-body addProductModal_body">
-                    <div class="row">
-                        <div class="col-md-2 back_btn_txt">
-                            <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
-                                    class="back_btn_img" src="{{ asset('admin/assets/img/dashboard/back-arrow.svg') }}" alt="">
-                                <span>Back</span></a>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="text-center">
-                                <h3 class="modal_title">Add a Physical Product</h3>
-                                <p class="modal_subtitle ">Add your physical product by filling the fields
-                                    below.
-                                </p>
-                            </div>
 
-                        </div>
-                        <div class="col-md-2 save_btn_txt text-right">
-                            <button class="theme_btn ripple_btn dark_btn ">Save</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 m-auto">
-                            <div class="add_product_form mt-3">
-                                <form class="addproduct" id="addproduct">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="title">Title<span>*</span></label>
-                                                <input type="text" class="form-control form_field"
-                                                    placeholder="Enter your product title" id="title" name="title">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="Category">Category</label>
-                                                <select type="text" class="form-control form_field" name="category"
-                                                    id="category">
-                                                    <option value="General">General</option>
-                                                    <option value="Advertising">Advertising</option>
-                                                    <option value="Antiques">Antiques</option>
-                                                    <option value="Art">Art</option>
-                                                    <option value="Baby">Baby</option>
-                                                    <option value="Books">Books</option>
-                                                    <option value="Business &amp; Industrial">Business &amp;
-                                                        Industrial
-                                                    </option>
-                                                    <option value="Cameras &amp; Photo">Cameras &amp; Photo
-                                                    </option>
-                                                    <option value="Cell Phones &amp; Accessories">Cell
-                                                        Phones &amp;
-                                                        Accessories</option>
-                                                    <option value="Clothing, Shoes &amp; Accessories">
-                                                        Clothing, Shoes
-                                                        &amp; Accessories</option>
-                                                    <option value="Coins &amp; Paper Money">Coins &amp;
-                                                        Paper Money
-                                                    </option>
-                                                    <option value="Collectibles">Collectibles</option>
-                                                    <option value="Computing">Computing</option>
-                                                    <option value="Consumer Electronics">Consumer
-                                                        Electronics</option>
-                                                    <option value="Crafts">Crafts</option>
-                                                    <option value="Children Clothing">Children Clothing
-                                                    </option>
-                                                    <option value="Dolls &amp; Bears">Dolls &amp; Bears
-                                                    </option>
-                                                    <option value="DVDs &amp; Movies">DVDs &amp; Movies
-                                                    </option>
-                                                    <option value="Entertainment Memorabilia">Entertainment
-                                                        Memorabilia
-                                                    </option>
-                                                    <option value="Food &amp; Beverages">Food &amp;
-                                                        Beverages</option>
-                                                    <option value="Gift Cards &amp; Coupons">Gift Cards
-                                                        &amp; Coupons
-                                                    </option>
-                                                    <option value="Health &amp; Beauty">Health &amp; Beauty
-                                                    </option>
-                                                    <option value="Home &amp; Garden">Home &amp; Garden
-                                                    </option>
-                                                    <option value="Jewelry &amp; Watches">Jewelry &amp;
-                                                        Watches</option>
-                                                    <option value="Music">Music</option>
-                                                    <option value="Musical Gear">Musical Gear</option>
-                                                    <option value="Motors">Motors</option>
-                                                    <option value="Pets">Pets</option>
-                                                    <option value="Pottery &amp; Glass">Pottery &amp; Glass
-                                                    </option>
-                                                    <option value="Sporting Goods">Sporting Goods</option>
-                                                    <option value="Sports Memorabilia">Sports Memorabilia
-                                                    </option>
-                                                    <option value="Stamps">Stamps</option>
-                                                    <option value="Toys &amp; Hobbies">Toys &amp; Hobbies
-                                                    </option>
-                                                    <option value="Video Games &amp; Consoles">Video Games
-                                                        &amp;
-                                                        Consoles</option>
-                                                    <option value="Restaurants">Restaurants</option>
-                                                    <option value="Other">Other</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label for="title">Price<span>*</span></label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <select class="form-control form_field" id="product_currency"
-                                                        name="product_currency">
-                                                        <option value="EUR">EUR</option>
-                                                        <option value="GBP">GBP</option>
-                                                        <option value="USD">USD</option>
-                                                        <option value="AUD">AUD</option>
-                                                        <option value="CAD">CAD</option>
-                                                        <option value="SEK">SEK</option>
-                                                        <option value="BRL">BRL</option>
-                                                        <option value="CZK">CZK</option>
-                                                        <option value="DKK">DKK</option>
-                                                        <option value="HKD">HKD</option>
-                                                        <option value="ILS">ILS</option>
-                                                        <option value="MYR">MYR</option>
-                                                        <option value="MXN">MXN</option>
-                                                        <option value="NOK">NOK</option>
-                                                        <option value="NZD">NZD</option>
-                                                        <option value="PHP">PHP</option>
-                                                        <option value="PLN">PLN</option>
-                                                        <option value="RUB">RUB</option>
-                                                        <option value="SGD">SGD</option>
-                                                        <option value="CHF">CHF</option>
-                                                        <option value="CNY">CNY</option>
-                                                        <option value="ISK">ISK</option>
-                                                        <option value="THB">THB</option>
-                                                        <option value="HUF">HUF</option>
-                                                        <option value="BGN">BGN</option>
-                                                        <option value="RON">RON</option>
-                                                        <option value="HRK">HRK</option>
-                                                        <option value="KRW">KRW</option>
-                                                        <option value="ZAR">ZAR</option>
-                                                        <option value="PKR">PKR</option>
-                                                        <option value="XCD">XCD</option>
-                                                        <option value="IDR">IDR</option>
-                                                        <option value="INR" selected="selected">INR</option>
-                                                        <option value="TRY">TRY</option>
-                                                        <option value="JPY">JPY</option>
-                                                        <option value="VND">VND</option>
-                                                        <option value="TWD">TWD</option>
-                                                        <option value="COP">COP</option>
-                                                        <option value="PEN">PEN</option>
-                                                        <option value="AED">AED</option>
-                                                        <option value="SAR">SAR</option>
-                                                        <option value="BHD">BHD</option>
-                                                        <option value="NGN">NGN</option>
-                                                        <option value="TZS">TZS</option>
-                                                        <option value="GHS">GHS</option>
-                                                        <option value="NAD">NAD</option>
-                                                        <option value="BWP">BWP</option>
-                                                        <option value="QAR">QAR</option>
-                                                        <option value="BDT">BDT</option>
-                                                    </select>
-                                                </div>
-                                                <input type="text" class="form-control form_field" id="product_price"
-                                                    name="product_price" placeholder="Enter a price">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="title">Order Limit</label>
-                                                <input type="text" class="form-control form_field" name="order_limit"
-                                                    id="order_limit" placeholder="Enter a limit (optional)">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label for="title">Stock<span>*</span></label>
-                                            <input type="text" class="form-control form_field" name="order_limit"
-                                                id="order_limit" placeholder="Enter Stock"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="title">Short Description</label>
-                                                <input type="text" class="form-control form_field"
-                                                    placeholder="Short Description" id="short_description"
-                                                    name="short_description">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="title">Long Description</label>
-                                                <textarea id="long_description" name="long_description"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form_images_upload">
-                                                <label class="form_inner_label">Images</label>
-                                                <p class="big">Product images are really important for
-                                                    customers to
-                                                    make
-                                                    a decision whether to buy or not. So pick photos that
-                                                    make your
-                                                    product shine.</p>
-                                            </div>
-                                            <span class="upload_image_area"></span>
-                                            <div class="dropzone" id="myDropzone"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col-sm-12">
-                                            <div class="form_images_upload">
-                                                <label class="form_inner_label">Variations</label>
-                                                <p class="big">You can use variations if you have multiple
-                                                    types of
-                                                    the
-                                                    same product. Let’s say you have a T-Shirt, which is in
-                                                    S and M
-                                                    but
-                                                    also blue or red, you can create a variation for each of
-                                                    them.
-                                                </p>
-                                                <p class="big">Please note that the first option in the
-                                                    table will
-                                                    be
-                                                    automatically added in the cart at the Checkout.</p>
-                                                <a class="big themecolor" id="add_variation">Add
-                                                    variations</a>
-                                            </div>
-                                            <div class="product_variations_form">
-                                                <div class="row ">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="usr">Option 1</label>
-                                                            <input type="text" class="form-control form_field"
-                                                                id="option1" name="option1" placeholder="Enter a label">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="control-group form-group">
-                                                            <label for="variation_one">Press enter to add an
-                                                                option
-                                                                and
-                                                                backspace to remove
-                                                            </label>
-                                                            <input type="text" id="variation_one"
-                                                                class="variation_one demo-default "
-                                                                placeholder="Enter variations options">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row ">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="usr">Option 2</label>
-                                                            <input type="text" class="form-control form_field"
-                                                                id="option2" placeholder="Enter a label" name="option2">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="control-group form-group">
-                                                            <label for="variation_two">Press enter to add an
-                                                                option
-                                                                and
-                                                                backspace to remove
-                                                            </label>
-                                                            <input type="text" id="variation_two"
-                                                                class="variation_two demo-default"
-                                                                placeholder="Enter variations options">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="variation_table_data">
-                                                    <table class="table variations_table" id="variations_table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th></th>
-                                                                <th scope="col" id="opt_label1">Option 1
-                                                                </th>
-                                                                <th scope="col" id="opt_label2">Option 2
-                                                                </th>
-                                                                <th scope="col" class="price_filed">Price
-                                                                </th>
-                                                                <th scope="col" class="quantity_filed">
-                                                                    Quantity</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <p class="variation_row"></p>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col-sm-12">
-                                            <div class="form_images_upload">
-                                                <label class="form_inner_label">Product Dimensions</label>
-                                                <p class="big">Product dimensions are important when
-                                                    calculating
-                                                    shipping rates, since rates different from package size
-                                                    to
-                                                    package
-                                                    size.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label for="title">Weight (kg)*</label>
-                                                <input type="text" class="form-control form_field" placeholder="in kgs"
-                                                    id="short_description" name="short_description">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <div class="row">
-                                                <div class="product_dimension">
-                                                    <label for="title">Height (cm)</label>
-                                                    <input type="text" class="height_field form-control form_field"
-                                                        placeholder="in cm">
-                                                </div>
-                                                <div class="product_dimension">
-                                                    <label for="title">Length (cm)</label>
-                                                    <input type="text" class="length_field form-control form_field"
-                                                        placeholder="in cm">
-                                                </div>
-                                                <div class="product_dimension">
-                                                    <label for="title">Width (cm)</label>
-                                                    <input type="text" class="width_field form-control form_field"
-                                                        placeholder="in cm">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="row mt-4">
-                            <div class="col-sm-12">
-                                <div class="form_images_upload">
-                                    <label class="form_inner_label">Product Specifications</label>
-                                    <p class="big">Product specifications are optional. They are shown in
-                                        the customer's invoices and during checkout.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="brand">Brand</label>
-                                    <input type="text" class="form-control form_field" placeholder="Apple"
-                                        id="brand" name="brand">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="SKU">SKU</label>
-                                    <input type="text" class="form-control form_field" placeholder="010000"
-                                        id="SKU" name="SKU">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="Model">Model</label>
-                                    <input type="text" class="form-control form_field"
-                                        placeholder="iPhone X" id="model" name="model">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="ISBN">ISBN</label>
-                                    <input type="text" class="form-control form_field"
-                                        placeholder="978-3-16-148410-0" id="ISBN" name="ISBN">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="UPC">UPC</label>
-                                    <input type="text" class="form-control form_field"
-                                        placeholder="065100004327 X" id="UPC" name="UPC">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="EAN">EAN</label>
-                                    <input type="text" class="form-control form_field"
-                                        placeholder="0075678164125" id="EAN" name="EAN">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="GTIN">GTIN</label>
-                                    <input type="text" class="form-control form_field"
-                                        placeholder="065100004327 X" id="GTIN" name="GTIN">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="MPN">MPN</label>
-                                    <input type="text" class="form-control form_field"
-                                        placeholder="0075678164125" id="MPN" name="MPN">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="ASIN">ASIN</label>
-                                    <input type="text" class="form-control form_field"
-                                        placeholder="B0006GQ8RW X" id="ASIN" name="ASIN">
-                                </div>
-                            </div>
-                        </div> -->
-                                    <div class="form_images_upload text-center mt-4">
-                                        <p class="big">Once you are done, click save button below.</p>
-                                        <button class="theme_btn ripple_btn dark_btn product_submit_btn">Save</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- modal-content -->
-        </div>
-        <!-- modal-dialog -->
-    </div>
-    <!-- Add New product Modal end-->
 
     <!-- Shop Settings Modal -->
     <div class="modal fade" id="shopSettingsModal" tabindex="-1" role="dialog" aria-labelledby="shopSettingsModalLabel">
@@ -2056,42 +1627,7 @@
     <!-- checkout Modal end-->
 </div>
 
-<div class="profile_setting_txt">
-            <div class=""><a class="profile_setting_button ripple_btn" id="profile_setting"
-                    ><img src="admin/assets/img/main/apps-icon.svg"></a></div>
-            <div class="profile_setting_box">
 
-                <div class="profile_setting_inner_top">
-                    <p class="whitelabel_txt" id="superbolt_text" data-toggle="modal" data-target="#superboltsModal">
-                        <img class="white_label_img" src="admin/assets/img/main/spb-logo-square-white.svg"><span>NEW!
-                            Superbolts: re-sell sanalpos.co whitelabel</span></p>
-                    <img class="profile_setting_close_btn" src="admin/assets/img/main/icon-close.svg" alt="">
-                </div>
-                <div class="profile_setting_inner_btm">
-                    @foreach ($response as $data)
-                    <div id="edit_profile" class="edit_profile_text" data-toggle="modal"
-                        data-target="#editProfileModal">
-                        <img class="edit_profile_img" src="admin/assets/img/main/no-avatar.svg" alt="">
-                        <div class="edit_profile_inner">
-                            <p class="ellipsis_text profile-name mb-0"><b> {{ $data->first_name }}
-                                    {{ $data->last_name }}</b></p>
-                            <p class="mb-0">Edit Profile</p>
-                        </div>
-                    </div>
-                    @endforeach
-                    <a class="logout_profile_text ripple_btn" href="{{ url('logout') }}">
-                        <img src="admin/assets/img/main/logout.svg" alt="">
-                        <p class="mb-0" p>Logout</p>
-                    </a>
-                    <div id="support_profile" class="support_profile_text ripple_btn" data-toggle="modal"
-                        data-target="#supportModal">
-                        <img src="admin/assets/img/main/live-help.svg" alt="">
-                        <p class="mb-0">Support</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
 @endsection
 @section('scripts')
 <script>

@@ -37,13 +37,16 @@ Route::post('getproduct/{id}', 'admin\ProductContrller@getproduct');
 Route::post('editproduct/{id}', 'admin\ProductContrller@editproduct');
 Route::post('saveproductimage', 'admin\ProductContrller@saveproductimage');
 Route::post('delete_product_image/{id}', 'admin\ProductContrller@deleteproductimage');
+Route::get('l/{link}', 'admin\ProductContrller@productlink');
+Route::get('cart/{link}', 'admin\ProductContrller@productlinkdata');
 
 Route::post('imageupload', 'admin\ProductContrller@saveimage');
 Route::get('pending-orders', 'admin\PendingorderController@index');
+Route::get('ordercount', 'admin\PendingorderController@ordercount');
 
 Route::post('checkout_link', 'admin\ProductplugController@createlink');
-Route::get('{code}', 'admin\ProductplugController@redirectlink');
-Route::get('cart/{code}', 'admin\ProductplugController@cartlink');
+// Route::get('{code}', 'admin\ProductplugController@redirectlink');
+// Route::get('cart/{code}', 'admin\ProductplugController@cartlink');
 
 
 // Route::view('checkout', 'front/pages/checkout');

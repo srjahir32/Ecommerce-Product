@@ -37,6 +37,7 @@
     <script src="{{ asset('front/assets/js/main.js') }}"></script>
 
 
+
     @yield('scripts')
 
 </body>

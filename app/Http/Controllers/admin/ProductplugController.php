@@ -32,7 +32,7 @@ class ProductplugController extends Controller
     }
 
     public function cartlink($code){
-        $user_id = session()->get('user_id');
+        $user_id = session()->get('user')['id'];
         $product_id = Productplug::where('code', $code)->value('product_id');
         $Bearer_token = session()->get('token');
         $data = [

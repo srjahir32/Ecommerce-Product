@@ -20,13 +20,17 @@ class LoginregisterController extends Controller
             'email' => $input['email'],
             'password' => $input['password'],
         ];
-        $request = Request::create('/api/login', 'POST', $data);
+        $request = Request::create(url('/api/login'), 'POST', $data);
         $res = app()->handle($request);
         $response = json_decode($res->getContent(), true);
         if($response['status'] != '0') {
             $token = $response['success']['token'];
+            $user = $response['user'];
             session()->put('token', $token);
-        }      
+            session()->put('user', $user);
+        }   
+       
+        // return $response;   
         return response()->json(['data' =>$response]);
     }
 
@@ -44,10 +48,11 @@ class LoginregisterController extends Controller
         'password' => $input['password'],
         'c_password' => $input['c_password'],
     ];
-    $request = Request::create('/api/register', 'POST', $data);
-    $response = Route::dispatch($request);
+ 
+    $request = Request::create(url('/api/register'), 'POST', $data);
     $res = app()->handle($request);
-    $response = json_decode($res->getContent(), true); 
+    $response = json_decode($res->getContent(), true);
+    
     return response()->json(['data' =>$response]);   
 
    }
