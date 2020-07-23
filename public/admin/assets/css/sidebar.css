@@ -257,11 +257,11 @@ body {
 .sidebar-wrapper .sidebar-menu ul li a span.label,
 .sidebar-wrapper .sidebar-menu ul li a span.badge {
     margin-left: 5px;
-    font-size: 10px;
-    width: 17px;
-    height: 17px;
+    /* font-size: 10px; */
+    /* width: 17px; */
+    /* height: 17px; */
     font-weight: 500;
-    line-height: 13px;
+    /* line-height: 13px; */
 }
 
 .sidebar-wrapper .sidebar-menu .sidebar-submenu {
@@ -272,7 +272,13 @@ body {
     transform: rotate(90deg);
     right: 17px;
 }
-
+.dropdown-menu.setting_droupdown_menu {
+    box-shadow: unset !important;
+    border: 0;
+    background: unset !important;
+    margin-left: 40px !important;
+    margin-top: -10px !important;
+}
 /*--------------------------side-footer------------------------------*/
 
 .sidebar-footer {

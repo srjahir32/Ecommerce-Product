@@ -70,7 +70,7 @@
                 <tr class="product{{$product['id']}}">
                     <td><img src="{{ asset('admin/assets/img/products/placeholder-person.jpg') }}" alt=""
                             class="product_img"><span class="product_name">{{$product['product_name']}}</span></td>
-                    <td><span class="currency_symbol">₹</span><span class="product_price">{{$product['price']}}</span></td>
+                    <td><span class="currency_symbol">₺</span><span class="product_price">{{$product['price']}}</span></td>
                     <td>0</td>
                     <td>
                         <div class="datetime_layout">
@@ -241,7 +241,7 @@
                     <div class="row">
                         <div class="col-md-8 m-auto">
                             <div class="add_product_form mt-3">
-                                <form class="addproduct" id="add_product">
+                                <form class="addproduct" id="add_product" autocomplete="off">
                                     @csrf
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -570,7 +570,7 @@
                                 <div class="view_product_detail_txt">
                                     <label>Price</label>
                                     <p><span
-                                            class="view_product_currency_symbol"><b>₹</b></span ><b id="product_price"></b>
+                                            class="view_product_currency_symbol"><b>₺</b></span ><b id="product_price"></b>
                                     </p>
                                 </div>
                             </div>
@@ -762,7 +762,7 @@
                     <div class="row">
                         <div class="col-md-8 m-auto">
                             <div class="add_product_form mt-3">
-                                <form class="addproduct" id="editproduct">
+                                <form class="addproduct" id="editproduct" autocomplete="off">
                                     <div class="row">
                                         <input type="hidden" id="product_edit_id"
                                             name="product_edit_id">
@@ -1662,7 +1662,7 @@ console.log( local.format('MMMM'), local.format('DD') , local.format('HH'), loca
                             data.id +
                             '"><td><img src="{{ asset("admin/assets/img/products/placeholder-person.jpg") }}" alt=""class="product_img"><span class="product_name">' +
                             data.product_name +
-                            '</span></td><td><span class="currency_symbol">₹</span>' +
+                            '</span></td><td><span class="currency_symbol">₺</span>' +
                             data.price +
                             '</td><td>0</td><td><div class="datetime_layout"><div class="datetime_txt"><p class="month_txt">' +
                             date.format('MMMM') +

@@ -47,14 +47,16 @@ class UserbusinessController extends Controller
         $business_name = $request->input('business_name');
         $address = $request->input('address');
         $city = $request->input('city');
+        $state = $request->input('state');
         $country = $request->input('country');
         $postal_code = $request->input('postal_code');
         $email = $request->input('email');
         $phone = $request->input('phone');
+        $timezone = $request->input('timezone');
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $update_user_business = Userbusiness::where('user_id', $user_id)->update(['business_name' => $business_name, 'address' => $address, 'city' => $city, 'country' => $country, 'postal_code' => $postal_code, 'email' => $email, 'phone' => $phone]);
+        $update_user_business = Userbusiness::where('user_id', $user_id)->update(['business_name' => $business_name, 'address' => $address, 'city' => $city, 'state' => $state, 'country' => $country, 'postal_code' => $postal_code, 'email' => $email, 'phone' => $phone, 'timezone' => $timezone]);
         if ($update_user_business != 1) {
             return response()->json(['message'=>'fail', 'status'=>'0']);
         }

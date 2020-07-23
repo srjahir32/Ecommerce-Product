@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use App\Order;
+use App\Product;
 
 class CreateorderController extends Controller
 {
@@ -18,7 +19,11 @@ class CreateorderController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $order = Order::where('user_id', $user_id)->get();
+        $order = Order::where('user_id', $user_id);
+        if ($request->has('panding_order')) {
+            $order->where('order_status', '=', '0')->orderby('created_at', 'DESC');
+        }
+        $order =  $order->get();
         if($order->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
@@ -47,7 +52,7 @@ class CreateorderController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $view_order = Order::where('id', $order_id)->get();
+        $view_order = Order::join("products", "products.id", "=", "orders.product_id")->select("orders.*", "products.link")->where('orders.id', $order_id)->get();
         if($view_order->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
@@ -85,6 +90,28 @@ class CreateorderController extends Controller
         }
         else {
             return response()->json(['message'=>'success', 'status'=>'1']);
+        }   
+    }
+
+    public function decline(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'order_id' => 'required',
+        ]);
+        $order_id = $request->input("order_id");
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
+        }
+        $decline = Order::where('id', $order_id)->update(['order_status' => '3']);
+        if ($decline != 1) {
+            return response()->json(['message'=>'fail', 'status'=>'0']);
+        }
+        else {
+            $product_data = Order::select('product_id', 'quantity')->where('id', $order_id)->get();
+            $old_stock = Product::where('id', $product_data[0]['product_id'])->value('stock');
+            $new_stock = $old_stock+$product_data[0]['quantity'];
+            Product::where('id', $product_data[0]['product_id'])->update(["stock" => $new_stock]);
+            
+            return response()->json(['message'=>'success', 'status'=>'1' ]);
         }   
     }
 

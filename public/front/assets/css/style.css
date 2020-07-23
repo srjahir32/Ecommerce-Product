@@ -1,4 +1,11 @@
 /*checkout page css start*/
+/*outofstock css*/
+.outofstock_box p {
+    color: #dc3545;
+    margin-top: 15px;
+    font-weight: 700;
+}
+/*outofstock css end*/
 /*header css*/
 .checkout_header {
     text-align: center;
@@ -62,6 +69,9 @@
     display: inline-block;
     color: #FFF;
     font-size: 22px;
+}
+.checkout_form_box {
+    margin-bottom: 65px;
 }
 /*checkout part 1 css*/
 /*right corner css*/
@@ -293,6 +303,7 @@
 .product-description {
     margin-top: 30px;
     margin-bottom: 10px;
+    word-break: break-all;
     display: none;
 }
 .product-description p {
@@ -418,7 +429,7 @@
 
 /*checkout part 2 css*/
 .checkout_part_2 {
-    margin: auto;
+    /* margin: auto; */
     z-index: 1;
     padding: 0;
 }
@@ -488,6 +499,19 @@
     color: #646698;
 }
 /*form css*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+.error {
+    color: red;
+    font-size: 14px;
+}
 #msform {
     text-align: center;
     position: relative;
@@ -527,7 +551,7 @@
     line-height: 14px;
     font-size: 14px;
     position: relative;
-    padding: 10px 10px 6px 20px;
+    padding: 10px 10px 10px 20px;
     width: 100%;
     min-height: 40px;
     height: 40px;
@@ -538,7 +562,7 @@
 #msform input:focus, #msform .form-control:hover, #msform textarea:focus {
     border: 1px solid #466afc;
 }
-#msform .action-button {
+#msform .action-button, .multibtn_tab input.btn {
     background: #02BE11;
     color: white;
     padding: 10px 5px;
@@ -551,6 +575,19 @@
     cursor: pointer;
     margin-top: 20px;
     text-align: center;
+    
+}
+#msform .multibtn_tab input.btn, input.btn.next2.action-button.next_btn {
+
+    width: 40% !important;
+}
+
+#msform input.btn.previous.action-button-previous {
+    width: 40% !important;
+    margin-top: 20px;
+    background: #fff;
+    border: 1px solid #02BE11 !important;
+    color: #02BE11;
 }
 .action-button.next1-disable {
     pointer-events: none;
@@ -568,6 +605,42 @@
     margin-top: 0;
     margin-bottom: 20px;
     color: #646698;
+}
+.card_info {
+    position: relative;
+}
+.card_icon {
+    position: absolute;
+    top: 25px;
+    right: 12px;
+}
+.card_icon img {
+    transition: all 0.40s ease-out;
+}
+#cardnumber {
+    border-radius: 4px 4px 0 0 !important;
+}
+.cardexpiry_info {
+    display: flex;
+}
+.cardexpiry_info input {
+    width: 50% !important;
+    border-top: 0;
+    border-radius: 0 !important;
+    margin-top: 0 !important;
+}
+.cardexpiry_info #cardexpiry {
+    border-bottom-left-radius: 4px !important;
+}
+.cardexpiry_info #cardcvc {
+    border-left: 0;
+    border-bottom-right-radius: 4px !important; 
+}
+#cvc_icon {
+    position: absolute;
+    right: 12px;
+    width: 25px;
+    top: 72px;
 }
 #formdata {
     text-align: left;

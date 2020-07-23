@@ -20,9 +20,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
+Route::post('forgot_password', 'API\UserController@forgot_password');
+Route::post('reset_password', 'API\UserController@reset_password');
 Route::group(['middleware' => 'auth:api'], function(){
     Route::post('logout', 'API\UserController@logout');
     Route::post('user_details', 'API\UserController@userdetails');
+    Route::post('edituser', 'API\UserController@edituser');  
+    Route::post('addpayment', 'API\UserController@addpayment');
     Route::post('products/category', 'API\ProductController@category');
     Route::post('products', 'API\ProductController@index');
     Route::post('products/create', 'API\ProductController@create');
@@ -38,15 +42,21 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('products/addvariation', 'API\ProductController@addvariation');
     Route::post('products/viewvariation', 'API\ProductController@viewvariation');
     Route::post('products/editvariation', 'API\ProductController@editvariation');
+    Route::post('products/search', 'API\ProductController@searchproduct');
     Route::post('business/create', 'API\UserbusinessController@create');
     Route::post('business/view', 'API\UserbusinessController@view');
     Route::post('business/edit', 'API\UserbusinessController@edit');
     Route::post('order', 'API\CreateorderController@index');
-    Route::post('order/create', 'API\CreateorderController@create');
     Route::post('order/view', 'API\CreateorderController@view');
     Route::post('order/approve', 'API\CreateorderController@approve');
     Route::post('order/paid', 'API\CreateorderController@paid');
+    Route::post('order/decline', 'API\CreateorderController@decline');
     Route::post('order/remove', 'API\CreateorderController@remove');
+    Route::post('customer', 'API\CustomerController@index');
+    Route::post('customer/search', 'API\CustomerController@search');
+    Route::post('customer/remove', 'API\CustomerController@remove');
     
 });
+
+Route::post('order/create', 'API\CreateorderController@create');
 
