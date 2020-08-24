@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Productvariation extends Model
+class ProductVariation extends Model
 {
-    protected $table = 'product_variations';
+    // protected $table = 'product_variations';
     public $timestamps = false;
   
 }

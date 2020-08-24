@@ -11,7 +11,7 @@
         </div>
         <div class="header_top">
             <div class="logo">
-                <img class="img-responsive logo_img " src="{{ url('admin/assets/img/logo.png') }}" alt="User picture">
+                <a href="{{url('/dashboard')}}"><img class="img-responsive logo_img " src="{{ url('admin/assets/img/logo.png') }}" alt="User picture"></a>
             </div>
         </div>
         <div class="sidebar-menu">
@@ -55,6 +55,8 @@
                     </a>
                     <div class="dropdown-menu setting_droupdown_menu" aria-labelledby="dropdownMenuLink">
                         <a class="" href="paymentgetway">Payment Gateways</a>
+                        
+                        <a href class="" style="display: none;" id="edit_shop_settings" data-toggle="modal" data-target=" #editshopSettingsModal" >Shop Information</a>
                     </div>
                 </li>
             </ul>

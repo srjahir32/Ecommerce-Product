@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Mail;
 use App\User;
+use App\Product;
+
 
 class OrderController extends Controller
 {
@@ -76,7 +78,7 @@ class OrderController extends Controller
 
             // print_r(json_encode($response));
 
-            if (!curl_exec($ch)) {
+            if (!$response) {
                 // if curl_exec() returned false and thus failed
                 return curl_error($ch);
             } else {
@@ -111,6 +113,11 @@ class OrderController extends Controller
                     $order_data = json_decode($res->getContent(), true);
                     // return $order_data;
                     if($order_data['status'] == "1"){
+
+                        $old_stock = Product::where('id', $input['product_id'])->value('stock');
+                        $new_stock = $old_stock-$input['cart_item'];
+                        Product::where('id', $input['product_id'])->update(["stock" => $new_stock]);
+                        
                         $email =  User::where('id', $input['user_id'])->value('email');
                         $to_seller_email = $email;
                         $to_seller_name = "New sale Ecommerce Product";
@@ -164,6 +171,11 @@ class OrderController extends Controller
                 $order_data = json_decode($res->getContent(), true);
                 // return $order_data;
                 if($order_data['status'] == "1"){
+
+                    $old_stock = Product::where('id', $input['product_id'])->value('stock');
+                    $new_stock = $old_stock-$input['cart_item'];
+                    Product::where('id', $input['product_id'])->update(["stock" => $new_stock]);
+
                     $email =  User::where('id', $input['user_id'])->value('email');
                     $to_seller_email = $email;
                     $to_seller_name = "New sale Ecommerce Product";

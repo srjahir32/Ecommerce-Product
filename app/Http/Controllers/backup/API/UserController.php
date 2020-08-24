@@ -154,8 +154,6 @@ class UserController extends Controller
 
             'last_name' => 'required', 
 
-            'email' => 'required|email', 
-
         ]);
 
         if ($validator->fails()) { 
@@ -170,9 +168,7 @@ class UserController extends Controller
 
         $last_name = $request->input('last_name');
 
-        $email = $request->input('email');
-
-        $edit_user = User::where('id', $user_id)->update(['first_name' => $first_name, 'last_name' => $last_name, 'email' => $email]); 
+        $edit_user = User::where('id', $user_id)->update(['first_name' => $first_name, 'last_name' => $last_name]); 
 
         if ($edit_user != 1) {
 

@@ -11,7 +11,7 @@
             </div>
             <div class="col-sm-6 topbar_right">
                 <div class="topbar_btn">
-                    <button class="theme_btn ripple_btn dark_btn" data-toggle="modal" data-target="#addProductModal">Create Product</button>
+                    <button class="theme_btn ripple_btn dark_btn" id="add_product_btn" data-toggle="modal" data-target="#addProductModal">Create Product</button>
                         
                 </div>
             </div>
@@ -45,6 +45,41 @@
         <p class="follow_setup_step_title">Follow these easy steps to complete your setup</p>
         <div class="row ">
             <div class="col-sm-12 dashboard_setup_step equal_row">
+                <div class="dashboard_setup_box mr-0 business_settings_box done_setup_box" id="done_business_settings_box" style="display:none;">
+                    <div class="dashboard_setup_done_icon">
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <img class="dashboard_setup_box_img m-auto d-block publish_sale_icon"
+                        src="{{ asset('admin/assets/img/dashboard/Setup_Business_Settings_done.svg') }}">
+                    <p class="dashboard_setup_box_txt">Setup Business Settings</p>
+                </div>
+                <div class="dashboard_setup_box business_settings_box not_done_setup_box" data-toggle="modal"
+                    data-target="#shopSettingsModal" id="notdone_business_settings_box">
+                    <div class="dashboard_setup_done_icon">
+                        <i class="far fa-stop"></i>
+                    </div>
+                    <img class="dashboard_setup_box_img m-auto d-block business_settings_icon"
+                        src="{{ asset('admin/assets/img/dashboard/Setup_Business_Settings.svg') }}">
+                    <p class="dashboard_setup_box_txt theme_color">Setup Business Settings</p>
+                </div>
+
+                <div class="dashboard_setup_box checkout_flow_box done_setup_box" id="done_checkout_flow_box" style="display:none;">
+                    <div class="dashboard_setup_done_icon">
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <img class="dashboard_setup_box_img m-auto d-block checkout_flow_icon"
+                        src="{{ asset('admin/assets/img/dashboard/Create_Checkout_Flow_done.svg') }}">
+                    <p class="dashboard_setup_box_txt theme_color">Create Checkout Flow</p>
+                </div>
+                <div class="dashboard_setup_box checkout_flow_box not_done_setup_box" data-toggle="modal" data-target="#checkoutModal" id="not_done_checkout_flow_box">
+                    <div class="dashboard_setup_done_icon">
+                        <i class="far fa-stop"></i>
+                    </div>
+                    <img class="dashboard_setup_box_img m-auto d-block checkout_flow_icon"
+                        src="{{ asset('admin/assets/img/dashboard/Create_Checkout_Flow.svg') }}">
+                    <p class="dashboard_setup_box_txt theme_color">Create Checkout Flow</p>
+                </div>
+
                 <div class="dashboard_setup_box ml-0 done_setup_box" id="done_add_product_box" style="display:none;">
                     <div class="dashboard_setup_done_icon">
                         <i class="fa fa-check"></i>
@@ -63,43 +98,7 @@
                         src="{{ asset('admin/assets/img/dashboard/Add_Product.svg') }}">
                     <p class="dashboard_setup_box_txt">Add Product or Service</p>
                 </div>
-
-                <div class="dashboard_setup_box checkout_flow_box done_setup_box" id="done_checkout_flow_box" style="display:none;">
-                <div class="dashboard_setup_done_icon">
-                        <i class="fa fa-check"></i>
-                    </div>
-                    <img class="dashboard_setup_box_img m-auto d-block checkout_flow_icon"
-                        src="{{ asset('admin/assets/img/dashboard/Create_Checkout_Flow_done.svg') }}">
-                    <p class="dashboard_setup_box_txt theme_color">Create Checkout Flow</p>
-                </div>
-                <div class="dashboard_setup_box checkout_flow_box not_done_setup_box" data-toggle="modal" data-target="#checkoutModal" id="not_done_checkout_flow_box">
-                    <div class="dashboard_setup_done_icon">
-                        <i class="far fa-stop"></i>
-                    </div>
-                    <img class="dashboard_setup_box_img m-auto d-block checkout_flow_icon"
-                        src="{{ asset('admin/assets/img/dashboard/Create_Checkout_Flow.svg') }}">
-                    <p class="dashboard_setup_box_txt theme_color">Create Checkout Flow</p>
-                </div>
-                               
-                <div class="dashboard_setup_box mr-0 business_settings_box done_setup_box" id="done_business_settings_box" style="display:none;">
-                    <div class="dashboard_setup_done_icon">
-                        <i class="fa fa-check"></i>
-                    </div>
-                    <img class="dashboard_setup_box_img m-auto d-block publish_sale_icon"
-                        src="{{ asset('admin/assets/img/dashboard/Setup_Business_Settings_done.svg') }}">
-                    <p class="dashboard_setup_box_txt">Setup Business Settings</p>
-                </div>
-                
-                <div class="dashboard_setup_box business_settings_box not_done_setup_box" data-toggle="modal"
-                    data-target="#shopSettingsModal" id="notdone_business_settings_box">
-                    <div class="dashboard_setup_done_icon">
-                        <i class="far fa-stop"></i>
-                    </div>
-                    <img class="dashboard_setup_box_img m-auto d-block business_settings_icon"
-                        src="{{ asset('admin/assets/img/dashboard/Setup_Business_Settings.svg') }}">
-                    <p class="dashboard_setup_box_txt theme_color">Setup Business Settings</p>
-                </div>
-                
+              
                 <div class="dashboard_setup_box mr-0">
                     <div class="dashboard_setup_done_icon">
                         <i class="fa fa-check"></i>
@@ -122,7 +121,7 @@
 
             </ul>
         </div>
-        <div class="dashboard_graph_tab_top_txt">
+        <div class="dashboard_graph_tab_top_txt d-none">
             <div class="row">
                 <div class="col-sm-4 total_revenue_txt">
                     <p class="graph_tab_top_title_txt">Total Revenue</p>
@@ -142,12 +141,52 @@
                 </div>
             </div>
         </div>
-        <div class="tab-content chart_container ">
+        <div class="tab-content chart_container">
             <div class="tab-pane fade show active" id="day_tab">
-                <div id="chart"></div>
+                <div id="chart" class="d-none"></div>
+                <div class="dashboard_graph_tab_top_txt">
+                    <div class="row">
+                        <div class="col-sm-4 total_revenue_txt">
+                            <p class="graph_tab_top_title_txt">Total Revenue</p>
+                            <p class="graph_tab_icon_txt"><span class="currency_icon">₺</span><span id="week_total_revenue">0</span></p>
+                            <p class="graph_tab_btm_title_txt">New</p>
+                        </div>
+                        <div class="col-sm-4 active_customers_txt">
+                            <p class="graph_tab_top_title_txt">Active Customers</p>
+                            <p class="graph_tab_icon_txt"><i class="fa fa-user pnp-text-color5"></i><span id="week_active_customers">0</span></p>
+                            <p class="graph_tab_btm_title_txt">New</p>
+                        </div>
+                        <div class="col-sm-4 products_sold_txt">
+                            <p class="graph_tab_top_title_txt">Products Sold</p>
+                            <p class="graph_tab_icon_txt"><img class="updown_arrow_img"
+                                    src="{{ asset('admin/assets/img/dashboard/products_sold.svg') }}"><span id="week_products_sold">0</span></p>
+                            <p class="graph_tab_btm_title_txt">New</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane fade" id="month_tab">
-                <div id="chart"></div>
+                <div id="chart" class="d-none"></div>
+                <div class="dashboard_graph_tab_top_txt">
+                    <div class="row">
+                        <div class="col-sm-4 total_revenue_txt">
+                            <p class="graph_tab_top_title_txt">Total Revenue</p>
+                            <p class="graph_tab_icon_txt"><span class="currency_icon">₺</span><span id="month_total_revenue">0</span></p>
+                            <p class="graph_tab_btm_title_txt">New</p>
+                        </div>
+                        <div class="col-sm-4 active_customers_txt">
+                            <p class="graph_tab_top_title_txt">Active Customers</p>
+                            <p class="graph_tab_icon_txt"><i class="fa fa-user pnp-text-color5"></i><span id="month_active_customers">0</span></p>
+                            <p class="graph_tab_btm_title_txt">New</p>
+                        </div>
+                        <div class="col-sm-4 products_sold_txt">
+                            <p class="graph_tab_top_title_txt">Products Sold</p>
+                            <p class="graph_tab_icon_txt"><img class="updown_arrow_img"
+                                    src="{{ asset('admin/assets/img/dashboard/products_sold.svg') }}"><span id="month_products_sold">0</span></p>
+                            <p class="graph_tab_btm_title_txt">New</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- End Tabs -->
@@ -181,7 +220,7 @@
                                     invoices.</p>
                             </div>
                             <div class="add_product_form">
-                                <form class="addproduct" id="business_setting_form">
+                                <form class="addproduct" id="business_setting_form" autocomplete="off">
                               
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -480,7 +519,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="title">Telephone</label>
-                                                <div class="input-group input_group_field">
+                                                <div class="input-group input_group_field" id="telephone_number">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" id="prefix_number">
                                                             +90</span>
@@ -498,726 +537,97 @@
                                                 <label for="country">Timezone</label>
                                                 <select type="text" class="form-control form_field" name="timezone"
                                                     id="timezone">
-                                                    <option value="Europe/Andorra">Europe - Andorra</option>
-                                                    <option value="Asia/Dubai">Asia - Dubai</option>
-                                                    <option value="Asia/Kabul">Asia - Kabul</option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="Europe/Tirane">Europe - Tirane</option>
-                                                    <option value="Asia/Yerevan">Asia - Yerevan</option>
-                                                    <option value="Africa/Lagos">Africa - Lagos</option>
-                                                    <option value="Antarctica/Casey">Antarctica - Casey
-                                                    </option>
-                                                    <option value="Antarctica/Davis">Antarctica - Davis
-                                                    </option>
-                                                    <option value="Antarctica/DumontDUrville">Antarctica -
-                                                        Dumont
-                                                        D'Urville
-                                                    </option>
-                                                    <option value="Antarctica/Mawson">Antarctica - Mawson
-                                                    </option>
-                                                    <option value="Antarctica/Palmer">Antarctica - Palmer
-                                                    </option>
-                                                    <option value="Antarctica/Rothera">Antarctica - Rothera
-                                                    </option>
-                                                    <option value="Antarctica/Syowa">Antarctica - Syowa
-                                                    </option>
-                                                    <option value="Antarctica/Troll">Antarctica - Troll
-                                                    </option>
-                                                    <option value="Antarctica/Vostok">Antarctica - Vostok
-                                                    </option>
-                                                    <option value="Pacific/Auckland">Pacific - Auckland
-                                                    </option>
-                                                    <option value="America/Argentina/Buenos_Aires">America -
-                                                        Buenos
-                                                        Aires,
-                                                        Argentina</option>
-                                                    <option value="America/Argentina/Cordoba">America -
-                                                        Cordoba,
-                                                        Argentina
-                                                    </option>
-                                                    <option value="America/Argentina/Salta">America - Salta,
-                                                        Argentina
-                                                    </option>
-                                                    <option value="America/Argentina/Jujuy">America - Jujuy,
-                                                        Argentina
-                                                    </option>
-                                                    <option value="America/Argentina/Tucuman">America -
-                                                        Tucuman,
-                                                        Argentina
-                                                    </option>
-                                                    <option value="America/Argentina/Catamarca">America -
-                                                        Catamarca,
-                                                        Argentina
-                                                    </option>
-                                                    <option value="America/Argentina/La_Rioja">America - La
-                                                        Rioja,
-                                                        Argentina
-                                                    </option>
-                                                    <option value="America/Argentina/San_Juan">America - San
-                                                        Juan,
-                                                        Argentina
-                                                    </option>
-                                                    <option value="America/Argentina/Mendoza">America -
-                                                        Mendoza,
-                                                        Argentina
-                                                    </option>
-                                                    <option value="America/Argentina/San_Luis">America - San
-                                                        Luis,
-                                                        Argentina
-                                                    </option>
-                                                    <option value="America/Argentina/Rio_Gallegos">America -
-                                                        Rio
-                                                        Gallegos,
-                                                        Argentina</option>
-                                                    <option value="America/Argentina/Ushuaia">America -
-                                                        Ushuaia,
-                                                        Argentina
-                                                    </option>
-                                                    <option value="Pacific/Pago_Pago">Pacific - Pago Pago
-                                                    </option>
-                                                    <option value="Europe/Vienna">Europe - Vienna</option>
-                                                    <option value="Australia/Lord_Howe">Australia - Lord
-                                                        Howe</option>
-                                                    <option value="Antarctica/Macquarie">Antarctica -
-                                                        Macquarie</option>
-                                                    <option value="Australia/Hobart">Australia - Hobart
-                                                    </option>
-                                                    <option value="Australia/Currie">Australia - Currie
-                                                    </option>
-                                                    <option value="Australia/Melbourne">Australia -
-                                                        Melbourne</option>
-                                                    <option value="Australia/Sydney">Australia - Sydney
-                                                    </option>
-                                                    <option value="Australia/Broken_Hill">Australia - Broken
-                                                        Hill
-                                                    </option>
-                                                    <option value="Australia/Brisbane">Australia - Brisbane
-                                                    </option>
-                                                    <option value="Australia/Lindeman">Australia - Lindeman
-                                                    </option>
-                                                    <option value="Australia/Adelaide">Australia - Adelaide
-                                                    </option>
-                                                    <option value="Australia/Darwin">Australia - Darwin
-                                                    </option>
-                                                    <option value="Australia/Perth">Australia - Perth
-                                                    </option>
-                                                    <option value="Australia/Eucla">Australia - Eucla
-                                                    </option>
-                                                    <option value="America/Curacao">America - Curacao
-                                                    </option>
-                                                    <option value="Europe/Helsinki">Europe - Helsinki
-                                                    </option>
-                                                    <option value="Asia/Baku">Asia - Baku</option>
-                                                    <option value="Europe/Belgrade">Europe - Belgrade
-                                                    </option>
-                                                    <option value="America/Barbados">America - Barbados
-                                                    </option>
-                                                    <option value="Asia/Dhaka">Asia - Dhaka</option>
-                                                    <option value="Europe/Brussels">Europe - Brussels
-                                                    </option>
-                                                    <option value="Africa/Abidjan">Africa - Abidjan</option>
-                                                    <option value="Europe/Sofia">Europe - Sofia</option>
-                                                    <option value="Asia/Qatar">Asia - Qatar</option>
-                                                    <option value="Africa/Maputo">Africa - Maputo</option>
-                                                    <option value="Africa/Lagos">Africa - Lagos</option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="Atlantic/Bermuda">Atlantic - Bermuda
-                                                    </option>
-                                                    <option value="Asia/Brunei">Asia - Brunei</option>
-                                                    <option value="America/La_Paz">America - La Paz</option>
-                                                    <option value="America/Curacao">America - Curacao
-                                                    </option>
-                                                    <option value="America/Noronha">America - Noronha
-                                                    </option>
-                                                    <option value="America/Belem">America - Belem</option>
-                                                    <option value="America/Fortaleza">America - Fortaleza
-                                                    </option>
-                                                    <option value="America/Recife">America - Recife</option>
-                                                    <option value="America/Araguaina">America - Araguaina
-                                                    </option>
-                                                    <option value="America/Maceio">America - Maceio</option>
-                                                    <option value="America/Bahia">America - Bahia</option>
-                                                    <option value="America/Sao_Paulo">America - Sao Paulo
-                                                    </option>
-                                                    <option value="America/Campo_Grande">America - Campo
-                                                        Grande</option>
-                                                    <option value="America/Cuiaba">America - Cuiaba</option>
-                                                    <option value="America/Santarem">America - Santarem
-                                                    </option>
-                                                    <option value="America/Porto_Velho">America - Porto
-                                                        Velho</option>
-                                                    <option value="America/Boa_Vista">America - Boa Vista
-                                                    </option>
-                                                    <option value="America/Manaus">America - Manaus</option>
-                                                    <option value="America/Eirunepe">America - Eirunepe
-                                                    </option>
-                                                    <option value="America/Rio_Branco">America - Rio Branco
-                                                    </option>
-                                                    <option value="America/Nassau">America - Nassau</option>
-                                                    <option value="Asia/Thimphu">Asia - Thimphu</option>
-                                                    <option value="Africa/Maputo">Africa - Maputo</option>
-                                                    <option value="Europe/Minsk">Europe - Minsk</option>
-                                                    <option value="America/Belize">America - Belize</option>
-                                                    <option value="America/St_Johns">America - St Johns
-                                                    </option>
-                                                    <option value="America/Halifax">America - Halifax
-                                                    </option>
-                                                    <option value="America/Glace_Bay">America - Glace Bay
-                                                    </option>
-                                                    <option value="America/Moncton">America - Moncton
-                                                    </option>
-                                                    <option value="America/Goose_Bay">America - Goose Bay
-                                                    </option>
-                                                    <option value="America/Blanc-Sablon">America -
-                                                        Blanc-Sablon</option>
-                                                    <option value="America/Toronto">America - Toronto
-                                                    </option>
-                                                    <option value="America/Nipigon">America - Nipigon
-                                                    </option>
-                                                    <option value="America/Thunder_Bay">America - Thunder
-                                                        Bay</option>
-                                                    <option value="America/Iqaluit">America - Iqaluit
-                                                    </option>
-                                                    <option value="America/Pangnirtung">America -
-                                                        Pangnirtung</option>
-                                                    <option value="America/Atikokan">America - Atikokan
-                                                    </option>
-                                                    <option value="America/Winnipeg">America - Winnipeg
-                                                    </option>
-                                                    <option value="America/Rainy_River">America - Rainy
-                                                        River</option>
-                                                    <option value="America/Resolute">America - Resolute
-                                                    </option>
-                                                    <option value="America/Rankin_Inlet">America - Rankin
-                                                        Inlet</option>
-                                                    <option value="America/Regina">America - Regina</option>
-                                                    <option value="America/Swift_Current">America - Swift
-                                                        Current
-                                                    </option>
-                                                    <option value="America/Edmonton">America - Edmonton
-                                                    </option>
-                                                    <option value="America/Cambridge_Bay">America -
-                                                        Cambridge Bay
-                                                    </option>
-                                                    <option value="America/Yellowknife">America -
-                                                        Yellowknife</option>
-                                                    <option value="America/Inuvik">America - Inuvik</option>
-                                                    <option value="America/Creston">America - Creston
-                                                    </option>
-                                                    <option value="America/Dawson_Creek">America - Dawson
-                                                        Creek</option>
-                                                    <option value="America/Fort_Nelson">America - Fort
-                                                        Nelson</option>
-                                                    <option value="America/Vancouver">America - Vancouver
-                                                    </option>
-                                                    <option value="America/Whitehorse">America - Whitehorse
-                                                    </option>
-                                                    <option value="America/Dawson">America - Dawson</option>
-                                                    <option value="Indian/Cocos">Indian - Cocos</option>
-                                                    <option value="Africa/Maputo">Africa - Maputo</option>
-                                                    <option value="Africa/Lagos">Africa - Lagos</option>
-                                                    <option value="Africa/Lagos">Africa - Lagos</option>
-                                                    <option value="Africa/Lagos">Africa - Lagos</option>
-                                                    <option value="Europe/Zurich">Europe - Zurich</option>
-                                                    <option value="Africa/Abidjan">Africa - Abidjan</option>
-                                                    <option value="Pacific/Rarotonga">Pacific - Rarotonga
-                                                    </option>
-                                                    <option value="America/Santiago">America - Santiago
-                                                    </option>
-                                                    <option value="America/Punta_Arenas">America - Punta
-                                                        Arenas</option>
-                                                    <option value="Pacific/Easter">Pacific - Easter</option>
-                                                    <option value="Africa/Lagos">Africa - Lagos</option>
-                                                    <option value="Asia/Shanghai">Asia - Shanghai</option>
-                                                    <option value="Asia/Urumqi">Asia - Urumqi</option>
-                                                    <option value="America/Bogota">America - Bogota</option>
-                                                    <option value="America/Costa_Rica">America - Costa Rica
-                                                    </option>
-                                                    <option value="America/Havana">America - Havana</option>
-                                                    <option value="Atlantic/Cape_Verde">Atlantic - Cape
-                                                        Verde</option>
-                                                    <option value="America/Curacao">America - Curacao
-                                                    </option>
-                                                    <option value="Indian/Christmas">Indian - Christmas
-                                                    </option>
-                                                    <option value="Asia/Nicosia">Asia - Nicosia</option>
-                                                    <option value="Asia/Famagusta">Asia - Famagusta</option>
-                                                    <option value="Europe/Prague">Europe - Prague</option>
-                                                    <option value="Europe/Berlin">Europe - Berlin</option>
-                                                    <option value="Europe/Zurich">Europe - Zurich</option>
-                                                    <option value="Africa/Nairobi">Africa - Nairobi</option>
-                                                    <option value="Europe/Copenhagen">Europe - Copenhagen
-                                                    </option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="America/Santo_Domingo">America - Santo
-                                                        Domingo
-                                                    </option>
-                                                    <option value="Africa/Algiers">Africa - Algiers</option>
-                                                    <option value="America/Guayaquil">America - Guayaquil
-                                                    </option>
-                                                    <option value="Pacific/Galapagos">Pacific - Galapagos
-                                                    </option>
-                                                    <option value="Europe/Tallinn">Europe - Tallinn</option>
-                                                    <option value="Africa/Cairo">Africa - Cairo</option>
-                                                    <option value="Africa/El_Aaiun">Africa - El Aaiun
-                                                    </option>
-                                                    <option value="Africa/Nairobi">Africa - Nairobi</option>
-                                                    <option value="Europe/Madrid">Europe - Madrid</option>
-                                                    <option value="Africa/Ceuta">Africa - Ceuta</option>
-                                                    <option value="Atlantic/Canary">Atlantic - Canary
-                                                    </option>
-                                                    <option value="Africa/Nairobi">Africa - Nairobi</option>
-                                                    <option value="Europe/Helsinki">Europe - Helsinki
-                                                    </option>
-                                                    <option value="Pacific/Fiji">Pacific - Fiji</option>
-                                                    <option value="Atlantic/Stanley">Atlantic - Stanley
-                                                    </option>
-                                                    <option value="Pacific/Chuuk">Pacific - Chuuk</option>
-                                                    <option value="Pacific/Pohnpei">Pacific - Pohnpei
-                                                    </option>
-                                                    <option value="Pacific/Kosrae">Pacific - Kosrae</option>
-                                                    <option value="Atlantic/Faroe">Atlantic - Faroe</option>
-                                                    <option value="Europe/Paris">Europe - Paris</option>
-                                                    <option value="Africa/Lagos">Africa - Lagos</option>
-                                                    <option value="Europe/London">Europe - London</option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="Asia/Tbilisi">Asia - Tbilisi</option>
-                                                    <option value="America/Cayenne">America - Cayenne
-                                                    </option>
-                                                    <option value="Europe/London">Europe - London</option>
-                                                    <option value="Africa/Accra">Africa - Accra</option>
-                                                    <option value="Europe/Gibraltar">Europe - Gibraltar
-                                                    </option>
-                                                    <option value="America/Godthab">America - Godthab
-                                                    </option>
-                                                    <option value="America/Danmarkshavn">America -
-                                                        Danmarkshavn</option>
-                                                    <option value="America/Scoresbysund">America -
-                                                        Scoresbysund</option>
-                                                    <option value="America/Thule">America - Thule</option>
-                                                    <option value="Africa/Abidjan">Africa - Abidjan</option>
-                                                    <option value="Africa/Abidjan">Africa - Abidjan</option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="Africa/Lagos">Africa - Lagos</option>
-                                                    <option value="Europe/Athens">Europe - Athens</option>
-                                                    <option value="Atlantic/South_Georgia">Atlantic - South
-                                                        Georgia
-                                                    </option>
-                                                    <option value="America/Guatemala">America - Guatemala
-                                                    </option>
-                                                    <option value="Pacific/Guam">Pacific - Guam</option>
-                                                    <option value="Africa/Bissau">Africa - Bissau</option>
-                                                    <option value="America/Guyana">America - Guyana</option>
-                                                    <option value="Asia/Hong_Kong">Asia - Hong Kong</option>
-                                                    <option value="America/Tegucigalpa">America -
-                                                        Tegucigalpa</option>
-                                                    <option value="Europe/Belgrade">Europe - Belgrade
-                                                    </option>
-                                                    <option value="America/Port-au-Prince">America -
-                                                        Port-au-Prince
-                                                    </option>
-                                                    <option value="Europe/Budapest">Europe - Budapest
-                                                    </option>
-                                                    <option value="Asia/Jakarta">Asia - Jakarta</option>
-                                                    <option value="Asia/Pontianak">Asia - Pontianak</option>
-                                                    <option value="Asia/Makassar">Asia - Makassar</option>
-                                                    <option value="Asia/Jayapura">Asia - Jayapura</option>
-                                                    <option value="Europe/Dublin">Europe - Dublin</option>
-                                                    <option value="Asia/Jerusalem">Asia - Jerusalem</option>
-                                                    <option value="Europe/London">Europe - London</option>
-                                                    <option data-country="IN" selected="selected" value="Asia/Kolkata">
-                                                        Asia - Kolkata</option>
-                                                    <option value="Indian/Chagos">Indian - Chagos</option>
-                                                    <option value="Asia/Baghdad">Asia - Baghdad</option>
-                                                    <option value="Asia/Tehran">Asia - Tehran</option>
-                                                    <option value="Atlantic/Reykjavik">Atlantic - Reykjavik
-                                                    </option>
-                                                    <option value="Europe/Rome">Europe - Rome</option>
-                                                    <option value="Europe/London">Europe - London</option>
-                                                    <option value="America/Jamaica">America - Jamaica
-                                                    </option>
-                                                    <option value="Asia/Amman">Asia - Amman</option>
-                                                    <option value="Asia/Tokyo">Asia - Tokyo</option>
-                                                    <option value="Africa/Nairobi">Africa - Nairobi</option>
-                                                    <option value="Asia/Bishkek">Asia - Bishkek</option>
-                                                    <option value="Asia/Bangkok">Asia - Bangkok</option>
-                                                    <option value="Pacific/Tarawa">Pacific - Tarawa</option>
-                                                    <option value="Pacific/Enderbury">Pacific - Enderbury
-                                                    </option>
-                                                    <option value="Pacific/Kiritimati">Pacific - Kiritimati
-                                                    </option>
-                                                    <option value="Africa/Nairobi">Africa - Nairobi</option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="Asia/Pyongyang">Asia - Pyongyang</option>
-                                                    <option value="Asia/Seoul">Asia - Seoul</option>
-                                                    <option value="Asia/Riyadh">Asia - Riyadh</option>
-                                                    <option value="America/Panama">America - Panama</option>
-                                                    <option value="Asia/Almaty">Asia - Almaty</option>
-                                                    <option value="Asia/Qyzylorda">Asia - Qyzylorda</option>
-                                                    <option value="Asia/Qostanay">Asia - Qostanay</option>
-                                                    <option value="Asia/Aqtobe">Asia - Aqtobe</option>
-                                                    <option value="Asia/Aqtau">Asia - Aqtau</option>
-                                                    <option value="Asia/Atyrau">Asia - Atyrau</option>
-                                                    <option value="Asia/Oral">Asia - Oral</option>
-                                                    <option value="Asia/Bangkok">Asia - Bangkok</option>
-                                                    <option value="Asia/Beirut">Asia - Beirut</option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="Europe/Zurich">Europe - Zurich</option>
-                                                    <option value="Asia/Colombo">Asia - Colombo</option>
-                                                    <option value="Africa/Monrovia">Africa - Monrovia
-                                                    </option>
-                                                    <option value="Africa/Johannesburg">Africa -
-                                                        Johannesburg</option>
-                                                    <option value="Europe/Vilnius">Europe - Vilnius</option>
-                                                    <option value="Europe/Luxembourg">Europe - Luxembourg
-                                                    </option>
-                                                    <option value="Europe/Riga">Europe - Riga</option>
-                                                    <option value="Africa/Tripoli">Africa - Tripoli</option>
-                                                    <option value="Africa/Casablanca">Africa - Casablanca
-                                                    </option>
-                                                    <option value="Europe/Monaco">Europe - Monaco</option>
-                                                    <option value="Europe/Chisinau">Europe - Chisinau
-                                                    </option>
-                                                    <option value="Europe/Belgrade">Europe - Belgrade
-                                                    </option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="Africa/Nairobi">Africa - Nairobi</option>
-                                                    <option value="Pacific/Majuro">Pacific - Majuro</option>
-                                                    <option value="Pacific/Kwajalein">Pacific - Kwajalein
-                                                    </option>
-                                                    <option value="Europe/Belgrade">Europe - Belgrade
-                                                    </option>
-                                                    <option value="Africa/Abidjan">Africa - Abidjan</option>
-                                                    <option value="Asia/Yangon">Asia - Yangon</option>
-                                                    <option value="Asia/Ulaanbaatar">Asia - Ulaanbaatar
-                                                    </option>
-                                                    <option value="Asia/Hovd">Asia - Hovd</option>
-                                                    <option value="Asia/Choibalsan">Asia - Choibalsan
-                                                    </option>
-                                                    <option value="Asia/Macau">Asia - Macau</option>
-                                                    <option value="Pacific/Guam">Pacific - Guam</option>
-                                                    <option value="America/Martinique">America - Martinique
-                                                    </option>
-                                                    <option value="Africa/Abidjan">Africa - Abidjan</option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="Europe/Malta">Europe - Malta</option>
-                                                    <option value="Indian/Mauritius">Indian - Mauritius
-                                                    </option>
-                                                    <option value="Indian/Maldives">Indian - Maldives
-                                                    </option>
-                                                    <option value="Africa/Maputo">Africa - Maputo</option>
-                                                    <option value="America/Mexico_City">America - Mexico
-                                                        City</option>
-                                                    <option value="America/Cancun">America - Cancun</option>
-                                                    <option value="America/Merida">America - Merida</option>
-                                                    <option value="America/Monterrey">America - Monterrey
-                                                    </option>
-                                                    <option value="America/Matamoros">America - Matamoros
-                                                    </option>
-                                                    <option value="America/Mazatlan">America - Mazatlan
-                                                    </option>
-                                                    <option value="America/Chihuahua">America - Chihuahua
-                                                    </option>
-                                                    <option value="America/Ojinaga">America - Ojinaga
-                                                    </option>
-                                                    <option value="America/Hermosillo">America - Hermosillo
-                                                    </option>
-                                                    <option value="America/Tijuana">America - Tijuana
-                                                    </option>
-                                                    <option value="America/Bahia_Banderas">America - Bahia
-                                                        Banderas
-                                                    </option>
-                                                    <option value="Asia/Kuala_Lumpur">Asia - Kuala Lumpur
-                                                    </option>
-                                                    <option value="Asia/Kuching">Asia - Kuching</option>
-                                                    <option value="Africa/Maputo">Africa - Maputo</option>
-                                                    <option value="Africa/Windhoek">Africa - Windhoek
-                                                    </option>
-                                                    <option value="Pacific/Noumea">Pacific - Noumea</option>
-                                                    <option value="Africa/Lagos">Africa - Lagos</option>
-                                                    <option value="Pacific/Norfolk">Pacific - Norfolk
-                                                    </option>
-                                                    <option value="Africa/Lagos">Africa - Lagos</option>
-                                                    <option value="America/Managua">America - Managua
-                                                    </option>
-                                                    <option value="Europe/Amsterdam">Europe - Amsterdam
-                                                    </option>
-                                                    <option value="Europe/Oslo">Europe - Oslo</option>
-                                                    <option value="Asia/Kathmandu">Asia - Kathmandu</option>
-                                                    <option value="Pacific/Nauru">Pacific - Nauru</option>
-                                                    <option value="Pacific/Niue">Pacific - Niue</option>
-                                                    <option value="Pacific/Auckland">Pacific - Auckland
-                                                    </option>
-                                                    <option value="Pacific/Chatham">Pacific - Chatham
-                                                    </option>
-                                                    <option value="Asia/Dubai">Asia - Dubai</option>
-                                                    <option value="America/Panama">America - Panama</option>
-                                                    <option value="America/Lima">America - Lima</option>
-                                                    <option value="Pacific/Tahiti">Pacific - Tahiti</option>
-                                                    <option value="Pacific/Marquesas">Pacific - Marquesas
-                                                    </option>
-                                                    <option value="Pacific/Gambier">Pacific - Gambier
-                                                    </option>
-                                                    <option value="Pacific/Port_Moresby">Pacific - Port
-                                                        Moresby</option>
-                                                    <option value="Pacific/Bougainville">Pacific -
-                                                        Bougainville</option>
-                                                    <option value="Asia/Manila">Asia - Manila</option>
-                                                    <option value="Asia/Karachi">Asia - Karachi</option>
-                                                    <option value="Europe/Warsaw">Europe - Warsaw</option>
-                                                    <option value="America/Miquelon">America - Miquelon
-                                                    </option>
-                                                    <option value="Pacific/Pitcairn">Pacific - Pitcairn
-                                                    </option>
-                                                    <option value="America/Puerto_Rico">America - Puerto
-                                                        Rico</option>
-                                                    <option value="Asia/Gaza">Asia - Gaza</option>
-                                                    <option value="Asia/Hebron">Asia - Hebron</option>
-                                                    <option value="Europe/Lisbon">Europe - Lisbon</option>
-                                                    <option value="Atlantic/Madeira">Atlantic - Madeira
-                                                    </option>
-                                                    <option value="Atlantic/Azores">Atlantic - Azores
-                                                    </option>
-                                                    <option value="Pacific/Palau">Pacific - Palau</option>
-                                                    <option value="America/Asuncion">America - Asuncion
-                                                    </option>
-                                                    <option value="Asia/Qatar">Asia - Qatar</option>
-                                                    <option value="Indian/Reunion">Indian - Reunion</option>
-                                                    <option value="Europe/Bucharest">Europe - Bucharest
-                                                    </option>
-                                                    <option value="Europe/Belgrade">Europe - Belgrade
-                                                    </option>
-                                                    <option value="Europe/Kaliningrad">Europe - Kaliningrad
-                                                    </option>
-                                                    <option value="Europe/Moscow">Europe - Moscow</option>
-                                                    <option value="Europe/Simferopol">Europe - Simferopol
-                                                    </option>
-                                                    <option value="Europe/Kirov">Europe - Kirov</option>
-                                                    <option value="Europe/Astrakhan">Europe - Astrakhan
-                                                    </option>
-                                                    <option value="Europe/Volgograd">Europe - Volgograd
-                                                    </option>
-                                                    <option value="Europe/Saratov">Europe - Saratov</option>
-                                                    <option value="Europe/Ulyanovsk">Europe - Ulyanovsk
-                                                    </option>
-                                                    <option value="Europe/Samara">Europe - Samara</option>
-                                                    <option value="Asia/Yekaterinburg">Asia - Yekaterinburg
-                                                    </option>
-                                                    <option value="Asia/Omsk">Asia - Omsk</option>
-                                                    <option value="Asia/Novosibirsk">Asia - Novosibirsk
-                                                    </option>
-                                                    <option value="Asia/Barnaul">Asia - Barnaul</option>
-                                                    <option value="Asia/Tomsk">Asia - Tomsk</option>
-                                                    <option value="Asia/Novokuznetsk">Asia - Novokuznetsk
-                                                    </option>
-                                                    <option value="Asia/Krasnoyarsk">Asia - Krasnoyarsk
-                                                    </option>
-                                                    <option value="Asia/Irkutsk">Asia - Irkutsk</option>
-                                                    <option value="Asia/Chita">Asia - Chita</option>
-                                                    <option value="Asia/Yakutsk">Asia - Yakutsk</option>
-                                                    <option value="Asia/Khandyga">Asia - Khandyga</option>
-                                                    <option value="Asia/Vladivostok">Asia - Vladivostok
-                                                    </option>
-                                                    <option value="Asia/Ust-Nera">Asia - Ust-Nera</option>
-                                                    <option value="Asia/Magadan">Asia - Magadan</option>
-                                                    <option value="Asia/Sakhalin">Asia - Sakhalin</option>
-                                                    <option value="Asia/Srednekolymsk">Asia - Srednekolymsk
-                                                    </option>
-                                                    <option value="Asia/Kamchatka">Asia - Kamchatka</option>
-                                                    <option value="Asia/Anadyr">Asia - Anadyr</option>
-                                                    <option value="Africa/Maputo">Africa - Maputo</option>
-                                                    <option value="Asia/Riyadh">Asia - Riyadh</option>
-                                                    <option value="Pacific/Guadalcanal">Pacific -
-                                                        Guadalcanal</option>
-                                                    <option value="Indian/Mahe">Indian - Mahe</option>
-                                                    <option value="Africa/Khartoum">Africa - Khartoum
-                                                    </option>
-                                                    <option value="Europe/Stockholm">Europe - Stockholm
-                                                    </option>
-                                                    <option value="Asia/Singapore">Asia - Singapore</option>
-                                                    <option value="Africa/Abidjan">Africa - Abidjan</option>
-                                                    <option value="Europe/Belgrade">Europe - Belgrade
-                                                    </option>
-                                                    <option value="Europe/Oslo">Europe - Oslo</option>
-                                                    <option value="Europe/Prague">Europe - Prague</option>
-                                                    <option value="Africa/Abidjan">Africa - Abidjan</option>
-                                                    <option value="Europe/Rome">Europe - Rome</option>
-                                                    <option value="Africa/Abidjan">Africa - Abidjan</option>
-                                                    <option value="Africa/Nairobi">Africa - Nairobi</option>
-                                                    <option value="America/Paramaribo">America - Paramaribo
-                                                    </option>
-                                                    <option value="Africa/Juba">Africa - Juba</option>
-                                                    <option value="Africa/Sao_Tome">Africa - Sao Tome
-                                                    </option>
-                                                    <option value="America/El_Salvador">America - El
-                                                        Salvador</option>
-                                                    <option value="America/Curacao">America - Curacao
-                                                    </option>
-                                                    <option value="Asia/Damascus">Asia - Damascus</option>
-                                                    <option value="Africa/Johannesburg">Africa -
-                                                        Johannesburg</option>
-                                                    <option value="America/Grand_Turk">America - Grand Turk
-                                                    </option>
-                                                    <option value="Africa/Ndjamena">Africa - Ndjamena
-                                                    </option>
-                                                    <option value="Indian/Kerguelen">Indian - Kerguelen
-                                                    </option>
-                                                    <option value="Indian/Reunion">Indian - Reunion</option>
-                                                    <option value="Africa/Abidjan">Africa - Abidjan</option>
-                                                    <option value="Asia/Bangkok">Asia - Bangkok</option>
-                                                    <option value="Asia/Dushanbe">Asia - Dushanbe</option>
-                                                    <option value="Pacific/Fakaofo">Pacific - Fakaofo
-                                                    </option>
-                                                    <option value="Asia/Dili">Asia - Dili</option>
-                                                    <option value="Asia/Ashgabat">Asia - Ashgabat</option>
-                                                    <option value="Africa/Tunis">Africa - Tunis</option>
-                                                    <option value="Pacific/Tongatapu">Pacific - Tongatapu
-                                                    </option>
-                                                    <option value="Europe/Istanbul">Europe - Istanbul
-                                                    </option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="Pacific/Funafuti">Pacific - Funafuti
-                                                    </option>
-                                                    <option value="Asia/Taipei">Asia - Taipei</option>
-                                                    <option value="Africa/Nairobi">Africa - Nairobi</option>
-                                                    <option value="Europe/Kiev">Europe - Kiev</option>
-                                                    <option value="Europe/Uzhgorod">Europe - Uzhgorod
-                                                    </option>
-                                                    <option value="Europe/Zaporozhye">Europe - Zaporozhye
-                                                    </option>
-                                                    <option value="Europe/Simferopol">Europe - Simferopol
-                                                    </option>
-                                                    <option value="Africa/Nairobi">Africa - Nairobi</option>
-                                                    <option value="Pacific/Wake">Pacific - Wake</option>
-                                                    <option value="Pacific/Pago_Pago">Pacific - Pago Pago
-                                                    </option>
-                                                    <option value="Pacific/Honolulu">Pacific - Honolulu
-                                                    </option>
-                                                    <option value="America/New_York">America - New York
-                                                    </option>
-                                                    <option value="America/Detroit">America - Detroit
-                                                    </option>
-                                                    <option value="America/Kentucky/Louisville">America -
-                                                        Louisville,
-                                                        Kentucky
-                                                    </option>
-                                                    <option value="America/Kentucky/Monticello">America -
-                                                        Monticello,
-                                                        Kentucky
-                                                    </option>
-                                                    <option value="America/Indiana/Indianapolis">America -
-                                                        Indianapolis,
-                                                        Indiana
-                                                    </option>
-                                                    <option value="America/Indiana/Vincennes">America -
-                                                        Vincennes,
-                                                        Indiana
-                                                    </option>
-                                                    <option value="America/Indiana/Winamac">America -
-                                                        Winamac, Indiana
-                                                    </option>
-                                                    <option value="America/Indiana/Marengo">America -
-                                                        Marengo, Indiana
-                                                    </option>
-                                                    <option value="America/Indiana/Petersburg">America -
-                                                        Petersburg,
-                                                        Indiana
-                                                    </option>
-                                                    <option value="America/Indiana/Vevay">America - Vevay,
-                                                        Indiana
-                                                    </option>
-                                                    <option value="America/Chicago">America - Chicago
-                                                    </option>
-                                                    <option value="America/Indiana/Tell_City">America - Tell
-                                                        City,
-                                                        Indiana
-                                                    </option>
-                                                    <option value="America/Indiana/Knox">America - Knox,
-                                                        Indiana
-                                                    </option>
-                                                    <option value="America/Menominee">America - Menominee
-                                                    </option>
-                                                    <option value="America/North_Dakota/Center">America -
-                                                        Center, North
-                                                        Dakota
-                                                    </option>
-                                                    <option value="America/North_Dakota/New_Salem">America -
-                                                        New Salem,
-                                                        North
-                                                        Dakota</option>
-                                                    <option value="America/North_Dakota/Beulah">America -
-                                                        Beulah, North
-                                                        Dakota
-                                                    </option>
-                                                    <option value="America/Denver">America - Denver</option>
-                                                    <option value="America/Boise">America - Boise</option>
-                                                    <option value="America/Phoenix">America - Phoenix
-                                                    </option>
-                                                    <option value="America/Los_Angeles">America - Los
-                                                        Angeles</option>
-                                                    <option value="America/Anchorage">America - Anchorage
-                                                    </option>
-                                                    <option value="America/Juneau">America - Juneau</option>
-                                                    <option value="America/Sitka">America - Sitka</option>
-                                                    <option value="America/Metlakatla">America - Metlakatla
-                                                    </option>
-                                                    <option value="America/Yakutat">America - Yakutat
-                                                    </option>
-                                                    <option value="America/Nome">America - Nome</option>
-                                                    <option value="America/Adak">America - Adak</option>
-                                                    <option value="Pacific/Honolulu">Pacific - Honolulu
-                                                    </option>
-                                                    <option value="America/Montevideo">America - Montevideo
-                                                    </option>
-                                                    <option value="Asia/Samarkand">Asia - Samarkand</option>
-                                                    <option value="Asia/Tashkent">Asia - Tashkent</option>
-                                                    <option value="Europe/Rome">Europe - Rome</option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="America/Caracas">America - Caracas
-                                                    </option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="America/Port_of_Spain">America - Port of
-                                                        Spain
-                                                    </option>
-                                                    <option value="Asia/Ho_Chi_Minh">Asia - Ho Chi Minh
-                                                    </option>
-                                                    <option value="Asia/Bangkok">Asia - Bangkok</option>
-                                                    <option value="Pacific/Efate">Pacific - Efate</option>
-                                                    <option value="Pacific/Wallis">Pacific - Wallis</option>
-                                                    <option value="Pacific/Apia">Pacific - Apia</option>
-                                                    <option value="Asia/Riyadh">Asia - Riyadh</option>
-                                                    <option value="Africa/Nairobi">Africa - Nairobi</option>
-                                                    <option value="Africa/Johannesburg">Africa -
-                                                        Johannesburg</option>
-                                                    <option value="Africa/Maputo">Africa - Maputo</option>
-                                                    <option value="Africa/Maputo">Africa - Maputo</option>
+                                                    <option value="">Select Timezone</option>
+                                                    <option value="Pacific/Midway">Midway Island, Samoa (GMT-11:00)</option>
+                                                    <option value="America/Adak">Hawaii-Aleutian (GMT-10:00)</option>
+                                                    <option value="Etc/GMT+10">Hawaii (GMT-10:00)</option>
+                                                    <option value="Pacific/Marquesas">Marquesas Islands (GMT-09:30)</option>
+                                                    <option value="Pacific/Gambier">Gambier Islands (GMT-09:00)</option>
+                                                    <option value="America/Anchorage">Alaska (GMT-09:00)</option>
+                                                    <option value="America/Ensenada">Tijuana, Baja California (GMT-08:00)</option>
+                                                    <option value="Etc/GMT+8">Pitcairn Islands (GMT-08:00)</option>
+                                                    <option value="America/Los_Angeles">Pacific Time (US & Canada) (GMT-08:00)</option>
+                                                    <option value="America/Denver">Mountain Time (US & Canada) (GMT-07:00)</option>
+                                                    <option value="America/Chihuahua">Chihuahua, La Paz, Mazatlan (GMT-07:00)</option>
+                                                    <option value="America/Dawson_Creek">Arizona (GMT-07:00)</option>
+                                                    <option value="America/Belize">Saskatchewan, Central America (GMT-06:00)</option>
+                                                    <option value="America/Cancun">Guadalajara, Mexico City, Monterrey (GMT-06:00)</option>
+                                                    <option value="Chile/EasterIsland">Easter Island (GMT-06:00)</option>
+                                                    <option value="America/Chicago">Central Time (US & Canada) (GMT-06:00)</option>
+                                                    <option value="America/New_York">Eastern Time (US & Canada) (GMT-05:00)</option>
+                                                    <option value="America/Havana">Cuba (GMT-05:00)</option>
+                                                    <option value="America/Bogota">Bogota, Lima, Quito, Rio Branco (GMT-05:00)</option>
+                                                    <option value="America/Caracas">Caracas (GMT-04:30)</option>
+                                                    <option value="America/Santiago">Santiago (GMT-04:00)</option>
+                                                    <option value="America/La_Paz">La Paz (GMT-04:00)</option>
+                                                    <option value="Atlantic/Stanley">Faukland Islands (GMT-04:00)</option>
+                                                    <option value="America/Campo_Grande">Brazil (GMT-04:00)</option>
+                                                    <option value="America/Goose_Bay">Atlantic Time (Goose Bay) (GMT-04:00)</option>
+                                                    <option value="America/Glace_Bay">Atlantic Time (Canada) (GMT-04:00)</option>
+                                                    <option value="America/St_Johns">Newfoundland (GMT-03:30)</option>
+                                                    <option value="America/Araguaina">UTC-3 (GMT-03:00)</option>
+                                                    <option value="America/Montevideo">Montevideo (GMT-03:00)</option>
+                                                    <option value="America/Miquelon">Miquelon, St. Pierre (GMT-03:00)</option>
+                                                    <option value="America/Godthab">Greenland (GMT-03:00)</option>
+                                                    <option value="America/Argentina/Buenos_Aires">Buenos Aires (GMT-03:00)</option>
+                                                    <option value="America/Sao_Paulo">Brasilia (GMT-03:00)</option>
+                                                    <option value="America/Noronha">Mid-Atlantic (GMT-02:00)</option>
+                                                    <option value="Atlantic/Cape_Verde">Cape Verde Is. (GMT-01:00)</option>
+                                                    <option value="Atlantic/Azores">Azores (GMT-01:00)</option>
+                                                    <option value="Europe/Belfast">Greenwich Mean Time : Belfast (GMT)</option>
+                                                    <option value="Europe/Dublin">Greenwich Mean Time : Dublin (GMT)</option>
+                                                    <option value="Europe/Lisbon">Greenwich Mean Time : Lisbon (GMT)</option>
+                                                    <option value="Europe/London">Greenwich Mean Time : London (GMT)</option>
+                                                    <option value="Africa/Abidjan">Monrovia, Reykjavik (GMT)</option>
+                                                    <option value="Europe/Amsterdam">Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna (GMT+01:00)</option>
+                                                    <option value="Europe/Belgrade">Belgrade, Bratislava, Budapest, Ljubljana, Prague (GMT+01:00)</option>
+                                                    <option value="Europe/Brussels">Brussels, Copenhagen, Madrid, Paris (GMT+01:00)</option>
+                                                    <option value="Africa/Algiers">West Central Africa (GMT+01:00)</option>
+                                                    <option value="Africa/Windhoek">Windhoek (GMT+01:00)</option>
+                                                    <option value="Asia/Beirut">Beirut (GMT+02:00)</option>
+                                                    <option value="Africa/Cairo">Cairo (GMT+02:00)</option>
+                                                    <option value="Asia/Gaza">Gaza (GMT+02:00)</option>
+                                                    <option value="Africa/Blantyre">Harare, Pretoria (GMT+02:00)</option>
+                                                    <option value="Asia/Jerusalem">Jerusalem (GMT+02:00)</option>
+                                                    <option value="Europe/Minsk">Minsk (GMT+02:00)</option>
+                                                    <option value="Asia/Damascus">Syria (GMT+02:00)</option>
+                                                    <option value="Europe/Moscow">Moscow, St. Petersburg, Volgograd (GMT+03:00)</option>
+                                                    <option value="Africa/Addis_Ababa">Nairobi (GMT+03:00)</option>
+                                                    <option value="Asia/Tehran">Tehran (GMT+03:30)</option>
+                                                    <option value="Asia/Dubai">Abu Dhabi, Muscat (GMT+04:00)</option>
+                                                    <option value="Asia/Yerevan">Yerevan (GMT+04:00)</option>
+                                                    <option value="Asia/Kabul">Kabul (GMT+04:30)</option>
+                                                    <option value="Asia/Yekaterinburg">Ekaterinburg (GMT+05:00)</option>
+                                                    <option value="Asia/Tashkent">Tashkent (GMT+05:00)</option>
+                                                    <option value="Asia/Kolkata">Chennai, Kolkata, Mumbai, New Delhi (GMT+05:30)</option>
+                                                    <option value="Asia/Katmandu">Kathmandu (GMT+05:45)</option>
+                                                    <option value="Asia/Dhaka">Astana, Dhaka (GMT+06:00)</option>
+                                                    <option value="Asia/Novosibirsk">Novosibirsk (GMT+06:00)</option>
+                                                    <option value="Asia/Rangoon">Yangon (Rangoon) (GMT+06:30)</option>
+                                                    <option value="Asia/Bangkok">Bangkok, Hanoi, Jakarta (GMT+07:00)</option>
+                                                    <option value="Asia/Krasnoyarsk">Krasnoyarsk (GMT+07:00)</option>
+                                                    <option value="Asia/Hong_Kong">Beijing, Chongqing, Hong Kong, Urumqi (GMT+08:00)</option>
+                                                    <option value="Asia/Irkutsk">Irkutsk, Ulaan Bataar (GMT+08:00)</option>
+                                                    <option value="Australia/Perth">Perth (GMT+08:00)</option>
+                                                    <option value="Australia/Eucla">Eucla (GMT+08:45)</option>
+                                                    <option value="Asia/Tokyo">Osaka, Sapporo, Tokyo (GMT+09:00)</option>
+                                                    <option value="Asia/Seoul">Seoul (GMT+09:00)</option>
+                                                    <option value="Asia/Yakutsk">Yakutsk (GMT+09:00)</option>
+                                                    <option value="Australia/Adelaide">Adelaide (GMT+09:30)</option>
+                                                    <option value="Australia/Darwin">Darwin (GMT+09:30)</option>
+                                                    <option value="Australia/Brisbane">Brisbane (GMT+10:00)</option>
+                                                    <option value="Australia/Hobart">Hobart (GMT+10:00)</option>
+                                                    <option value="Asia/Vladivostok">Vladivostok (GMT+10:00)</option>
+                                                    <option value="Australia/Lord_Howe">Lord Howe Island (GMT+10:30)</option>
+                                                    <option value="Etc/GMT-11">Solomon Is., New Caledonia (GMT+11:00)</option>
+                                                    <option value="Asia/Magadan">Magadan (GMT+11:00)</option>
+                                                    <option value="Pacific/Norfolk">Norfolk Island (GMT+11:30)</option>
+                                                    <option value="Asia/Anadyr">Anadyr, Kamchatka (GMT+12:00)</option>
+                                                    <option value="Pacific/Auckland">Auckland, Wellington (GMT+12:00)</option>
+                                                    <option value="Etc/GMT-12">Fiji, Kamchatka, Marshall Is. (GMT+12:00)</option>
+                                                    <option value="Pacific/Chatham">Chatham Islands (GMT+12:45)</option>
+                                                    <option value="Pacific/Tongatapu">Nuku'alofa (GMT+13:00)</option>
+                                                    <option value="Pacific/Kiritimati">Kiritimati (GMT+14:00)</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -1236,7 +646,7 @@
 
                                 </form>
                             </div>
-                            <div class="shopshetting_billinginformation">
+                            <div class="shopshetting_billinginformation d-none">
                                 <h4 class="mb-3">Other Shop Settings</h4>
                                 <div class="row other_shop_settings">
                                     <div class="col-sm-5 equal_row">
@@ -1295,7 +705,7 @@
                             tangible goods and services</p>
 
                     </div>
-                    <form class="stockmanagement_form" id="stockmanagement_form">
+                    <form class="stockmanagement_form" id="stockmanagement_form" autocomplete="off">
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
@@ -1312,7 +722,7 @@
                             runs out of
                             stock, it will not be available for purchase.</p>
                         <div class="">
-                            <button class="theme_btn ripple_btn dark_btn w-100 ml-0">save</button>
+                            <input type="button" class="theme_btn ripple_btn dark_btn w-100 ml-0" value="save">
                         </div>
                     </form>
                 </div>
@@ -1342,7 +752,7 @@
                             whitelist and default rounding method</p>
 
                     </div>
-                    <form class="currency_whitelist_form" id="currency_whitelist_form">
+                    <form class="currency_whitelist_form" id="currency_whitelist_form" autocomplete="off">
                     
                         <div class="row">
                             <div class="col-sm-12">
@@ -1545,7 +955,7 @@
                             </div>
                         </div>
                         <div class="currency_whitelist_btn">
-                            <button class="theme_btn ripple_btn dark_btn w-100 ml-0">save</button>
+                            <input type="button" class="theme_btn ripple_btn dark_btn w-100 ml-0" value="save">
                         </div>
                     </form>
                 </div>
@@ -1688,133 +1098,7 @@
 
 @endsection
 @section('scripts')
-<script>
-    $("#starrate").click(function() {
-        $(".rating_area_inner").show();
-    })
-    $("#country_name").change(function(){
-    var prefix =$(this).find(":selected").attr("data-prefix");
-        $("#prefix_number").text(prefix);
-    })
-</script>
-<script>
-    //get dashboard data detail
-    $(document).ready(function() {
 
-        $.ajax({
-
-            headers: {
-
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
-            },
-
-            url: "{{ url('getdashboarddata') }}/" + {{Session::get('user')['id']}},
-            type: "POST",
-
-            success: function(res) {
-
-                console.log(res);
-
-                if (res['data']['businessdata']['status'] == "1") {
-                    $("#done_business_settings_box").show();
-                    $("#notdone_business_settings_box").hide();
-
-                } else {
-
-                    $("#done_business_settings_box").hide();
-                    $("#notdone_business_settings_box").show();
-                }
-
-                if (res['data']['productdata']['data'].length > 0) {
-                    $("#done_add_product_box").show();
-                    $("#notdone_add_product_box").hide();
-
-                } else {
-                    $("#done_add_product_box").hide();
-                    $("#notdone_add_product_box").show();
-                }
-
-                var res = res['data']['userdata']['success'];
-                if ((res['merchant_name'] == null || res['merchant_name']=='') && (res['merchant_password'] == null || res['merchant_password']=='')) {
-                    $("#done_checkout_flow_box").hide();
-                    $("#not_done_checkout_flow_box").show();                    
-
-                } else {
-                    $("#done_checkout_flow_box").show();
-                    $("#not_done_checkout_flow_box").hide();
-                }
-            },
-
-            error: function(jqXHR, textStatus, errorMessage) {
-
-                console.log(errorMessage); // Optional
-
-            }
-
-        });
-    });
-    //save business setting detail
-    $("#save_business_setting").click(function() {
-
-        $.ajax({
-
-            headers: {
-
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
-            },
-
-            url: "{{ url('bussiness_data') }}",
-
-            type: "POST",
-
-            data: $("#business_setting_form").serialize(),
-
-            success: function(res) {
-
-                console.log(res);
-
-
-
-                if (res['data']['status'] == "1") {
-                    $("#business_setting_form")[0].reset();
-                    $("#status").html(
-                        '<div class="alert alert-success"><strong>Success!</strong> Business Setting create Successfully.</div>'
-                    );
-                    setTimeout(function() {
-
-                        $(".alert").css("display", "none");
-
-                    }, 3000);
-                    $("#shopSettingsModal").modal('hide');
-                    $("#done_business_settings_box").show();
-                    $("#notdone_business_settings_box").hide();
-
-                } else {
-                    $("#status").html(
-                        '<div class="alert alert-danger"><strong>Fail!</strong> Something Wrong.</div>'
-                    );
-                    setTimeout(function() {
-                        $(".alert").css("display", "none");
-                    }, 3000);
-                    $("#done_business_settings_box").hide();
-                    $("#notdone_business_settings_box").show();
-                }
-
-
-
-            },
-
-            error: function(jqXHR, textStatus, errorMessage) {
-
-                console.log(errorMessage); // Optional
-
-            }
-
-        });
-    });
-</script>
 <script>
 var options = {
     chart: {

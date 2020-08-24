@@ -34,7 +34,8 @@ class PendingorderController extends Controller
 
         $data = [
 
-            'user_id' => $user_id
+            'user_id' => $user_id,
+            'panding_order' => 1
 
         ];        
 
@@ -250,7 +251,14 @@ class PendingorderController extends Controller
 
         $orderdetail = json_decode($res->getContent(), true); 
 
-        return response()->json(['data' => $orderdetail]);
+        $customer_email = $orderdetail['data'][0]['customer_email'];
+        $user_id = $orderdetail['data'][0]['user_id'];
+
+        $customerorder = Order::join("products", "products.id", "=", "orders.product_id")->select("orders.*", "products.link")->where([['orders.customer_email', $customer_email], ['orders.user_id', $user_id]])->get();
+
+        // return response()->json(['data' => $orderdetail]);
+
+        return response()->json(['data' => ['orderdetail' => $orderdetail, 'customerorder' => $customerorder]]);
 
     }
 

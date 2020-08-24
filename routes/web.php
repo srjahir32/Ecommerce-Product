@@ -39,19 +39,19 @@ Route::post('getdashboarddata/{id}', 'admin\DashboardController@getdashboarddata
 Route::post('get_bussiness_data', 'admin\DashboardController@viewbussinesssetting');
 Route::post('edit_bussiness_data', 'admin\DashboardController@editbussinesssetting');
 
-Route::get('product', 'admin\ProductContrller@index');
-Route::get('product_list', 'admin\ProductContrller@productlist');
-Route::post('product_data', 'admin\ProductContrller@saveproduct');
-Route::post('deleteproduct/{id}', 'admin\ProductContrller@deleteproduct');
-Route::post('getproduct/{id}', 'admin\ProductContrller@getproduct');
-Route::post('editproduct/{id}', 'admin\ProductContrller@editproduct');
-Route::post('saveproductimage', 'admin\ProductContrller@saveproductimage');
-Route::post('delete_product_image/{id}', 'admin\ProductContrller@deleteproductimage');
+Route::get('product', 'admin\ProductController@index');
+Route::get('product_list', 'admin\ProductController@productlist');
+Route::post('product_data', 'admin\ProductController@saveproduct');
+Route::post('deleteproduct/{id}', 'admin\ProductController@deleteproduct');
+Route::post('getproduct/{id}', 'admin\ProductController@getproduct');
+Route::post('editproduct/{id}', 'admin\ProductController@editproduct');
+Route::post('saveproductimage', 'admin\ProductController@saveproductimage');
+Route::post('delete_product_image/{id}', 'admin\ProductController@deleteproductimage');
 Route::get('l/{link}', 'admin\Checkoutlinkcontroller@productlink');
 Route::get('cart/{link}', 'admin\Checkoutlinkcontroller@productlinkdata');
-Route::post('imageupload', 'admin\ProductContrller@saveimage');
-Route::post('product_serach_data', 'admin\ProductContrller@getserachproduct');
-Route::post('getvariationtable/{id}', 'admin\ProductContrller@getvariationtable');
+Route::post('imageupload', 'admin\ProductController@saveimage');
+Route::post('product_serach_data', 'admin\ProductController@getserachproduct');
+Route::post('getvariationtable/{id}', 'admin\ProductController@getvariationtable');
 
 
 Route::get('pending-orders', 'admin\PendingorderController@index');
@@ -61,6 +61,13 @@ Route::post('declineorder/{id}', 'admin\PendingorderController@declineorder');
 Route::post('paidorder/{id}', 'admin\PendingorderController@paideorder');
 Route::post('vieworderdetail/{id}', 'admin\PendingorderController@getorderdetail');
 Route::post('removeorder/{id}', 'admin\PendingorderController@removeorder');
+
+Route::get('invoices', 'admin\InvoiceController@invoices');
+Route::get('allinvoices', 'admin\InvoiceController@index');
+Route::get('paidinvoices', 'admin\InvoiceController@index');
+Route::get('unpaidinvoices', 'admin\InvoiceController@index');
+Route::get('paidinvoiceslict', 'admin\InvoiceController@paidinvoiceslict');
+Route::get('generate_invoice/{id}','admin\PendingorderController@generateinvoice');
 
 
 Route::post('checkout_link', 'admin\ProductplugController@createlink');

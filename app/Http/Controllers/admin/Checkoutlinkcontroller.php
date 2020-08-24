@@ -4,9 +4,9 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Product;
-use App\Productimage;
+use App\ProductImage;
 use App\User;
-use App\Userbusiness;
+use App\UserBusiness;
 
 class Checkoutlinkcontroller extends Controller
 {
@@ -20,14 +20,14 @@ class Checkoutlinkcontroller extends Controller
 
         $product_id = Product::where('link', $link)->value('id');
         //get product data
-        $cartproduct_data = Product::join('categorys', 'categorys.id', '=', 'products.category_id')->select('products.id', 'products.product_name', 'products.short_desc', 'products.long_desc', 'products.currency', 'products.price', 'products.user_id', 'products.product_type', 'products.category_id', 'categorys.category_name', 'products.order_limit', 'products.stock', 'products.link', 'products.payment_type', 'products.created_at', 'products.updated_at')->where('products.id', $product_id)->get();
+        $cartproduct_data = Product::join('categories', 'categories.id', '=', 'products.category_id')->select('products.id', 'products.product_name', 'products.short_desc', 'products.long_desc', 'products.currency', 'products.price', 'products.user_id', 'products.product_type', 'products.category_id', 'categories.category_name', 'products.order_limit', 'products.stock', 'products.link', 'products.payment_type', 'products.created_at', 'products.updated_at')->where('products.id', $product_id)->get();
         $cartproduct = json_decode($cartproduct_data, true);
         if($cartproduct_data->isEmpty() ){
             return abort(404);
         }
         
         //get product image
-        $product_image = Productimage::where('product_id', $product_id)->get();
+        $product_image = ProductImage::where('product_id', $product_id)->get();
         $productimg = json_decode($product_image, true);
 
         //get user 
@@ -35,7 +35,7 @@ class Checkoutlinkcontroller extends Controller
         $user = User::where('id', $user_id)->get();
         $userdata = json_decode($user, true);
 
-        $business = Userbusiness::where('user_id', $user_id)->get();
+        $business = UserBusiness::where('user_id', $user_id)->get();
         $businessdata = json_decode($business, true);
 
         return view('front.pages.checkout', compact("cartproduct", "productimg", "userdata", "businessdata"));

@@ -42,4 +42,30 @@ class CustomerController extends Controller
         }
         return response()->json(['message'=>'success', 'status'=>'1', 'data'=>$search_customer]);
     }
+
+    public function remove(Request $request) {
+
+        $customer_id = $request->input('customer_id');
+
+        $validator = Validator::make($request->all(), [
+
+            'customer_id' => 'required', 
+
+        ]);
+
+        if ($validator->fails()) { 
+
+            return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
+
+        }
+
+        $delete_customer = Order::where('id', $customer_id)->delete();
+
+        if ($delete_customer != 1) {
+            return response()->json(['message'=>'fail', 'status'=>'0']);
+        }
+        else {
+            return response()->json(['message'=>'success', 'status'=>'1']);
+        }
+    }
 }

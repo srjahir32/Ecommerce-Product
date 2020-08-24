@@ -308,7 +308,9 @@ input[type=text]:disabled {
 .topbar_title_icon {
     width: 50px;
 }
-
+.invoice_top_icon.topbar_title_icon {
+    width: 27px;
+}
 .topbar_title span {
     padding: 0 0 0 25px;
     color: #646698;
@@ -1299,10 +1301,12 @@ table.table.top_table td {
     text-align: right;
 }
 
-.pending_order_table span.order_title {
+.pending_order_table p.order_title, .pending_order_table .total td {
     font-size: 22px;
 }
-
+.pending_order_table td p {
+    margin-bottom: 0;
+}
 .pending_order_table td.right_table_txt {
     text-align: right;
 }
@@ -1721,6 +1725,29 @@ img.adding_restriction_btm_img {
     padding-bottom: 100px;
 }
 
+
+
+/*/////////////////////////////////////////////////////
+                invoices page css
+///////////////////////////////////////////////////////*/
+.dashboard_graph_tab.invoice_graph_tab {
+    padding-bottom: 35px;
+}
+.invoice_counter2 .center_total_revenue {
+    margin-top: -50px;
+}
+.invoices_box .paymnet_getway_img {
+    width: 25%;
+    padding-bottom: 30px;
+}
+.invoices_box .product_type_inner {
+    width: 270px;
+}
+.invoices_box .product_type_link {
+    width: unset;
+    left: 0;
+    right: 0;
+}
 
 /*/////////////////////////////////////////////////////
                paymnet getway page css

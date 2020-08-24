@@ -241,7 +241,7 @@
                     <div class="row">
                         <div class="col-md-8 m-auto">
                             <div class="add_product_form mt-3">
-                                <form class="addproduct" id="add_product">
+                                <form class="addproduct" id="add_product" autocomplete="off">
                                     @csrf
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -762,7 +762,7 @@
                     <div class="row">
                         <div class="col-md-8 m-auto">
                             <div class="add_product_form mt-3">
-                                <form class="addproduct" id="editproduct">
+                                <form class="addproduct" id="editproduct" autocomplete="off">
                                     <div class="row">
                                         <input type="hidden" id="product_edit_id"
                                             name="product_edit_id">

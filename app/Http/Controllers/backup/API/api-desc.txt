@@ -1,74 +1,74 @@
-/* API */
-
-API URL -->> http://127.0.0.1:8000/api/login  - (http://127.0.0.1:8000 (after add api path))
-
-------------------------------------------
-What parameters to be Passed?  See here >>
-------------------------------------------
-
-Use POST method to pass the parameters
-
---------------------------
-user api in UserController
---------------------------
-
-1. user login  =>  /api/login
-    email:test@gmail.com
-    password:1234
-
-2. user register  =>  /api/register
-    first_name:test
-    last_name:test
-    email:test@gmail.com
-    password:1234
-    c_password:1234
-
-3. user logout  =>  /api/logout
-    Authorization:Bearer + token
-
-4. user details  =>  /api/details
-    Authorization:Bearer + token
-
---------------------------------
-product api in ProductController
---------------------------------
-
-1. view all product  =>  /api/products
-
-2. create new product  =>  /api/products/create
-    Authorization:Bearer + token
-    product_name:test product
-    short_desc:product short desc
-    long_desc:product long desc
-    price:100
-    user_id:1
-    product_type:test
-    category_id:1
-
-3. view single product  =>  /api/products/view
-    Authorization:Bearer + token
-    product_id:1
-
-4. edit product  =>  /api/products/edit
-    Authorization:Bearer + token
-    product_id:1
-
-5. remove product  =>  /api/products/remove
-    Authorization:Bearer + token
-    product_id:1
-
-6. store product images  =>  /api/products/addimage
-    Authorization:Bearer + token
-    product_id:1
-    image_path:image path
-
-7. view product image  =>  /api/products/viewimage
-    Authorization:Bearer + token
-    product_id:1
-
-8. remove product image  =>  /api/products/removeimage
-    Authorization:Bearer + token
-    image_id:1
-
-
+/* API */
+
+API URL -->> http://127.0.0.1:8000/api/login  - (http://127.0.0.1:8000 (after add api path))
+
+------------------------------------------
+What parameters to be Passed?  See here >>
+------------------------------------------
+
+Use POST method to pass the parameters
+
+--------------------------
+user api in UserController
+--------------------------
+
+1. user login  =>  /api/login
+    email:test@gmail.com
+    password:1234
+
+2. user register  =>  /api/register
+    first_name:test
+    last_name:test
+    email:test@gmail.com
+    password:1234
+    c_password:1234
+
+3. user logout  =>  /api/logout
+    Authorization:Bearer + token
+
+4. user details  =>  /api/details
+    Authorization:Bearer + token
+
+--------------------------------
+product api in ProductController
+--------------------------------
+
+1. view all product  =>  /api/products
+
+2. create new product  =>  /api/products/create
+    Authorization:Bearer + token
+    product_name:test product
+    short_desc:product short desc
+    long_desc:product long desc
+    price:100
+    user_id:1
+    product_type:test
+    category_id:1
+
+3. view single product  =>  /api/products/view
+    Authorization:Bearer + token
+    product_id:1
+
+4. edit product  =>  /api/products/edit
+    Authorization:Bearer + token
+    product_id:1
+
+5. remove product  =>  /api/products/remove
+    Authorization:Bearer + token
+    product_id:1
+
+6. store product images  =>  /api/products/addimage
+    Authorization:Bearer + token
+    product_id:1
+    image_path:image path
+
+7. view product image  =>  /api/products/viewimage
+    Authorization:Bearer + token
+    product_id:1
+
+8. remove product image  =>  /api/products/removeimage
+    Authorization:Bearer + token
+    image_id:1
+
+
 	

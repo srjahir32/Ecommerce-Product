@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Productimage;
-use App\Productoption;
-use App\Productvariation;
+use App\ProductImage;
+use App\ProductOption;
+use App\ProductVariation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Mail;
 
-class ProductContrller extends Controller
+class ProductController extends Controller
 {
     private $imagestorename;
     public function __construct()
@@ -82,7 +82,7 @@ class ProductContrller extends Controller
 
         $image_path = $input['image_name'];
         // $image_path = 'boat-rockerz-400-super-extra-bass-original-imafg95ztgz7z8yz_1591879396963.jpeg';
-        $delete_variation_image = Productvariation::where('image_path', $image_path)->update(['image_path' => '']);
+        $delete_variation_image = ProductVariation::where('image_path', $image_path)->update(['image_path' => '']);
         // return $delete_variation_image;
         return response()->json(['data' => $response]);
     }
@@ -162,7 +162,7 @@ class ProductContrller extends Controller
             $product_image_data[] = array('product_id' => $latest_product_id, 'image_path' => $imagename);
         }
         if (count($product_image_arr) > 0) {
-            $insert_product_image = Productimage::insert($product_image_data);
+            $insert_product_image = ProductImage::insert($product_image_data);
         }
 
         //save product variation option
@@ -178,7 +178,7 @@ class ProductContrller extends Controller
         }
         $option_variation_data = array($option_variation_one, $option_variation_two);
         $option_variation_data = array_filter(array_map('array_filter', $option_variation_data));
-        $insert_variation_option = Productoption::insert($option_variation_data);
+        $insert_variation_option = ProductOption::insert($option_variation_data);
 
         // insert product variation option value table api
         $combination_variation = array();
@@ -189,7 +189,7 @@ class ProductContrller extends Controller
                 $i++;
             }
         }
-        $insert_variation = Productvariation::insert($combination_variation);
+        $insert_variation = ProductVariation::insert($combination_variation);
 
         // get product detail from last inserted id
         $data = [
@@ -274,53 +274,53 @@ class ProductContrller extends Controller
             $product_image_data[] = array('product_id' => $id, 'image_path' => $imagename);
         }
         if (count($product_image_arr) > 0) {
-            $insert_product_image = Productimage::insert($product_image_data);
+            $insert_product_image = ProductImage::insert($product_image_data);
         }
 
-        // $option1 = $input['option1'];
-        // $variation_one = $input['variation_one'];
-        // if (!empty($variation_one)) {
-        //     $variation_one_arr = explode(",", $variation_one);
-        // } else {
-        //     $variation_one_arr = [];
-        // }
+        $option1 = $input['option1'];
+        $variation_one = $input['variation_one'];
+        if (!empty($variation_one)) {
+            $variation_one_arr = explode(",", $variation_one);
+        } else {
+            $variation_one_arr = [];
+        }
 
-        // $option2 = $input['option2'];
-        // $variation_two = $input['variation_two'];
-        // if (!empty($variation_two)) {
-        //     $variation_two_arr = explode(",", $variation_two);
-        // } else {
-        //     $variation_two_arr = [];
-        // }
+        $option2 = $input['option2'];
+        $variation_two = $input['variation_two'];
+        if (!empty($variation_two)) {
+            $variation_two_arr = explode(",", $variation_two);
+        } else {
+            $variation_two_arr = [];
+        }
        
-        // //save product variation option
-        // if ((!empty($input['option1'])) && (!empty($input['variation_one']))) {
-        //     $option_variation_one = array('product_id' => $id, 'variation_option_name' => $option1, 'variation_option_value' => json_encode($variation_one_arr));
-        // } else {
-        //     $option_variation_one = array();
-        // }
-        // if ((!empty($input['option2'])) && (!empty($input['variation_two']))) {
-        //     $option_variation_two = array('product_id' => $id, 'variation_option_name' => $option2, 'variation_option_value' => json_encode($variation_two_arr));
-        // } else {
-        //     $option_variation_two = array();
-        // }
-        // $option_variation_data = array($option_variation_one, $option_variation_two);
-        // $option_variation_data = array_filter(array_map('array_filter', $option_variation_data));
-        // $insert_variation_option = Productoption::where('product_id', $id)->delete();
-        // $insert_variation_option = Productoption::insert($option_variation_data);
+        //save product variation option
+        if ((!empty($input['option1'])) && (!empty($input['variation_one']))) {
+            $option_variation_one = array('product_id' => $id, 'variation_option_name' => $option1, 'variation_option_value' => json_encode($variation_one_arr));
+        } else {
+            $option_variation_one = array();
+        }
+        if ((!empty($input['option2'])) && (!empty($input['variation_two']))) {
+            $option_variation_two = array('product_id' => $id, 'variation_option_name' => $option2, 'variation_option_value' => json_encode($variation_two_arr));
+        } else {
+            $option_variation_two = array();
+        }
+        $option_variation_data = array($option_variation_one, $option_variation_two);
+        $option_variation_data = array_filter(array_map('array_filter', $option_variation_data));
+        $insert_variation_option = ProductOption::where('product_id', $id)->delete();
+        $insert_variation_option = ProductOption::insert($option_variation_data);
 
-        // // insert product variation option value table api
+        // insert product variation option value table api
        
-        // $combination_variation = array();
-        // $i = 0;
-        // foreach ($variation_one_arr as $key1) {
-        //     foreach ($variation_two_arr as $key2) {
-        //         $combination_variation[] = array('product_id' => $id, 'option_1' => $key1, 'option_2' => $key2, 'stock' => $input['stock' . $i], 'price' => $input['price' . $i], 'image_path' => $input['variation_image_path' . $i]);
-        //         $i++;
-        //     }
-        // }
-        // $insert_variation_option = Productvariation::where('product_id', $id)->delete();
-        // $insert_variation_option = Productvariation::insert($combination_variation);
+        $combination_variation = array();
+        $i = 0;
+        foreach ($variation_one_arr as $key1) {
+            foreach ($variation_two_arr as $key2) {
+                $combination_variation[] = array('product_id' => $id, 'option_1' => $key1, 'option_2' => $key2, 'stock' => $input['stock' . $i], 'price' => $input['price' . $i], 'image_path' => $input['variation_image_path' . $i]);
+                $i++;
+            }
+        }
+        $insert_variation_option = ProductVariation::where('product_id', $id)->delete();
+        $insert_variation_option = ProductVariation::insert($combination_variation);
 
         $data = [
             'product_id' => $id,

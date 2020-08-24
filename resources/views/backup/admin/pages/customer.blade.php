@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="recommend_box">
+    <div class="recommend_box d-none">
         <p class="big">How likely are you to recommend this platform to other merchants?</p>
         <div id="starrate" class="starrate " data-val="" data-max="5" data-toggle="tooltip" data-placement="top"
             title=""> <span class="ctrl"></span> <span class="cont m-1">
@@ -70,7 +70,8 @@
                     <td class="customer_list_name_imag_text">
                         <div class="customer_list_name_imag_text_inner"><img class="customer_list_img"
                                 src="{{ asset('admin/assets/img/orders/person-icon.svg') }}" alt=""> <span
-                                class="customer_list_name">{{$customer['customer_name']}}</span></div>
+                                class="customer_list_name" data-toggle="modal" data-target="#customerDetailModal"
+                                    onClick="customerDetail({{$customer['id']}})">{{$customer['customer_name']}}</span></div>
                     </td>
                     <td class="customer_list_email_text">{{$customer['customer_email']}}</td>
                     <td class="customer_list_country_text">{{$customer['country']}}</td>
@@ -88,13 +89,13 @@
                                 <a class="dropdown-item" data-toggle="modal" data-target="#customerDetailModal"
                                     onClick="customerDetail({{$customer['id']}})" id="approve_order_option">View
                                     Page</a>
-                                <a class="dropdown-item" data-toggle="modal" id="decline_order_option"
+                                <!-- <a class="dropdown-item" data-toggle="modal" id="decline_order_option"
                                     data-target="#requestDataModal"
-                                    onClick="customerrequestData({{$customer['id']}})">Request Data</a>
+                                    onClick="customerrequestData({{$customer['id']}})">Request Data</a> -->
 
                                 <a class="dropdown-item text-danger" data-toggle="modal"
                                     data-target="#removeCustomerModal" onClick="customerDelete({{$customer['id']}})"
-                                    id="markpaid_order_option">Remove</a>
+                                    >Remove</a>
 
                             </div>
                         </div>
@@ -137,7 +138,7 @@ $("#search").keyup(function() {
                 if (res['data']['message'] == "success") {
                     var res = res['data']['data'];
                     for(var i=0; i<res.length; i++ ){
-                    $("#all_customers_data").append('<tr class="customer_'+res[i]['id']+' all_customers_list search_customer_list"> <td class="customer_list_name_imag_text"><div class="customer_list_name_imag_text_inner"><img class="customer_list_img" src="http://127.0.0.1:8000/admin/assets/img/orders/person-icon.svg" alt=""> <span class="customer_list_name">'+res[i]['customer_name']+'</span></div></td><td class="customer_list_email_text">'+res[i]['customer_email']+'</td><td class="customer_list_country_text">'+res[i]['country']+'</td><td class="customer_list_purchase_text text-center">1</td><td class="customer_list_subscription_text text-center">0</td><td class="customer_list_action_droupdown"><div class="dropdown"><a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false"><img class="toggle_droupdown"src="{{ asset("admin/assets/img/orders/menu-icon.svg") }}"></a><div class="dropdown-menu pending_order_droupdown" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" data-toggle="modal" data-target="#customerDetailModal" onClick="customerDetail("'+res[i]['id']+'")" id="approve_order_option">View Page</a> <a class="dropdown-item" data-toggle="modal" id="decline_order_option" data-target="#requestDataModal" onClick="customerrequestData("'+res[i]['id']+'")">Request Data</a> <a class="dropdown-item text-danger" data-toggle="modal" data-target="#removeCustomerModal" onClick="customerDelete("'+res[i]['id']+'")" id="markpaid_order_option">Remove</a></div></div></td></tr>')
+                    $("#all_customers_data").append('<tr class="customer_'+res[i]['id']+' all_customers_list search_customer_list"> <td class="customer_list_name_imag_text"><div class="customer_list_name_imag_text_inner"><img class="customer_list_img" src="{{ asset("admin/assets/img/orders/person-icon.svg") }}" alt=""> <span class="customer_list_name" data-toggle="modal" data-target="#customerDetailModal" onClick="customerDetail('+res[i]['id']+')">'+res[i]['customer_name']+'</span></div></td><td class="customer_list_email_text">'+res[i]['customer_email']+'</td><td class="customer_list_country_text">'+res[i]['country']+'</td><td class="customer_list_purchase_text text-center">1</td><td class="customer_list_subscription_text text-center">0</td><td class="customer_list_action_droupdown"><div class="dropdown"><a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"aria-haspopup="true" aria-expanded="false"><img class="toggle_droupdown"src="{{ asset("admin/assets/img/orders/menu-icon.svg") }}"></a><div class="dropdown-menu pending_order_droupdown" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" data-toggle="modal" data-target="#customerDetailModal" onClick="customerDetail('+res[i]['id']+')" id="approve_order_option">View Page</a>  <a class="dropdown-item text-danger" data-toggle="modal" data-target="#removeCustomerModal" onClick="customerDelete('+res[i]['id']+')" >Remove</a></div></div></td></tr>')
                 }
                 }
             },
@@ -152,5 +153,40 @@ $("#search").keyup(function() {
         $(".search_customer_list").hide()
     }
 });
+</script>
+
+<script>
+ var delete_customer_id;
+
+function customerDelete(id) {
+    delete_customer_id = id
+    console.log(delete_customer_id);
+}
+$('#delete_customer').on('click', function(event) {
+    event.preventDefault();
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: "{{ url('customerdelete') }}/" + delete_customer_id,
+        type: "POST",
+        data: delete_customer_id,
+        success: function(res) {
+            console.log("Delete Customer---",res);
+            if(res['data']['message'] == "success") {
+                $("#status").html('<div class="alert alert-success"><strong>Success!</strong> Customer Delete Successfully.</div>');
+                setTimeout(function() {
+                    $(".alert").css("display", "none");
+                }, 3000);
+                $(".customer_" + delete_customer_id).remove();
+                $("#removeCustomerModal").modal('hide');
+            }                 
+        },
+        error: function(jqXHR, textStatus, errorMessage) {
+            console.log(errorMessage); // Optional
+        }
+    });
+});
+
 </script>
 @endsection

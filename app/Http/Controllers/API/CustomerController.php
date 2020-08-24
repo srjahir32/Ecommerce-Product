@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Order;
 
@@ -59,7 +60,7 @@ class CustomerController extends Controller
 
         }
 
-        $delete_customer = Order::where('id', $customer_id)->delete();
+        $delete_customer = Order::where([['id', $customer_id],['user_id', Auth::id()]])->delete();
 
         if ($delete_customer != 1) {
             return response()->json(['message'=>'fail', 'status'=>'0']);

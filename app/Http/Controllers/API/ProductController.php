@@ -10,15 +10,17 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Product;
 
 use App\Category;
 
-use App\Productimage;
+use App\ProductImage;
 
-use App\Productoption;
+use App\ProductOption;
 
-use App\Productvariation;
+use App\ProductVariation;
 
 use Validator;
 
@@ -47,13 +49,13 @@ class ProductController extends Controller
         }
 
         $product = Product::select("products.*",
-                    Product::raw("(SELECT GROUP_CONCAT(product_image.image_path
-                    ) FROM product_image
-                            WHERE product_image.product_id = products.id
-                            GROUP BY product_image.product_id) as product_image"),
-                    Product::raw("(SELECT categorys.category_name FROM categorys
-                                WHERE categorys.id = products.category_id
-                                GROUP BY categorys.category_name) as category_name"),
+                    Product::raw("(SELECT GROUP_CONCAT(product_images.image_path
+                    ) FROM product_images
+                            WHERE product_images.product_id = products.id
+                            GROUP BY product_images.product_id) as product_image"),
+                    Product::raw("(SELECT categories.category_name FROM categories
+                                WHERE categories.id = products.category_id
+                                GROUP BY categories.category_name) as category_name"),
                     Product::raw("(SELECT COUNT(orders.id) FROM orders
                                 WHERE orders.product_id = products.id AND orders.order_status != 3
                                 GROUP BY orders.product_id) as total_order"))
@@ -150,14 +152,14 @@ class ProductController extends Controller
         }
 
         $view_product = Product::select("products.*",
-                  Product::raw("(SELECT GROUP_CONCAT(product_image.image_path
-                  ) FROM product_image
-                          WHERE product_image.product_id = products.id
-                          GROUP BY product_image.product_id) as product_image"),
-                  Product::raw("(SELECT categorys.category_name FROM categorys
-                              WHERE categorys.id = products.category_id
-                              GROUP BY categorys.category_name) as category_name"))
-                              ->where('products.id', $product_id)
+                  Product::raw("(SELECT GROUP_CONCAT(product_images.image_path
+                  ) FROM product_images
+                          WHERE product_images.product_id = products.id
+                          GROUP BY product_images.product_id) as product_image"),
+                  Product::raw("(SELECT categories.category_name FROM categories
+                              WHERE categories.id = products.category_id
+                              GROUP BY categories.category_name) as category_name"))
+                              ->where([['products.id', $product_id],['products.user_id', Auth::id()]])
         ->get();
 
       $single_product_array = array();
@@ -244,7 +246,7 @@ class ProductController extends Controller
 
         }
 
-        $update_product = Product::where('id', $product_id)->update(['product_name' => $product_name, 'short_desc' => $short_desc, 'long_desc' => $long_desc, 'order_limit' => $order_limit, 'currency' => $currency, 'price' => $price, 'stock' => $stock, 'user_id' => $user_id, 'product_type' => $product_type, 'category_id' => $category_id, 'payment_type' => $payment_type]);
+        $update_product = Product::where([['id', $product_id],['user_id', Auth::id()]])->update(['product_name' => $product_name, 'short_desc' => $short_desc, 'long_desc' => $long_desc, 'order_limit' => $order_limit, 'currency' => $currency, 'price' => $price, 'stock' => $stock, 'user_id' => $user_id, 'product_type' => $product_type, 'category_id' => $category_id, 'payment_type' => $payment_type]);
 
         if ($update_product != 1) {
 
@@ -279,8 +281,8 @@ class ProductController extends Controller
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
 
         }
-
-        $delete_product = Product::where('id', $product_id)->delete();
+        
+        $delete_product = Product::where([['id', $product_id],['user_id', Auth::id()]])->delete();
 
         if ($delete_product != 1) {
 
@@ -320,7 +322,7 @@ class ProductController extends Controller
 
         }
 
-        $insert_product_image = Productimage::insert(['product_id' => $product_id, 'image_path' => $image_path]);
+        $insert_product_image = ProductImage::insert(['product_id' => $product_id, 'image_path' => $image_path]);
 
         return response()->json(['message'=>'success', 'status'=>'1', 'data'=>'insert product image successfully.']);
 
@@ -346,7 +348,7 @@ class ProductController extends Controller
 
         }
 
-        $view_product_image = Productimage::where('product_id', $product_id)->get();
+        $view_product_image = ProductImage::where('product_id', $product_id)->get();
 
         if($view_product_image->isEmpty()){
 
@@ -378,7 +380,7 @@ class ProductController extends Controller
 
         }
 
-        $delete_product_image = Productimage::where('id', $image_id)->delete();
+        $delete_product_image = ProductImage::where('id', $image_id)->delete();
 
         if ($delete_product_image != 1) {
 
@@ -420,7 +422,7 @@ class ProductController extends Controller
 
         // }
 
-        $insert_variation_option = Productoption::insert($request->all());
+        $insert_variation_option = ProductOption::insert($request->all());
 
         return response()->json(['message'=>'success', 'status'=>'1', 'data'=>'insert product option successfully.']);
 
@@ -446,7 +448,7 @@ class ProductController extends Controller
 
         }
 
-        $view_variation_option = Productoption::where('product_id', $product_id)->get();
+        $view_variation_option = ProductOption::where('product_id', $product_id)->get();
 
         if($view_variation_option->isEmpty()){
 
@@ -486,7 +488,7 @@ class ProductController extends Controller
 
         }
 
-        $update_variation_option = Productoption::where([['product_id', $product_id], ['id', $option_id]])->update(['variation_option_name' => $variation_option_name, 'variation_option_value' => $variation_option_value]);
+        $update_variation_option = ProductOption::where([['product_id', $product_id], ['id', $option_id]])->update(['variation_option_name' => $variation_option_name, 'variation_option_value' => $variation_option_value]);
 
         if ($update_variation_option != 1) {
 
@@ -540,9 +542,9 @@ class ProductController extends Controller
 
             // }
 
-        // $insert_variation = Productvariation::insert(['product_id' => $product_id, 'product_option_id' => $product_option_id, 'option_1' => $option_1, 'option_2' => $option_2, 'product_sku' => $product_sku, 'stock' => $stock, 'price' => $price, 'image_path' => $image_path]);
+        // $insert_variation = ProductVariation::insert(['product_id' => $product_id, 'product_option_id' => $product_option_id, 'option_1' => $option_1, 'option_2' => $option_2, 'product_sku' => $product_sku, 'stock' => $stock, 'price' => $price, 'image_path' => $image_path]);
 
-        $insert_variation = Productvariation::create($request->all());
+        $insert_variation = ProductVariation::create($request->all());
 
         return response()->json(['message'=>'success', 'status'=>'1', 'data'=>'insert product variation successfully.']);
 
@@ -568,7 +570,7 @@ class ProductController extends Controller
 
         }
 
-        $view_variation = Productvariation::where('product_id', $product_id)->get();
+        $view_variation = ProductVariation::where('product_id', $product_id)->get();
 
         if($view_variation->isEmpty()){
 
@@ -616,7 +618,7 @@ class ProductController extends Controller
 
         }
 
-        $update_variation_option = Productvariation::where([['product_id', $product_id], ['id', $variation_id]])->update(['option_1' => $option_1, 'option_2' => $option_2, 'product_sku' => $product_sku, 'stock' => $stock, 'price' => $price, 'image_path' => $image_path]);
+        $update_variation_option = ProductVariation::where([['product_id', $product_id], ['id', $variation_id]])->update(['option_1' => $option_1, 'option_2' => $option_2, 'product_sku' => $product_sku, 'stock' => $stock, 'price' => $price, 'image_path' => $image_path]);
 
         if ($update_variation_option != 1) {
 
@@ -661,10 +663,10 @@ class ProductController extends Controller
         }
     
         $search_customer = Product::select("products.*",
-                Product::raw("(SELECT GROUP_CONCAT(product_image.image_path
-                    ) FROM product_image
-                            WHERE product_image.product_id = products.id
-                            GROUP BY product_image.product_id) as product_image"),
+                Product::raw("(SELECT GROUP_CONCAT(product_images.image_path
+                    ) FROM product_images
+                            WHERE product_images.product_id = products.id
+                            GROUP BY product_images.product_id) as product_image"),
                             Product::raw("(SELECT COUNT(orders.id) FROM orders
                             WHERE orders.product_id = products.id
                             GROUP BY orders.product_id) as total_order"))->where('products.user_id', $user_id)->whereRaw(" (product_name like ? or price like ?) ",["%{$search}%","%{$search}%"])

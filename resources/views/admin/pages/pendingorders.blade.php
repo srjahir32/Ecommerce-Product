@@ -193,14 +193,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row view_product_name view_pending_order_detail d-none">
+                    <div class="row view_product_name view_pending_order_detail ">
                         <p class="big col-sm-6"><img src="{{ asset('admin/assets/img/orders/invoice_med.svg') }}"
                                 alt="">Order Details
                         </p>
-                        <p class="pending_order_download_txt col-sm-6">Download</p>
+                        <p class="pending_order_download_txt col-sm-6">
+                            <a href="" class="themecolor invoice_btn">Download</a>
+                        </p>
                     </div>
 
-                    <div class="col-sm-12 pending_order_table d-none">
+                    <div class="col-sm-12 pending_order_table">
                         <table class="table " cellpadding="0" cellspacing="0">
                             <tbody>
                                 <tr class="">
@@ -209,9 +211,12 @@
                                             <tbody>
                                                 <tr>
                                                     <td></td>
-                                                    <td><b><span
-                                                                class="order_title">Order</span></b><br>07/05/2020<br>Payment
-                                                        Method: Cash on Delivery<br>Status: Unpaid</td>
+                                                    <td class="invoice_details">
+                                                        <b><p class="order_title">Order</p></b>
+                                                        <p id="invoice_date">07/05/2020</p>
+                                                        <p>Payment Method: <span id="invoice_paymentmethod">Cash on Delivery</span></p>
+                                                        <p>Status: <span id="invoice_status">Unpaid<span></p>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -223,13 +228,19 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="left_table_txt">
-                                                        <b>test</b><br>puja.tupple@gmail.com<br>kapodra char
-                                                        rasta, L.
-                                                        H. road <br>surat Gujarat 395006<br>India</td>
+                                                        <div id="user_detail">                                                        
+                                                            <b><p id="invoice_username">test</p></b>
+                                                            <p id="invoice_useremail">test.tupple@gmail.com</p>
+                                                            <p>Turkey</p>
+                                                        </div>
+                                                    </td>
                                                     <td class="right_table_txt">
-                                                        <b>puja</b><br>puja.tupple@gmail.com<br>L. H. road
-                                                        <br>surat
-                                                        Gujarat 395006<br>India</td>
+                                                        <b><p id="invoice_customername">puja</p></b>
+                                                        <p id="invoice_customeremail">test.tupple@gmail.com</p>
+                                                        <p id="invoice_customeraddress">L. H. road</p>
+                                                        <p><span id="invoice_customercity">surat</span> <span id="invoice_customerstate">Gujarat</span> <span id="invoice_customerzip">395006</span></p>
+                                                        <p id="invoice_customercountry">India</p>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -240,17 +251,17 @@
                                     <td class="text-right">Total</td>
                                 </tr>
                                 <tr class="item">
-                                    <td>1 x testing</td>
-                                    <td class="text-right">₺1,000.00</td>
+                                    <td><span id="invoice_productqty">1</span> x <span id="invoice_productname">testing</span></td>
+                                    <td class="text-right"><span id="invoice_productcurrency">₺</span><span id="invoice_producttotal">1,000.00</span></td>
                                 </tr>
                                 <tr class="item last">
-                                    <td colspan="2" class="text-right">Subtotal: ₺1,000.00</td>
+                                    <td colspan="2" class="text-right">Subtotal: <span id="invoice_productcurrency">₺</span><span id="invoice_producttotal">1,000.00</span></td>
                                 </tr>
                                 <tr class="item last">
-                                    <td colspan="2" class="text-right">Total: ₺1,000.00</td>
+                                    <td colspan="2" class="text-right">Total: <span id="invoice_productcurrency">₺</span><span id="invoice_producttotal">1,000.00</span></td>
                                 </tr>
                                 <tr class="total">
-                                    <td colspan="2" class="text-right">Amount Due: ₺1,000.00</td>
+                                    <td colspan="2" class="text-right"><b>Amount Due: <span id="invoice_productcurrency">₺</span><span id="invoice_producttotal">1,000.00</span></b></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -590,12 +601,13 @@ function viewOrder(id) {
         },
         url: "{{ url('vieworderdetail') }}/" + id,
         type: "POST",
-        success: function(res) {
-            console.log(res);
-            if (res['data']['orderdetail']['status'] == "1") {
-                var res = res['data']['orderdetail']['data'][0];
+        success: function(response) {
+            console.log(response);
+            if (response['data']['orderdetail']['status'] == "1") {
+                var res = response['data']['orderdetail']['data'][0];
                 var date1 = moment.utc(res['created_at']);
                 var date = date1.clone().tz("Turkey");
+                var order_date = moment(res['created_at']).format("DD/MM/YYYY");
                 if (res['order_status'] == "0") {
                     product_staus = "Pending (Unpaid)";
                     $("#viewOrderModal #pendingorder_viewmodal_btn").html(
@@ -651,10 +663,42 @@ function viewOrder(id) {
                 var plug = $("#order_plug").text();
                 var plu_str = plug.substring(0, 15) + "...";
                 $("#order_plug").text(plu_str);
+
+                
+                if (response['data']['businessdata']['status'] == "1") {
+                    $(".pending_order_table #user_detail").html("<b><p>"+response['data']['businessdata']['data'][0]['business_name']+"</p></b><p>"+response['data']['businessdata']['data'][0]['email']+"</p><p>"+response['data']['businessdata']['data'][0]['address']+"</p><p>"+response['data']['businessdata']['data'][0]['city']+" "+response['data']['businessdata']['data'][0]['state']+" "+response['data']['businessdata']['data'][0]['zip']+"</p><p>"+response['data']['businessdata']['data'][0]['country']+"</p>")
+                } else {
+                    $(".pending_order_table #invoice_username").text(response['data']['userdetail']['success']['first_name']);
+                    $(".pending_order_table #invoice_useremail").text(response['data']['userdetail']['success']['email']);
+                }
+               
+                $(".invoice_btn").attr("href", "generate_invoice/"+res['id']);
+
+                $(".pending_order_table #invoice_date").text(order_date);
+                if(res['payment_type'] == "Cash") {
+                    $(".pending_order_table #invoice_paymentmethod").text("Cash on Delivery");
+                } else {
+                    $(".pending_order_table #invoice_paymentmethod").text(res['payment_type']);
+                }
+                if(res['order_status'] == "2") {
+                    $(".pending_order_table #invoice_status").text("Paid");
+                } else {
+                    $(".pending_order_table #invoice_status").text("Unpaid");
+                }
+
+                $(".pending_order_table #invoice_customername").text(res['customer_name']);
+                $(".pending_order_table #invoice_customeremail").text(res['customer_email']);
+                $(".pending_order_table #invoice_customeraddress").text(res['address']);
+                $(".pending_order_table #invoice_customercity").text(res['city']);
+                $(".pending_order_table #invoice_customerstate").text(res['state']);
+                $(".pending_order_table #invoice_customerzip").text(res['zip']);
+                $(".pending_order_table #invoice_customercountry").text(res['country']);
+                $(".pending_order_table #invoice_productqty").text(res['quantity']);
+                $(".pending_order_table #invoice_productname").text(res['product_name']);
+                $(".pending_order_table #invoice_productcurrency").text(res['currency'].split('-')[0]);
+                $(".pending_order_table #invoice_producttotal").text(res['total']);
             }
-            // if(res['product']['status']== "1"){
-            //     
-            // }
+            
         },
         error: function(jqXHR, textStatus, errorMessage) {
             console.log(errorMessage); // Optional

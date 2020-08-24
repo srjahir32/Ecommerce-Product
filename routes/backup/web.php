@@ -36,6 +36,8 @@ Route::get('dashboard', 'admin\DashboardController@index');
 Route::post('bussiness_data', 'admin\DashboardController@savebussinesssetting');
 Route::post('getdashboarddata/{id}', 'admin\DashboardController@getdashboarddata');
 
+Route::post('get_bussiness_data', 'admin\DashboardController@viewbussinesssetting');
+Route::post('edit_bussiness_data', 'admin\DashboardController@editbussinesssetting');
 
 Route::get('product', 'admin\ProductContrller@index');
 Route::get('product_list', 'admin\ProductContrller@productlist');
@@ -49,6 +51,8 @@ Route::get('l/{link}', 'admin\Checkoutlinkcontroller@productlink');
 Route::get('cart/{link}', 'admin\Checkoutlinkcontroller@productlinkdata');
 Route::post('imageupload', 'admin\ProductContrller@saveimage');
 Route::post('product_serach_data', 'admin\ProductContrller@getserachproduct');
+Route::post('getvariationtable/{id}', 'admin\ProductContrller@getvariationtable');
+
 
 Route::get('pending-orders', 'admin\PendingorderController@index');
 Route::get('ordercount', 'admin\PendingorderController@ordercount');
@@ -72,6 +76,7 @@ Route::post('merchant_data', 'admin\PaymentgetwayController@savemerchant');
 
 Route::get('customer', 'admin\Customercontroller@index');
 Route::post('customer_serach_data', 'admin\Customercontroller@getserachcustomer');
+Route::post('customerdelete/{id}', 'admin\Customercontroller@customerdelete');
 
 Route::get('orders', 'admin\OrderController@index');
 

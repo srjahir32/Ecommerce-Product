@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
-use App\Userbusiness;
+use App\UserBusiness;
 
 class UserbusinessController extends Controller
 {
@@ -13,12 +13,12 @@ class UserbusinessController extends Controller
     public function create(Request $request) {
         $input = $request->all();
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|unique:user_business',
+            'user_id' => 'required|unique:user_businesses',
         ]);
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $insert_user_business = Userbusiness::create($input);
+        $insert_user_business = UserBusiness::create($input);
         return response()->json(['message'=>'success', 'status'=>'1', 'data'=>'insert user business successfully.']);     
     }
 
@@ -31,7 +31,7 @@ class UserbusinessController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $view_user_business = Userbusiness::where('user_id', $user_id)->get();
+        $view_user_business = UserBusiness::where('user_id', $user_id)->get();
         if($view_user_business->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
@@ -56,7 +56,7 @@ class UserbusinessController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $update_user_business = Userbusiness::where('user_id', $user_id)->update(['business_name' => $business_name, 'address' => $address, 'city' => $city, 'state' => $state, 'country' => $country, 'postal_code' => $postal_code, 'email' => $email, 'phone' => $phone, 'timezone' => $timezone]);
+        $update_user_business = UserBusiness::where('user_id', $user_id)->update(['business_name' => $business_name, 'address' => $address, 'city' => $city, 'state' => $state, 'country' => $country, 'postal_code' => $postal_code, 'email' => $email, 'phone' => $phone, 'timezone' => $timezone]);
         if ($update_user_business != 1) {
             return response()->json(['message'=>'fail', 'status'=>'0']);
         }

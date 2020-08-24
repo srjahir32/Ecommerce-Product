@@ -502,7 +502,7 @@
                                             <div class="dropzone" id="myDropzone"></div>
                                         </div>
                                     </div>
-                                    <div class="row mt-4 d-none">
+                                    <div class="row mt-4">
                                         <div class="col-sm-12">
                                             <div class="form_images_upload">
                                                 <label
@@ -790,10 +790,6 @@
     });
     </script>
     <script>
-    $(".product_type, .create_product_type").click(function() {
-        $('.upload_image_area, .edit_variation_upload_image_area, .variation_image_area').empty();
-        product_image_arr = [];
-    });
     $("#choosephysiacalproduct").click(function() {
         $.ajax({
             url: "{{ url('product_list') }}",
@@ -863,7 +859,9 @@
     </script>
 
     <script>
-    // <!-- edit product -->       
+    // <!-- edit product -->    
+    // variation_final_array = [];   
+    variation_editoption_array = [];
     function editProduct(id) {
         console.log("EditProduct Id", id);
         $.ajax({
@@ -918,32 +916,7 @@
             delimiter: ',',
             persist: false,
             create: true,
-            onChange: function(value) {               
-                var str1= $('#edit_variation1').val();
-                var str2 = $('#edit_variation2').val();
-                // console.log("combos1", str1);
-                // console.log("combos2", str2);
-                variation1_arr = str1.split(",");
-                variation2_arr = str2.split(",");
-                
-                variation_array = []
-
-                for (var i = 0; i < variation1_arr.length; i++) {
-                    for (var j = 0; j < variation2_arr.length; j++) {
-                        variation_array.push([variation1_arr[i], variation2_arr[j]]);
-                        $("#edit_variations_table > tbody").empty();
-                        for (var k = 0; k < variation_array.length; k++) {                           
-                            $("#edit_variations_table > tbody").append(
-                                "<tr class='variation_row_"+k+"'><td><div class='variation_image' id='tableDropzone_"+k+"'  data-toggle='modal' data-target=' #variationimageModal'  onClick = 'variation_image_id("+k+")'><input type='hidden' id='variation_image_path' name='variation_image_path" + k + "'><img src='{{url('admin/assets/img/products/addimg.svg')}}' id='"+k+"'></div></td><td>" +
-                                variation_array[k][0] + "</td><td>" +
-                                variation_array[k][1] +
-                                "</td><td><input type='number' name='price"+k+"' id='price"+k+"' class='form-control price_width' placeholder='Enter a price'></td><td><input type='number' name='stock"+k+"' id='stock"+k+"' class='form-control stock_width stock_field' placeholder='Enter stock'></td></tr>"
-                            );
-                            // console.log(variation_array[k]);
-                        }
-                    }
-                }              
-
+            onChange: function(value) {                        
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -957,27 +930,145 @@
                         if(response['data']['status'] == "1"){   
                             var res = response['data']['data'];
                             $("#editproduct .price_width").val(null);
+                            variation_editoption_array = res;
+                            console.log("variation_editoption_array---", variation_editoption_array);
+                            // for (var i = 0; i < res.length; i++) {
+                            //     $("#editproduct #price"+i).val(res[i]['price']);
+                            //     $("#editproduct #stock"+i).val(res[i]['stock']);  
 
-                            for (var i = 0; i < res.length; i++) {
-                                $("#editproduct #price"+i).val(res[i]['price']);
-                                $("#editproduct #stock"+i).val(res[i]['stock']);  
-
-                                if(res[i]['image_path'] == "" || res[i]['image_path'] == null){
-                                $("#editproduct #tableDropzone_"+i+" img").attr("src","{{url('admin/assets/img/products/addimg.svg')}}");         
-                                }
-                                else {
-                                    $("#editproduct #tableDropzone_"+i+" img").attr("src","{{url('products/image')}}/"+res[i]['image_path']); 
-                                    $("#editproduct #tableDropzone_"+i+" #variation_image_path").val(res[i]['image_path']); 
-                                }        
-                            }
+                            //     if(res[i]['image_path'] == "" || res[i]['image_path'] == null){
+                            //     $("#editproduct #tableDropzone_"+i+" img").attr("src","{{url('admin/assets/img/products/addimg.svg')}}");         
+                            //     }
+                            //     else {
+                            //         $("#editproduct #tableDropzone_"+i+" img").attr("src","{{url('products/image')}}/"+res[i]['image_path']); 
+                            //         $("#editproduct #tableDropzone_"+i+" #variation_image_path").val(res[i]['image_path']); 
+                            //     }        
+                            // }
+                            populateData();
+                        } else {
+                            populateData();
                         }
                     },
                     error: function(jqXHR, textStatus, errorMessage) {
                         console.log(errorMessage); // Optional
                     }
                 });
+                
+                // populateData();
+               
+               
             }
         });
+
+        function populateData(){
+            var str1= $('#edit_variation1').val();
+                var str2 = $('#edit_variation2').val();
+                // console.log("combos1", str1);
+                // console.log("combos2", str2);
+                variation1_arr = str1.split(",");
+                variation2_arr = str2.split(",");
+                
+                variation_array = [];
+                variation_temp_array = [];
+
+                for(var i = 0; i < variation1_arr.length; i++) {
+                    for(var j = 0; j < variation2_arr.length; j++) {
+                        variation_array.push([variation1_arr[i], variation2_arr[j]]);
+                        $("#edit_variations_table > tbody").empty();                        
+                    }
+                }              
+                console.log("variation_array---", variation_array);
+                variation_temp_array = variation_final_array;
+                variation_final_array = [];
+                console.log("variation_temp_array---", variation_temp_array);
+                
+                for (var k = 0; k < variation_array.length; k++) {
+                    variation_data = variation_temp_array.find((o) => {
+                        return o["option1"] === variation_array[k][0] && o["option2"] ===
+                            variation_array[k][1]
+                    })
+                    console.log("ans---", !($.isEmptyObject(variation_data)));
+                    // var img_path = "admin/assets/img/products/addimg.svg";
+                   
+                    if (!($.isEmptyObject(variation_data))) {
+                        variation_final_array.push(variation_data); // variation_temp_array object
+                        console.log(variation_temp_array);
+
+                    } else {
+
+                        // find last saved product from array
+                        variation_last_saved = variation_editoption_array.find((o) => {
+                        return o["option_1"] === variation_array[k][0] && o["option_2"] ===
+                        variation_array[k][1]
+                        })
+                        console.log("variation_last_saved--", variation_last_saved);
+                        var stockValue = "", priceValue = "", imageValue = "{{url('admin/assets/img/products/addimg.svg')}}", imagePath = "";
+                    
+                        if (!($.isEmptyObject(variation_last_saved))) {
+                            stockValue = variation_last_saved['stock'];
+                            priceValue = variation_last_saved['price'];
+                                if(variation_last_saved['image_path'] == "" || variation_last_saved['image_path'] == null){
+                                imageValue = "{{url('admin/assets/img/products/addimg.svg')}}";         
+                                }
+                                else {
+                                    imageValue = "{{url('products/image')}}/"+variation_last_saved['image_path'];
+                                    imagePath = variation_last_saved['image_path']; 
+                                }        
+                        }
+                        console.log("image==", imageValue);
+                        var obj1 = {
+                            "image":imageValue,
+                            "image_path": imagePath,
+                            "option1": variation_array[k][0],
+                            "option2": variation_array[k][1],
+                            "price": priceValue,
+                            "stock": stockValue,
+                        };
+                        variation_final_array.push(obj1); // create new object and 
+                        console.log("variation_final_array--", variation_final_array);
+                    }
+                }
+               
+                $("#edit_variations_table > tbody").empty();
+                for (var l = 0; l < variation_final_array.length; l++) {
+                    variationTable(l);
+                }
+
+        }
+        
+        function variationTable(l) {
+            $("#edit_variations_table > tbody").append("<tr class='variation_row_" + l +
+                "'><td><div class='variation_image' id='tableDropzone_" + l +
+                "' data-toggle='modal' data-target=' #variationimageModal'  onClick = 'variation_image_id(" +
+                l +
+                ")'><input type='hidden' id='variation_image_path' name='variation_image_path" +
+                l + "' value='" + variation_final_array[l].image_path + "'><img src='" + variation_final_array[l]
+                .image + "' id='img" + l +
+                "'></div></td><td>" + variation_final_array[l].option1 + "</td><td>" +
+                variation_final_array[l].option2 + "</td><td><input type='number' name='price" +
+                l + "' id='price" + l +
+                "' value='"+variation_final_array[l].price+"' class='form-control price_width price" + l +
+                "' placeholder='Enter a price'></td><td><input type='number' name='stock" +
+                l + "' id='stock" + l +
+                "' value='" + variation_final_array[l].stock +
+                "' class='form-control stock_width stock_field stock" + l +"' placeholder='Enter stock' value=''></td></tr>"
+            );
+            
+            // $("#img"+ l).on("load", function () {    
+            //     variation_final_array[l].image = $(this).attr("src");
+            //     console.log("image {{url('admin/assets/img/products/addimg.svg')}}{{url('admin/assets/img/products/addimg.svg')}}");
+            // });
+            $(".price"+ l).on("input", function () {    
+                variation_final_array[l].price = $(this).val();
+                console.log("price", variation_final_array[l].price, $(this).val());
+            });
+            $(".stock" + l).on("input", function () {
+                variation_final_array[l].stock = $(this).val();
+                console.log("stock", variation_final_array[l].price, $(this).val());
+            });
+            
+            
+        }
         
 
         $.ajax({
@@ -1071,6 +1162,26 @@
             }
         });
     }
+    function fieldValidation(){
+        var valid = true;
+        $(".error").remove();
+        if ($('#edit_variation1').val() != "" || $('#edit_variation2').val() != "") {            
+            $("input.stock_field").each(function(index){
+                var value = $(this).val();
+                console.log("edit_stock_data", value);
+                if(value == ""){
+                    console.log("edit_stock", value);
+                    $("#status").html('<div class="alert alert-danger"><strong>Error!</strong> Product Stock is required.</div>');
+                            setTimeout(function() {
+                                $(".alert").css("display", "none");
+                            }, 3000);
+                valid = false; 
+                }    
+                
+            });       
+        }
+        return valid;
+    }
     $('#update_product').on('click', function(event) {
         event.preventDefault();
         var data = $("#editproduct").serialize();
@@ -1085,18 +1196,7 @@
         } else {
             product_iamge = [];
         }
-        if ($('#edit_variation1').val() != "" || $('#edit_variation2').val() != "") {
-            $(".error").remove();
-            if ($("input.stock_field").val() == "") { 
-                console.log("field is required");             
-                $(".stock_field").after("<span class='error'> field is required</span>");       
-                // $("#status").html('<div class="alert alert-danger"><strong>Error!</strong> Product Stock is required.</div>');
-                //         setTimeout(function() {
-                //             $(".alert").css("display", "none");
-                //         }, 3000);
-                return false;        
-            }           
-        }
+        if(fieldValidation()){
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1166,6 +1266,7 @@
                 console.log(errorMessage); // Optional
             }
         });
+        }
     });
 
     // delete edit modal product image

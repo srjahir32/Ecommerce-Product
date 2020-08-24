@@ -55,7 +55,7 @@ class ProductController extends Controller
                                 WHERE categorys.id = products.category_id
                                 GROUP BY categorys.category_name) as category_name"),
                     Product::raw("(SELECT COUNT(orders.id) FROM orders
-                                WHERE orders.product_id = products.id
+                                WHERE orders.product_id = products.id AND orders.order_status != 3
                                 GROUP BY orders.product_id) as total_order"))
                                 ->where('products.user_id', $user_id)
           ->get();
@@ -105,11 +105,13 @@ class ProductController extends Controller
 
         $validator = Validator::make($request->all(), [
 
-            'product_name' => 'required',
+            'product_name' => 'required|max:60',
 
             'price' => 'required|numeric|gt:0',
 
             'stock' => 'required|numeric|gt:0',
+
+            'short_desc' => 'max:120',
 
         ]);
 
@@ -204,11 +206,13 @@ class ProductController extends Controller
 
             'product_id' => 'required',
 
-            'product_name' => 'required',
+            'product_name' => 'required|max:60',
 
             'price' => 'required|numeric|gt:0',
 
             'stock' => 'required|numeric|gt:0',
+
+            'short_desc' => 'max:120',
 
         ]);
 
@@ -628,8 +632,6 @@ class ProductController extends Controller
 
     }
 
-
-
     // 15. view all category
 
     public function category() {
@@ -662,8 +664,10 @@ class ProductController extends Controller
                 Product::raw("(SELECT GROUP_CONCAT(product_image.image_path
                     ) FROM product_image
                             WHERE product_image.product_id = products.id
-                            GROUP BY product_image.product_id) as product_image")
-                )->where('products.user_id', $user_id)->whereRaw(" (product_name like ? or price like ?) ",["%{$search}%","%{$search}%"])
+                            GROUP BY product_image.product_id) as product_image"),
+                            Product::raw("(SELECT COUNT(orders.id) FROM orders
+                            WHERE orders.product_id = products.id
+                            GROUP BY orders.product_id) as total_order"))->where('products.user_id', $user_id)->whereRaw(" (product_name like ? or price like ?) ",["%{$search}%","%{$search}%"])
         ->get();
 
         $search_customer_array = array();
@@ -676,6 +680,7 @@ class ProductController extends Controller
                     "long_desc" => $data['long_desc'],
                     "currency" => $data['currency'],
                     "price" => $data['price'],
+                    "total_order" => $data['total_order'],
                     "user_id" => $data['user_id'],
                     "product_type" => $data['product_type'],
                     "category_id" => $data['category_id'],

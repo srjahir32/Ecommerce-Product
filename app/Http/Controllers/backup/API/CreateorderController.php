@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use App\Order;
+use App\Product;
 
 class CreateorderController extends Controller
 {
@@ -18,7 +19,11 @@ class CreateorderController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $order = Order::where('user_id', $user_id)->get();
+        $order = Order::where('user_id', $user_id);
+        if ($request->has('panding_order')) {
+            $order->where('order_status', '=', '0')->orderby('created_at', 'DESC');
+        }
+        $order =  $order->get();
         if($order->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
@@ -101,7 +106,12 @@ class CreateorderController extends Controller
             return response()->json(['message'=>'fail', 'status'=>'0']);
         }
         else {
-            return response()->json(['message'=>'success', 'status'=>'1']);
+            $product_data = Order::select('product_id', 'quantity')->where('id', $order_id)->get();
+            $old_stock = Product::where('id', $product_data[0]['product_id'])->value('stock');
+            $new_stock = $old_stock+$product_data[0]['quantity'];
+            Product::where('id', $product_data[0]['product_id'])->update(["stock" => $new_stock]);
+            
+            return response()->json(['message'=>'success', 'status'=>'1' ]);
         }   
     }
 

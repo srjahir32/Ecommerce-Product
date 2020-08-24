@@ -17,7 +17,7 @@
                             <input class="form-control search_field" id="search" name="search" placeholder="Search" type="text"> </div>
                     </div>
                     <div class="topbar_btn">
-                        <button class="theme_btn ripple_btn left_topbar_btn dark_btn" data-toggle="modal" data-target="#productTypeModal">Add a Product</button>
+                        <button class="theme_btn ripple_btn left_topbar_btn dark_btn product_type" id="add_product_btn" data-toggle="modal" data-target="#addProductModal">Add a Product</button>
                         <!-- <button class="theme_btn ripple_btn dark_btn" data-toggle="modal" data-target="#plugModal">Create
 
                             Plug</button> -->
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="recommend_box">
+        <div class="recommend_box d-none">
             <p class="big">How likely are you to recommend this platform to other merchants?</p>
             <div id="starrate" class="starrate " data-val="" data-max="5" data-toggle="tooltip" data-placement="top" title=""> <span class="ctrl"></span> <span class="cont m-1">
 
@@ -62,13 +62,17 @@
                     </tr>
                 </thead>
                 <tbody id="add_product_list"> 
+                @php
+                    date_default_timezone_set('Turkey');
+                @endphp
                 @if($products['status'] == "1") 
+
                 @foreach ($products['data'] as $product)             
                 
               
                     <tr class="product{{$product['id']}} add_all_product_list">
                         <td class="product_list_img_name">
-                            <div class="product_list_img_name_inner"> @if((count( $product['product_image']) >0) && ( $product['product_image'][0] !="")) <img src="{{ asset('products/image/').'/'.$product['product_image'][0] }}" alt="" class="product_img">@else  <img src="{{ asset('admin/assets/img/products/placeholder-person.jpg')}}" alt="" class="product_img"> @endif <span class="product_name">{{$product['product_name']}}</span> </div>
+                            <div class="product_list_img_name_inner"> @if((count( $product['product_image']) >0) && ( $product['product_image'][0] !="")) <img src="{{ asset('products/image/').'/'.$product['product_image'][0] }}" alt="" class="product_img">@else  <img src="{{ asset('admin/assets/img/products/placeholder-person.jpg')}}" alt="" class="product_img"> @endif <span class="product_name" data-toggle="modal" data-target=" #viewProductModal" onclick="viewProduct({{$product['id']}})">{{$product['product_name']}}</span> </div>
                         </td>
                         <td class="product_list_price"><span class="currency_symbol" id="product_currency">{{explode('-', $product['currency'])[0]}}</span><span class="product_price">{{$product['price']}}</span></td>
                         @if($product['total_order']>0)<td class="product_list_sale">{{$product['total_order']}}</td> @else <td class="product_list_sale">0</td> @endif
@@ -90,11 +94,11 @@
 
                         @if($product['stock'] > 0)     
 
-                            <td class="product_list_stock">Instock</td>
+                            <td class="product_list_stock"><span class=''>{{$product['stock']}}</span></td>
 
                         @else    
 
-                            <td class="product_list_stock">Out of Stock</td>
+                            <td class="product_list_stock "><span class='text-danger'>Out of Stock</span></td>
 
                         @endif
 
@@ -152,7 +156,7 @@
 
             </p>
 
-            <a href="" class="big" data-toggle="modal" data-target="#productTypeModal">Add a
+            <a href="" class="big create_product_type" id="add_product_btn" data-toggle="modal" data-target="#addProductModal">Add a
 
             Product</a>
 
@@ -196,7 +200,7 @@
                                 </div>
                             </div>
                             <div class="row product_type_list">
-                                <div class="col-md-4 product_type" data-toggle="modal" data-target="#addProductModal">
+                                <div class="col-md-4 product_type"  id="add_product_btn" data-toggle="modal" data-target="#addProductModal">
                                     <div class="product_type_inner text-center"> <img class="product_type_img" src="{{ asset('admin/assets/img/products/phyprod.svg') }}">
                                         <p class="product_type_title">Add a Physical Product</p>
                                         <p class="product_type_txt">You are selling physical products and getting paid with online and offline payment methods</p> <a class="product_type_link themecolor">Select</a> </div>
@@ -254,7 +258,8 @@
                             <input type="button" class="theme_btn ripple_btn dark_btn" id="choose_product_submit" value="Continue"> </div>
                     </div>
                     <div class="row product_type_list align-items-center"> <span class="choose_product_data"></span>
-                        <div class="col-md-3 product_type  add_choose_product_box" data-toggle="modal" data-target="#addProductModal">
+                        <div class="col-md-3 product_type  add_choose_product_box "
+                        id="add_product_btn" data-toggle="modal" data-target="#addProductModal">
                             <div class="choose_product_inner text-center w-100"> <i class="fa fa-plus-square themecolor add_product_icon"></i>
                                 <div class="add_choose_product_link"> <a class="themecolor">Add a Product</a> </div>
                             </div>
@@ -289,7 +294,7 @@
                     <div class="row">
                         <div class="col-md-8 m-auto">
                             <div class="add_product_form mt-3">
-                                <form class="addproduct" id="editproduct">
+                                <form class="addproduct" id="editproduct" autocomplete="off">
                                     <div class="row">
                                         <input type="hidden" id="product_edit_id" name="product_edit_id">
                                         <div class="col-sm-12">
@@ -459,18 +464,18 @@
                                                     <option value="$-ZWL">ZWL</option>
                                                     </select>
                                                 </div>
-                                                <input type="text" class="form-control form_field" id="edit_product_price" name="product_price" placeholder="Enter a price"> </div>
+                                                <input type="number" class="form-control form_field" id="edit_product_price" name="product_price" placeholder="Enter a price"> </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="title">Order Limit</label>
-                                                <input type="text" class="form-control form_field" name="order_limit" id="edit_order_limit" placeholder="Enter a limit (optional)"> </div>
+                                                <input type="number" class="form-control form_field" name="order_limit" id="edit_order_limit" placeholder="Enter a limit (optional)"> </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="title">Stock<span>*</span></label>
-                                            <input type="text" class="form-control form_field" name="product_stock" id="edit_product_stock" placeholder="Enter Stock">
+                                            <input type="number" class="form-control form_field" name="product_stock" id="edit_product_stock" placeholder="Enter Stock">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -500,45 +505,99 @@
                                     <div class="row mt-4 d-none">
                                         <div class="col-sm-12">
                                             <div class="form_images_upload">
-                                                <label class="form_inner_label">Variations</label>
-                                                <p class="big">You can use variations if you have multiple types of the same product. Let’s say you have a T-Shirt, which is in S and M but also blue or red, you can create a variation for each of them. </p>
-                                                <p class="big">Please note that the first option in the table will be automatically added in the cart at the Checkout.</p> <a class="big themecolor" id="edit_add_variation">Add
-
-                                                        variations</a> </div>
+                                                <label
+                                                    class="form_inner_label">Variations</label>
+                                                <p class="big">You can use variations if you
+                                                    have multiple
+                                                    types of
+                                                    the
+                                                    same product. Let’s say you have a T-Shirt,
+                                                    which is in
+                                                    S and M
+                                                    but
+                                                    also blue or red, you can create a variation
+                                                    for each of
+                                                    them.
+                                                </p>
+                                                <p class="big">Please note that the first option
+                                                    in the
+                                                    table will
+                                                    be
+                                                    automatically added in the cart at the
+                                                    Checkout.</p>
+                                                <a class="big themecolor" id="edit_add_variation">Add
+                                                    variations</a>
+                                            </div>
                                             <div class="product_variations_form">
                                                 <div class="row ">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="usr">Option 1</label>
-                                                            <input type="text" class="form-control form_field" id="edit_option1" name="option1" placeholder="Enter a label"> </div>
+                                                            <input type="text"
+                                                                class="form-control form_field"
+                                                                id="edit_variation_option1" name="option1"
+                                                                placeholder="Enter a label">
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-8">
                                                         <div class="control-group form-group">
-                                                            <label for="variation_one">Press enter to add an option and backspace to remove </label>
-                                                            <input type="text" id="edit_variation1" class="edit_variation1 test_demo" placeholder="Enter variations options"> </div>
+                                                            <label for="variation_one">Press
+                                                                enter to add an
+                                                                option
+                                                                and
+                                                                backspace to remove
+                                                            </label>
+                                                            <input type="text"
+                                                                id="edit_variation1"
+                                                                class="edit_variation1 edit_variation_select"
+                                                                placeholder="Enter variations options">
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="row ">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label for="usr">Option 2</label>
-                                                            <input type="text" class="form-control form_field" id="edit_option2" placeholder="Enter a label" name="option2"> </div>
+                                                            <input type="text"
+                                                                class="form-control form_field"
+                                                                id="edit_variation_option2"
+                                                                placeholder="Enter a label"
+                                                                name="option2">
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-8">
                                                         <div class="control-group form-group">
-                                                            <label for="variation_two">Press enter to add an option and backspace to remove </label>
-                                                            <input type="text" id="edit_variation2" class="edit_variation2 test_demo" placeholder="Enter variations options"> </div>
+                                                            <label for="variation_two">Press
+                                                                enter to add an
+                                                                option
+                                                                and
+                                                                backspace to remove
+                                                            </label>
+                                                            <input type="text"
+                                                                id="edit_variation2"
+                                                                class="edit_variation2 edit_variation_select"
+                                                                placeholder="Enter variations options">
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="variation_table_data">
-                                                    <table class="table variations_table" id="edit_variations_table">
+                                                    <table class="table variations_table"
+                                                        id="edit_variations_table">
                                                         <thead>
                                                             <tr>
                                                                 <th></th>
-                                                                <th scope="col" id="opt_label1"> Option 1 </th>
-                                                                <th scope="col" id="opt_label2"> Option 2 </th>
-                                                                <th scope="col" class="price_filed">Price </th>
-                                                                <th scope="col" class="quantity_filed"> Quantity</th>
+                                                                <th scope="col" id="opt_label1">
+                                                                    Option 1
+                                                                </th>
+                                                                <th scope="col" id="opt_label2">
+                                                                    Option 2
+                                                                </th>
+                                                                <th scope="col"
+                                                                    class="price_filed">Price
+                                                                </th>
+                                                                <th scope="col"
+                                                                    class="quantity_filed">
+                                                                    Quantity</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -547,6 +606,7 @@
                                                     </table>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                     <div class="row mt-4 product_payment_option">
@@ -554,7 +614,7 @@
                                                 <label class="form_inner_label">Select payment options </label>
                                                 <p class="big pb-3">Payment options important for customers to purchase product.</p>
                                             </div>
-                                            <div class="col-md-4 col-sm-6 product_type">
+                                            <div class="col-md-4 col-sm-6">
                                                 <label class="paymnet_type_label w-100">
                                                     <input type="radio"  id="edit_paymnet_type1" name="paymnet_type"
                                                         value="Cash" />
@@ -566,7 +626,7 @@
                                                     </div>
                                                 </label>
                                             </div>
-                                            <div class="col-md-4 col-sm-6 product_type">
+                                            <div class="col-md-4 col-sm-6">
                                                 <label class="paymnet_type_label w-100">
                                                     <input type="radio" id="edit_paymnet_type2" name="paymnet_type"
                                                         value="Payfull" />
@@ -730,16 +790,16 @@
     });
     </script>
     <script>
-    $(".product_type").click(function() {
-        $('.upload_image_area').empty();
+    $(".product_type, .create_product_type").click(function() {
+        $('.upload_image_area, .edit_variation_upload_image_area, .variation_image_area').empty();
+        product_image_arr = [];
     });
     $("#choosephysiacalproduct").click(function() {
-        console.log("inside model");
         $.ajax({
             url: "{{ url('product_list') }}",
             type: "GET",
             success: function(res) {
-                console.log(res);
+                // console.log(res);
                 res = res['success']['data'];
                 for(var j = 0; j < res.length; j++) {
                     $(".product_type_list").prepend('<div class="col-md-3 product_type choose_product_box mb-4"> <label class="choose_product_box_label w-100"><input type="radio" id="choose_product_name" name="choose_product_name" value="' + res[j]['id'] + '" /><div class="choose_product_inner text-center"><div class="choose_product_type_image"><i class="fa fa-star"></i></div><p class="choose_product_type_title">' + res[j]['product_name'] + '</p><p class="choose_product_type_price"><span class="currency_symbol">'+res[j]['currency'].split('-')[0]+'</span><span class="product_price">' + res[j]['price'] + '</span></p><a class="product_type_link themecolor">Select</a></div></label></div>');
@@ -801,73 +861,125 @@
         }
     });
     </script>
-    <script>
-    $("#add_variation").click(function() {
-        $(".product_variations_form").show();
-        $("#add_variation").hide();
-    })
-    $("#option1").on('input', function() {
-        var opt1 = $("#option1").val();
-        $("#opt_label1").html(opt1);
-        console.log(opt1);
-    });
-    $("#option2").on('input', function() {
-        var opt2 = $("#option2").val();
-        $("#opt_label2").html(opt2);
-        console.log(opt2);
-    });
-    variation1_arr = [];
-    variation2_arr = [];
-    $('.demo-default').selectize({
-        plugins: ['drag_drop'],
-        delimiter: ',',
-        persist: false,
-        create: true,
-        onChange: function(value) {
-            var str1 = $("#variation_one").val();
-            var str2 = $("#variation_two").val();
-            variation1_arr = str1.split(",");
-            variation2_arr = str2.split(",");
-            // console.log("combos", variation1_arr);
-            // console.log("combos", variation2_arr);
-            variation_array = []
-            for(var i = 0; i < variation1_arr.length; i++) {
-                for(var j = 0; j < variation2_arr.length; j++) {
-                    variation_array.push([variation1_arr[i], variation2_arr[j]]);
-                    console.log(variation_array.length + " " + variation_array);
-                    $("#variations_table > tbody").empty();
-                    for(var k = 0; k < variation_array.length; k++) {
-                        $("#variations_table > tbody").append("<tr class='variation_row_" + k + "'><td><div class='dropzone' id='tableDropzone'></div></td><td>" + variation_array[k][0] + "</td><td>" + variation_array[k][1] + "</td><td><input type='number' name='price" + k + "' id='price" + k + "' class='form-control price_width' placeholder='Enter a price'></td><td><input type='number' name='stock" + k + "' id='stock" + k + "' class='form-control stock_width stock_field' placeholder='Enter stock'></td></tr>");
-                        console.log(variation_array[k]);
-                    }
-                }
-            }
-        }
-    });
-    </script>
+
     <script>
     // <!-- edit product -->       
     function editProduct(id) {
-
+        console.log("EditProduct Id", id);
         $.ajax({
             url: "{{ url('userdetail') }}",
             type: "GET",
             success: function(res) {
-                // console.log(res);
                 var res = res['data']['success'];
                 if ((res['merchant_name'] == null || res['merchant_name']=='') && (res['merchant_password'] == null || res['merchant_password']=='')) {
                     $('#edit_paymnet_type2').attr( "disabled", "disabled" );
                     $('.edit_payment_payfull_option_box').css( "cursor", "no-drop" );
+                    $('.edit_payment_payfull_option_box').click(function() {
+                        $("#status").html(
+                            '<div class="alert alert-danger"><strong>Fail!</strong> Please Add Merchant Details.</div>'
+                        );
+                        setTimeout(function() {
+                            $(".alert").css("display", "none");
+                        }, 3000);
+                    });
                 }
             },
             error: function(jqXHR, textStatus, errorMessage) {
                 console.log(errorMessage); // Optional
             }
         });
-            $("#editproduct input[name='paymnet_type']").removeAttr("class");
-        
+        $("#editproduct")[0].reset();
+        $("#editproduct input[name='paymnet_type']").removeAttr("class");
         tinymce.get("edit_long_description").setContent("");
-        $('.upload_image_area').empty();
+        $('.upload_image_area, .edit_variation_upload_image_area, .variation_image_area').empty();
+        $("#edit_variations_table > tbody").empty();
+        $('#edit_variation1').selectize()[0].selectize.destroy();
+        $('#edit_variation2').selectize()[0].selectize.destroy();
+        $("#editproduct #opt_label1").text("Option1");
+        $("#editproduct #opt_label2").text("Option2");        
+
+        $("#edit_add_variation").click(function() {
+            $(".product_variations_form").show();
+            $("#edit_add_variation").hide();
+        })
+        $(".product_variations_form #edit_variation_option1").on('input', function() {          
+            var opt1 = $(this).val();
+            $(".product_variations_form #opt_label1").html(opt1);          
+        });
+        $(".product_variations_form #edit_variation_option2").on('input', function() {
+            var opt2 = $(this).val();
+            $(".product_variations_form #opt_label2").html(opt2);            
+        });
+        variation1_arr = [];
+        variation2_arr = [];
+        variation_id = id;
+        $('.edit_variation_select').selectize({
+            plugins: ['drag_drop'],
+            delimiter: ',',
+            persist: false,
+            create: true,
+            onChange: function(value) {               
+                var str1= $('#edit_variation1').val();
+                var str2 = $('#edit_variation2').val();
+                // console.log("combos1", str1);
+                // console.log("combos2", str2);
+                variation1_arr = str1.split(",");
+                variation2_arr = str2.split(",");
+                
+                variation_array = []
+
+                for (var i = 0; i < variation1_arr.length; i++) {
+                    for (var j = 0; j < variation2_arr.length; j++) {
+                        variation_array.push([variation1_arr[i], variation2_arr[j]]);
+                        $("#edit_variations_table > tbody").empty();
+                        for (var k = 0; k < variation_array.length; k++) {                           
+                            $("#edit_variations_table > tbody").append(
+                                "<tr class='variation_row_"+k+"'><td><div class='variation_image' id='tableDropzone_"+k+"'  data-toggle='modal' data-target=' #variationimageModal'  onClick = 'variation_image_id("+k+")'><input type='hidden' id='variation_image_path' name='variation_image_path" + k + "'><img src='{{url('admin/assets/img/products/addimg.svg')}}' id='"+k+"'></div></td><td>" +
+                                variation_array[k][0] + "</td><td>" +
+                                variation_array[k][1] +
+                                "</td><td><input type='number' name='price"+k+"' id='price"+k+"' class='form-control price_width' placeholder='Enter a price'></td><td><input type='number' name='stock"+k+"' id='stock"+k+"' class='form-control stock_width stock_field' placeholder='Enter stock'></td></tr>"
+                            );
+                            // console.log(variation_array[k]);
+                        }
+                    }
+                }              
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{ url('getvariationtable') }}/" + variation_id,
+                    type: "POST",
+                    data: id,
+                    success: function(response) {
+                        console.log("Get variation table---",response);
+                        // dispaly product variation table
+                        if(response['data']['status'] == "1"){   
+                            var res = response['data']['data'];
+                            $("#editproduct .price_width").val(null);
+
+                            for (var i = 0; i < res.length; i++) {
+                                $("#editproduct #price"+i).val(res[i]['price']);
+                                $("#editproduct #stock"+i).val(res[i]['stock']);  
+
+                                if(res[i]['image_path'] == "" || res[i]['image_path'] == null){
+                                $("#editproduct #tableDropzone_"+i+" img").attr("src","{{url('admin/assets/img/products/addimg.svg')}}");         
+                                }
+                                else {
+                                    $("#editproduct #tableDropzone_"+i+" img").attr("src","{{url('products/image')}}/"+res[i]['image_path']); 
+                                    $("#editproduct #tableDropzone_"+i+" #variation_image_path").val(res[i]['image_path']); 
+                                }        
+                            }
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorMessage) {
+                        console.log(errorMessage); // Optional
+                    }
+                });
+            }
+        });
+        
+
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -876,7 +988,7 @@
             type: "POST",
             data: id,
             success: function(response) {
-                console.log(response);
+                console.log("Get Edit product data---",response);
                 if(response['data']['product']['status'] == "1") {
                    
                     var res = response['data']['product']['data'][0];
@@ -888,12 +1000,9 @@
                     $("#editproduct #edit_order_limit").val(res['order_limit']);
                     $("#editproduct #edit_product_stock").val(res['stock']);
                     $("#editproduct #edit_short_description").val(res['short_desc']);
-                    // $('#editproduct input:radio[name=paymnet_type]').val(res['payment_type']).attr("checked", "checked");
                     $("#editproduct .payment_type_"+ res['id'] +"[value="+res['payment_type']+"]").attr("checked", "checked");
 
                     $('#editproduct #edit_product_currency').val(res['currency']).attr("selected", "selected");
-                   
-
                     if(res['long_desc'] != null && res['long_desc'].length > 0) {
                         tinymce.get("edit_long_description").setContent(res['long_desc']);
                     }
@@ -903,10 +1012,59 @@
                     for(var i = 0; i < res.length; i++) {
                         
                         if(res[i]["image_path"] != "") {
-                            $('.upload_image_area').append('<span class="product_selected_img" id="image_preview' + res[i]["id"] + '"><img id="theImg" src="products/image/' + res[i]["image_path"] + '" /><i class="fas fa-trash-alt remove_product_img" id="remove_img" data-toggle="modal" data-target="#deleteImageModal"  onClick="deletepProductImage(' + res[i]["id"] + ')"></i></span>');
+                            $('.upload_image_area').append('<span class="product_selected_img" id="image_preview' + res[i]["id"] + '" name="'+res[i]["image_path"]+'"><img id="theImg" src="products/image/' + res[i]["image_path"] + '" /><i class="fas fa-trash-alt remove_product_img" id="remove_img" data-toggle="modal" data-target="#deleteImageModal"  onClick="deletepProductImage(' + res[i]["id"] + ')"></i></span>');
+
+                            $('.edit_variation_upload_image_area').append('<span class="product_selected_img" id="image_preview' + res[i]["id"] + '" name="'+res[i]["image_path"]+'"  onClick = "imagename('+res[i]["id"]+')"><img id="theImg" src="products/image/' + res[i]["image_path"] + '" /></span>');
                         }
                     }
                 }
+                
+                
+                // dispaly product variation option 
+                if(response['data']['viewoption']['status'] == "1"){                                     
+                    $("#edit_add_variation").hide();
+                    $(".product_variations_form").show();
+                    var res = response['data']['viewoption']['data'];                   
+                    $("#editproduct #edit_variation_option1").val(res[0]['variation_option_name']);
+                    $("#editproduct #edit_variation_option2").val(res[1]['variation_option_name']);
+                    $("#editproduct #opt_label1").text(res[0]['variation_option_name']);
+                    $("#editproduct #opt_label2").text(res[1]['variation_option_name']);                  
+
+                    //  set value of option 1
+                    var variation_option1_arr = res[0]['variation_option_value'];
+                    var $select = $('#edit_variation1').selectize();
+                    var selectize = $select[0].selectize;
+                    var variation_option1_data= [];
+                    var variation_option1_val= [];
+                        for(var j = 0; j < variation_option1_arr.length; j++){
+                            variation_option1_data.push({text:variation_option1_arr[j], value: variation_option1_arr[j]});
+                            variation_option1_val.push(variation_option1_arr[j]);                            
+                        }                
+                        selectize.addOption(variation_option1_data);
+                        selectize.setValue(variation_option1_val); 
+                    
+                    //  set value of option 2
+                    var variation_option2_arr = res[1]['variation_option_value'];
+                    var $select = $('#edit_variation2').selectize();
+                    var selectize = $select[0].selectize;
+                    var variation_option2_data= [];
+                    var variation_option2_val= [];
+                        for(var k = 0; k < variation_option2_arr.length; k++){
+                            variation_option2_data.push({text:variation_option2_arr[k], value: variation_option2_arr[k]});
+                            variation_option2_val.push(variation_option2_arr[k]);                            
+                        }
+                        selectize.addOption(variation_option2_data);
+                        selectize.setValue(variation_option2_val); 
+                }
+                else{
+                    $("#edit_add_variation").show();
+                    $(".product_variations_form").hide(); 
+                    $('#edit_variation1').selectize()[0].selectize.clear();
+                    $('#edit_variation2').selectize()[0].selectize.clear(); 
+                    $("#edit_variations_table > tbody").empty();
+                    
+                }
+                                
             },
             error: function(jqXHR, textStatus, errorMessage) {
                 console.log(errorMessage); // Optional
@@ -919,11 +1077,25 @@
         var edit_id = $("#product_edit_id").val();
         var long_desc = tinymce.get("edit_long_description").getContent();
         var paymnet_type = $("input[name='paymnet_type']:checked").val();
-console.log("paymnet_type", paymnet_type);
+        var variation_one = $('#edit_variation1').val();
+        var variation_two = $('#edit_variation2').val();
+        console.log("variation", variation_one, variation_two);
         if(product_image_arr.length > 0) {
             product_iamge = product_image_arr;
         } else {
             product_iamge = [];
+        }
+        if ($('#edit_variation1').val() != "" || $('#edit_variation2').val() != "") {
+            $(".error").remove();
+            if ($("input.stock_field").val() == "") { 
+                console.log("field is required");             
+                $(".stock_field").after("<span class='error'> field is required</span>");       
+                // $("#status").html('<div class="alert alert-danger"><strong>Error!</strong> Product Stock is required.</div>');
+                //         setTimeout(function() {
+                //             $(".alert").css("display", "none");
+                //         }, 3000);
+                return false;        
+            }           
         }
         $.ajax({
             headers: {
@@ -931,9 +1103,10 @@ console.log("paymnet_type", paymnet_type);
             },
             url: "{{ url('editproduct') }}/" + edit_id,
             type: "POST",
-            data: data + "&product_image=" + product_iamge + "&long_desc=" + long_desc+ "&paymnettype=" + paymnet_type,
+            data: data + "&product_image=" + product_iamge + "&long_desc=" + long_desc+ "&paymnettype=" + paymnet_type+ "&variation_one=" + variation_one + "&variation_two=" +
+                variation_two,
             success: function(res) {
-                console.log("res---", res);
+                console.log("upadte product res---", res);
                 if($.isEmptyObject(res.data.error)) {
                     if(res['data']['message'] == "success") {
                         $("#editproduct")[0].reset();
@@ -949,12 +1122,12 @@ console.log("paymnet_type", paymnet_type);
                             var img_path = '{{ asset("admin/assets/img/products/placeholder-person.jpg")}}';
                         }
                         if(res['stock']>0){
-                            var stock = "In Stock";
+                            var stock = "<span class=''>"+res['stock']+"</span>";
                         }
                         else{
-                            var stock = "Out of Stock";
+                            var stock = "<span class='text-danger'>Out of Stock</span>";
                         }
-                        $(".product" + edit_id + " .product_list_stock").text(stock);
+                        $(".product" + edit_id + " .product_list_stock").html(stock);
 
                         $(".product" + edit_id + " .product_img").attr("src", img_path);
                         $("#editProductModal").modal('hide');
@@ -962,8 +1135,17 @@ console.log("paymnet_type", paymnet_type);
                         setTimeout(function() {
                             $(".alert").css("display", "none");
                         }, 3000);
+                        $(".error").remove();
                         product_image_arr = [];
+                    } else {
+                        $("#status").html(
+                            '<div class="alert alert-danger"><strong>Fail!</strong> Something is wrong.</div>'
+                        );
+                        setTimeout(function() {
+                            $(".alert").css("display", "none");
+                        }, 3000);
                     }
+                    
                 } else {
                     $(".error").remove();
                     if(res.data.error.product_name) {
@@ -975,6 +1157,9 @@ console.log("paymnet_type", paymnet_type);
                     if(res.data.error.stock) {
                         $("#edit_product_stock").after('<span class="error">' + res.data.error.stock + '</span>');
                     }
+                    if(res.data.error.short_desc) {
+                        $("#edit_short_description").after('<span class="error">' + res.data.error.short_desc + '</span>');
+                    }
                 }
             },
             error: function(jqXHR, textStatus, errorMessage) {
@@ -983,25 +1168,32 @@ console.log("paymnet_type", paymnet_type);
         });
     });
 
-    
     // delete edit modal product image
     var delete_img_id;
 
     function deletepProductImage(id) {
         $("#delet_image").click(function() {
             console.log(id);
+            var image_name = $("#image_preview"+id).attr('name')
+            var image_url = "{{url('/products/image')}}/"+image_name;
+            console.log(image_name);
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 url: "{{ url('delete_product_image') }}/" + id,
                 type: "POST",
-                data: id,
+                data: {
+                    id: id,
+                    image_name: image_name,
+                },
                 success: function(res) {
-                    console.log(res);
+                    console.log("Delete Product Image---", res);
                     if(res['data']['message'] == "success") {
                         $("span #image_preview" + id).hide();
                         $("span #image_preview" + id).css("display", "none");
+                        $(".variation_image img[src='"+image_url+"']").attr("src", "admin/assets/img/products/addimg.svg");
+                        $(".variation_image #variation_image_path[value='"+image_name+"']").val("");
                         $("#deleteImageModal").modal('hide');
                         $("#status").html('<div class="alert alert-success"><strong>Success! </strong>Image delete Successfully.</div>');
                         setTimeout(function() {
@@ -1040,7 +1232,7 @@ console.log("paymnet_type", paymnet_type);
             type: "POST",
             data: delete_product_id,
             success: function(res) {
-                console.log(res);
+                console.log("Delete Product---",res);
                 if(res['data']['message'] == "success") {
                     $("#status").html('<div class="alert alert-success"><strong>Success!</strong> Product Delete Successfully.</div>');
                     setTimeout(function() {
@@ -1048,7 +1240,7 @@ console.log("paymnet_type", paymnet_type);
                     }, 3000);
                     $(".product" + delete_product_id).remove();
                     $("#deleteProductModal").modal('hide');
-                }
+                }                 
             },
             error: function(jqXHR, textStatus, errorMessage) {
                 console.log(errorMessage); // Optional
@@ -1075,19 +1267,21 @@ $("#search").keyup(function() {
                     search: data
             },
             success: function(res) {
-                console.log(res);
+                console.log("Serach Product res---",res);
                 $(".add_all_product_list").hide();
                 $(".search_product_list").hide()
                 if (res['data']['message'] == "success") {
                     var res = res['data']['data'];
                     for(var i=0; i<res.length; i++ ){
-                        var date = moment.utc(res[i]['created_at']);
+                        // var date = moment.utc(res[i]['created_at']);
+                        var date1 = moment.utc(res[i]['created_at']);
+                        var date = date1.clone().tz("Turkey");
                         // console.log((res[i]['product_image'].split(","))[0]);
                         if(res[i]['stock']>0){
-                            var stock = "In Stock";
+                            var stock = "<span class=''>"+res[i]['stock']+"</span>";
                         }
                         else{
-                            var stock = "Out of Stock";
+                            var stock = "<span class='text-danger'>Out of Stock</span>";
                         }
                         if((res[i]['product_image'].length >0) && (res[i]['product_image'][0] !="")){
                             var img_path = '{{ asset("products/image")}}/'+res[i]['product_image'][0];
@@ -1095,7 +1289,7 @@ $("#search").keyup(function() {
                         else{
                             var img_path = '{{ asset("admin/assets/img/products/placeholder-person.jpg")}}';
                         }
-                        $("#add_product_list").append('<tr class="product'+res[i]['id']+' add_all_product_list search_product_list"><td class="product_list_img_name"><div class="product_list_img_name_inner"><img src="'+img_path+'" alt="" class="product_img"><span class="product_name">'+res[i]['product_name']+'</span> </div></td> <td class="product_list_price"><span class="currency_symbol">'+res[i]['currency'].split('-')[0]+'</span><span class="product_price">'+res[i]['price']+'</span></td><td class="product_list_sale">0</td><td class="product_list_date"><div class="datetime_layout"><div class="datetime_txt"><p class="month_txt">'+date.format('MMMM')+'</p><p class="day_txt">'+date.format('DD')+'</p></div><p class="datetime_separator"><span>at</span></p><div class="time_layout"><p><span class="hour_txt">'+date.format('h')+'</span> : <span class="hour_txt">'+date.format('mm')+'<span></p></div></div></td><td class="product_list_stock">'+stock+'</td><td class="product_list_toggle"><div class="dropdown"><a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="toggle_droupdown" src="{{ asset("admin/assets/img/products/menu-icon.svg") }}"></a><div class="dropdown-menu" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" data-toggle="modal" data-target=" #viewProductModal" onclick="viewProduct('+res[i]['id']+')">View Product</a><a class="dropdown-item" data-toggle="modal" data-target="#editProductModal" data-id="'+res[i]['id']+'" onclick="editProduct('+res[i]['id']+')">Edit</a><a class=" dropdown-item text-danger deleteproduct" data-toggle="modal" data-target="#deleteProductModal" onclick="deleteProduct('+res[i]['id']+')" ">Remove</a></div></div></td></tr>');
+                        $("#add_product_list").append('<tr class="product'+res[i]['id']+' add_all_product_list search_product_list"><td class="product_list_img_name"><div class="product_list_img_name_inner"><img src="'+img_path+'" alt="" class="product_img"><span class="product_name" data-toggle="modal" data-target=" #viewProductModal" onclick="viewProduct('+res[i]['id']+')">'+res[i]['product_name']+'</span> </div></td> <td class="product_list_price"><span class="currency_symbol">'+res[i]['currency'].split('-')[0]+'</span><span class="product_price">'+res[i]['price']+'</span></td><td class="product_list_sale">'+res[i]['total_order']+'</td><td class="product_list_date"><div class="datetime_layout"><div class="datetime_txt"><p class="month_txt">'+date.format('MMMM')+'</p><p class="day_txt">'+date.format('DD')+'</p></div><p class="datetime_separator"><span>at</span></p><div class="time_layout"><p><span class="hour_txt">'+date.format('h')+'</span> : <span class="hour_txt">'+date.format('mm')+'<span></p></div></div></td><td class="product_list_stock">'+stock+'</td><td class="product_list_toggle"><div class="dropdown"><a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="toggle_droupdown" src="{{ asset("admin/assets/img/products/menu-icon.svg") }}"></a><div class="dropdown-menu" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" data-toggle="modal" data-target=" #viewProductModal" onclick="viewProduct('+res[i]['id']+')">View Product</a><a class="dropdown-item" data-toggle="modal" data-target="#editProductModal" data-id="'+res[i]['id']+'" onclick="editProduct('+res[i]['id']+')">Edit</a><a class=" dropdown-item text-danger deleteproduct" data-toggle="modal" data-target="#deleteProductModal" onclick="deleteProduct('+res[i]['id']+')" ">Remove</a></div></div></td></tr>');
                     }
                 }
             },

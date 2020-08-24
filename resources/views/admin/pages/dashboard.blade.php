@@ -11,7 +11,7 @@
             </div>
             <div class="col-sm-6 topbar_right">
                 <div class="topbar_btn">
-                    <button class="theme_btn ripple_btn dark_btn" id="add_product_btn" data-toggle="modal" data-target="#addProductModal">Create Product</button>
+                    <button class="theme_btn ripple_btn dark_btn product_type" id="add_product_btn" data-toggle="modal" data-target="#addProductModal">Create Product</button>
                         
                 </div>
             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Order;
 use App\Product;
@@ -20,8 +21,9 @@ class CreateorderController extends Controller
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
         $order = Order::where('user_id', $user_id);
-        if ($request->has('panding_order')) {
-            $order->where('order_status', '=', '0')->orderby('created_at', 'DESC');
+        if ($request->has('order_status')) {
+            $order_status = $request->input("order_status");
+            $order->where('order_status', '=', $order_status)->orderby('created_at', 'DESC');
         }
         $order =  $order->get();
         if($order->isEmpty()){
@@ -52,7 +54,7 @@ class CreateorderController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $view_order = Order::join("products", "products.id", "=", "orders.product_id")->select("orders.*", "products.link")->where('orders.id', $order_id)->get();
+        $view_order = Order::join("products", "products.id", "=", "orders.product_id")->select("orders.*", "products.link")->where([['orders.id', $order_id],['orders.user_id', Auth::id()]])->get();
         if($view_order->isEmpty()){
             return response()->json(['message'=>'fail', 'status'=>'0', 'data'=>[]]);
         }
@@ -67,7 +69,7 @@ class CreateorderController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $approve = Order::where('id', $order_id)->update(['order_status' => '1']);
+        $approve = Order::where([['id', $order_id],['user_id', Auth::id()]])->update(['order_status' => '1']);
         if ($approve != 1) {
             return response()->json(['message'=>'fail', 'status'=>'0']);
         }
@@ -84,7 +86,7 @@ class CreateorderController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $paid = Order::where('id', $order_id)->update(['order_status' => '2']);
+        $paid = Order::where([['id', $order_id],['user_id', Auth::id()]])->update(['order_status' => '2']);
         if ($paid != 1) {
             return response()->json(['message'=>'fail', 'status'=>'0']);
         }
@@ -101,7 +103,7 @@ class CreateorderController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $decline = Order::where('id', $order_id)->update(['order_status' => '3']);
+        $decline = Order::where([['id', $order_id],['user_id', Auth::id()]])->update(['order_status' => '3']);
         if ($decline != 1) {
             return response()->json(['message'=>'fail', 'status'=>'0']);
         }
@@ -123,7 +125,7 @@ class CreateorderController extends Controller
         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors(), 'status'=>'0', 'data'=>[]]);            
         }
-        $remove = Order::where('id', $order_id)->delete();
+        $remove = Order::where([['id', $order_id],['user_id', Auth::id()]])->delete();
         if ($remove != 1) {
             return response()->json(['message'=>'fail', 'status'=>'0']);
         }

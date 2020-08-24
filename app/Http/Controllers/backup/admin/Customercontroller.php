@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class Customercontroller extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         
@@ -41,6 +45,20 @@ class Customercontroller extends Controller
         ];
         $Bearer_token = session()->get('token');
         $request = Request::create(url('/api/customer/search'), 'POST', $data);
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
+        $res = app()->handle($request);
+        $response = json_decode($res->getContent(), true);
+        return response()->json(['data' => $response]);
+    }
+
+    public function customerdelete($id){
+
+        $data = [
+            'customer_id' => $id,
+        ];
+        $Bearer_token = session()->get('token');
+        $request = Request::create(url('/api/customer/remove'), 'POST', $data);
         $request->headers->set('Accept', 'application/json');
         $request->headers->set('Authorization', 'Bearer ' . $Bearer_token);
         $res = app()->handle($request);

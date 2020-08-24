@@ -194,7 +194,7 @@
                                     <div class="pt-5 event_tab_btm_content">
                                         <p class="big">Got something to sell? Add some sales channels to your
                                             business!</p>
-                                        <a href="" class="big themecolor" id="add_product_btn" data-toggle="modal"
+                                        <a href="" class="big themecolor create_product_type" id="add_product_btn" data-toggle="modal"
                                             data-target="#addProductModal">Add a Product</a>
                                     </div>
                                 </div>
@@ -242,7 +242,7 @@
                                     </table>
                                     <div class="event_tab_btm_content">
                                         <p class="big">Got something to sell? Add a product!</p>
-                                        <a class="big themecolor" id="add_product_btn" data-toggle="modal" data-target="#addProductModal">Add
+                                        <a class="big themecolor create_product_type" id="add_product_btn" data-toggle="modal" data-target="#addProductModal">Add
                                             a Product</a>
                                     </div>
                                 </div>
@@ -622,7 +622,7 @@
 
                                         </div>
 
-                                        <div class="row mt-4 d-none">
+                                        <div class="row mt-4">
 
                                             <div class="col-sm-12">
 
@@ -2642,6 +2642,103 @@
 
         </div>
         <!-- superbolts Modal end-->
+
+        <!-- Generate Invoice Modal -->
+        <div class="modal fade" id="generateInvoiceModal" tabindex="-1" role="dialog"
+            aria-labelledby="generateInvoiceModalLabel">
+
+            <div class="modal-dialog modal_width_1155" role="document">
+
+                <div class="modal-content">
+
+                    <div class="modal-body generateInvoiceModal_body">
+
+                        <div class="row">
+
+                            <div class="col-md-2 back_btn_txt">
+
+                                <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
+                                        class="back_btn_img"
+                                        src="{{ asset('admin/assets/img/products/back-arrow.svg') }}" alt="">
+
+                                    <span>Back</span></a>
+
+                            </div>
+
+                            <div class="col-md-8">
+
+                                <div class="text-center">
+                                    <h3 class="modal_title">New Invoice</h3>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="col-md-2 save_btn_txt text-right">
+
+                                <!--<button type="submit" class="theme_btn ripple_btn dark_btn"-->
+
+                                <!--    id="">Save</button>-->
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-11 m-auto">
+
+                                <div class="generate_invoice_form mt-3">
+
+                                    <form class="generateinvoice" id="generate_invoice">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="title">Title<span>*</span></label>
+                                                    <input type="text" class="form-control form_field"
+                                                        placeholder="Enter your product title" id="title" name="title">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form_images_upload text-center mt-4">
+
+                                            <p class="big">Once you are done, click save button
+
+                                                below.</p>
+
+                                            <!-- <button type="submit" class="theme_btn  dark_btn product_submit_btn" id="product_submit">Save</button> -->
+
+                                            <input type="submit"
+                                                class="theme_btn ripple_btn dark_btn product_submit_btn"
+                                                id="product_submit" value="Save">
+
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- modal-content -->
+
+            </div>
+
+            <!-- modal-dialog -->
+
+        </div>
+        <!-- Generate Invoice Modal end-->
+
     </div>
 
 
@@ -2731,6 +2828,21 @@
 
         toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent|"
 
+    });
+    </script>
+    <script>
+        $(".product_type, .create_product_type").click(function() {
+        $('.upload_image_area, .edit_variation_upload_image_area, .variation_image_area').empty();
+        product_image_arr = [];
+        $('#variation_one').selectize()[0].selectize.clear();
+        $('#variation_two').selectize()[0].selectize.clear(); 
+        $("#variations_table > tbody").empty();
+        $("#option1").val('');
+        $("#option2").val(''); 
+        $("#variation_opt_label1").text("Option1");
+        $("#variation_opt_label2").text("Option2");   
+        $(".product_variations_form").hide();
+        $("#add_variation").show();
     });
     </script>
     <script>
@@ -2887,6 +2999,8 @@
             });
         }
 
+        variation_final_array = [];
+        var variation_data;
         function variation_image_id(id){
             variation_img_id = id;
             image_div_name = $("#tableDropzone_"+id).attr('id');
@@ -2904,11 +3018,15 @@
             $("#variationimageModal").modal('hide');
             $("#"+image_div_name+" #variation_image_path").val(image_name);
             $("#"+image_div_name+" img").attr("src", image_name_path);
+            variation_final_array[variation_img_id].image_path = image_name;
+            variation_final_array[variation_img_id].image = "{{url('products/image')}}/" + image_name;
         }
         $("#remove_variation_preview_img").click(function(){
             $("#variationimageModal").modal('hide');            
             $("#tableDropzone_"+variation_img_id+" img").attr('src', "admin/assets/img/products/addimg.svg");
             $("#tableDropzone_"+variation_img_id+" #variation_image_path").val("");
+            variation_final_array[variation_img_id].image_path = "";
+            variation_final_array[variation_img_id].image = "{{url('admin/assets/img/products/addimg.svg')}}";
         })
         
     </script>
@@ -2920,8 +3038,6 @@
             $(".profile_setting_box").show();
             $("#profile_setting").hide();
         })
-
-
 
         $(".profile_setting_close_btn, #edit_profile, #support_profile, #superbolt_text").click(function() {
             $(".profile_setting_box").hide();
@@ -2941,8 +3057,8 @@
     </script>
 
 
-    <script>
-         
+    <script>  
+        
         $("#add_variation").click(function() {
             $(".product_variations_form").show();
             $("#add_variation").hide();
@@ -2969,21 +3085,103 @@
                 variation2_arr = str2.split(",");
                 // console.log("combos", variation1_arr);
                 // console.log("combos", variation2_arr);
-                variation_array = []
+                variation_array = [];
+                variation_temp_array = [];
                 for(var i = 0; i < variation1_arr.length; i++) {
                     for(var j = 0; j < variation2_arr.length; j++) {
                         variation_array.push([variation1_arr[i], variation2_arr[j]]);
                         console.log(variation_array.length + " " + variation_array);
                         $("#variations_table > tbody").empty();
-                        for(var k = 0; k < variation_array.length; k++) {
-                            $("#variations_table > tbody").append("<tr class='variation_row_" + k + "'><td><div class='variation_image' id='tableDropzone_" + k + "' data-toggle='modal' data-target=' #variationimageModal'  onClick = 'variation_image_id("+k+")'><input type='hidden' id='variation_image_path' name='variation_image_path" + k + "'><img src='{{url('admin/assets/img/products/addimg.svg')}}' id='" + k + "'></div></td><td>" + variation_array[k][0] + "</td><td>" + variation_array[k][1] + "</td><td><input type='number' name='price" + k + "' id='price" + k + "' class='form-control price_width' placeholder='Enter a price'></td><td><input type='number' name='stock" + k + "' id='stock" + k + "' class='form-control stock_width stock_field' placeholder='Enter stock'></td></tr>");
-                            console.log(variation_array[k]); 
-                        }                        
+                                            
                     }
-                }               
+                }     
+                console.log("variation_array---", variation_array);
+                variation_temp_array = variation_final_array;
+                console.log("variation_temp_array---", variation_temp_array);
+                variation_final_array = [];
+                for (var k = 0; k < variation_array.length; k++) {
+                    variation_data = variation_temp_array.find((o) => {
+                        return o["option1"] === variation_array[k][0] && o["option2"] ===
+                            variation_array[k][1]
+                    })
+                    console.log("ans---", !($.isEmptyObject(variation_data)));
+                    // var img_path = "admin/assets/img/products/addimg.svg";
+                    if (!($.isEmptyObject(variation_data))) {
+                        variation_final_array.push(variation_data); // variation_temp_array object
+                        console.log(variation_temp_array);
+
+                    } else {
+                        var obj1 = {
+                            "image": "{{url('admin/assets/img/products/addimg.svg')}}",
+                            "image_path": "",
+                            "option1": variation_array[k][0],
+                            "option2": variation_array[k][1],
+                            "price": "",
+                            "stock": "",
+                        };
+                        variation_final_array.push(obj1); // create new object and 
+                        console.log("variation_final_array--", variation_final_array);
+                    }
+                }
+                $("#variations_table > tbody").empty();
+                for (var l = 0; l < variation_final_array.length; l++) {
+                    variationTable(l);
+                }
+                        
             }
-        });
-       
+        });  
+        function variationTable(l) {
+            $("#variations_table > tbody").append("<tr class='variation_row_" + l +
+                "'><td><div class='variation_image' id='tableDropzone_" + l +
+                "' data-toggle='modal' data-target=' #variationimageModal'  onClick = 'variation_image_id(" +
+                l +
+                ")'><input type='hidden' id='variation_image_path' name='variation_image_path" +
+                l + "' value='" + variation_final_array[l].image_path + "'><img src='" + variation_final_array[l]
+                .image + "' id='img" + l +
+                "'></div></td><td>" + variation_final_array[l].option1 + "</td><td>" +
+                variation_final_array[l].option2 + "</td><td><input type='number' name='price" +
+                l + "' id='price" + l +
+                "' value='"+variation_final_array[l].price+"' class='form-control price_width price" + l +
+                "' placeholder='Enter a price'></td><td><input type='number' name='stock" +
+                l + "' id='stock" + l +
+                "' value='" + variation_final_array[l].stock +
+                "' class='form-control stock_width add_stock_field stock" + l +"' placeholder='Enter stock' value=''></td></tr>"
+            );
+            
+            $(".price"+ l).on("input", function () {    
+                variation_final_array[l].price = $(this).val();
+                console.log("price", variation_final_array[l].price, $(this).val());
+            });
+            $(".stock" + l).on("input", function () {
+                variation_final_array[l].stock = $(this).val();
+                console.log("stock", variation_final_array[l].price, $(this).val());
+            });
+            
+            
+        }  
+        function stockValidation(){
+        // var valid = true;
+        $(".error").remove();
+        if ($('#variation_one').val() != "" || $('#variation_two').val() != "") {            
+            $("input.add_stock_field").each(function(index){
+                var value1 = $("#stock"+index).val();
+                var val = $(this).val();
+                console.log("stock_index", val)
+                console.log("stock_outside", val);
+                if(val == "" || val == undefined || val == null){
+                    console.log("stock_inside", val);
+                    $("#status").html('<div class="alert alert-danger"><strong>Error!</strong> Product Stock is required.</div>');
+                            setTimeout(function() {
+                                $(".alert").css("display", "none");
+                            }, 3000);
+                // valid = false; 
+                return false;
+                }    
+                
+            });     
+            // return valid;  
+        }      
+    }    
     </script>
     <script>
     $(document).ready(function() {
@@ -3020,6 +3218,24 @@
 
             }
 
+        });
+
+        $.ajax({
+            url: "{{ url('paidinvoiceslict') }}",
+            type: "GET",
+            success: function(res) {
+                console.log("total paid order--",res);
+                var count = res['totalpaidinvoices']['data'].length;
+
+                if (count > 0) {
+                    $("#paid_invoices").show();
+                } else {
+                    $("#paid_invoices").hide();
+                }
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                console.log(errorMessage); // Optional
+            }
         });
 
     });
@@ -3399,6 +3615,8 @@
                         setTimeout(function() {
                             $(".alert").css("display", "none");
                         }, 3000);
+                        product_image_arr = [];
+                        
                     } else {
                     $("#status").html(
                         '<div class="alert alert-danger"><strong>Fail!</strong> Something is wrong.</div>'

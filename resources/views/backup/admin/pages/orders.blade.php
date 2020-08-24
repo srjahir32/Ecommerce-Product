@@ -27,6 +27,9 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    date_default_timezone_set('Turkey');
+                @endphp
                 @if($orderlist['status'] == "1")
                 @php
                 $i = 0;
@@ -69,10 +72,28 @@
                                 <img class="toggle_droupdown"
                                     src="{{ asset('admin/assets/img/orders/menu-icon.svg') }}"></a>
                             <div class="dropdown-menu pending_order_droupdown" aria-labelledby="dropdownMenuButton">
+                                @if($order['order_status'] == "0")
+                                <a class="dropdown-item" data-toggle="modal" data-target="#approveOrderModal"
+                                    onClick="approvedOrder({{$order['id']}})" id="approve_order_option">Approve</a>
+                                <a class="dropdown-item" data-toggle="modal" id="decline_order_option"
+                                    data-target="#declineOrderModal"
+                                    onClick="declineOrder({{$order['id']}})">Decline</a>
+                                @endif
+                                @if($order['order_status'] == "1")
+                                <a class="dropdown-item" data-toggle="modal" data-target="#markPaidOrderModal"
+                                    onClick="markPaidOrder({{$order['id']}})" id="markpaid_order_option">Mark Paid</a>
+                                @endif
+                                @if($order['order_status'] == "2")
+                                <a class="dropdown-item" data-toggle="modal" data-target="#markDeliveredOrderModal"
+                                    onClick="markDeliveredOrder({{$order['id']}})"
+                                    id="markdelivered_order_option">Delivered</a>
+                                @endif
                                 <a class="dropdown-item" data-toggle="modal" data-target="#viewOrderModal"
                                     id="viewpage_order_option" onClick="viewOrder({{$order['id']}})">View Page</a>
+                                @if($order['order_status'] == "2" || $order['order_status'] == "1" || $order['order_status'] == "3")
                                 <a class="dropdown-item text-danger" data-toggle="modal" id="remove_order_option"
                                     data-target="#removeSaleModal" onClick="removeOrder({{$order['id']}})">Remove</a>
+                                @endif
                             </div>
                         </div>
                     </td>
@@ -133,24 +154,47 @@
                                 <label>Bought from</label>
                                 <p id="product_link_txt"><a href="" class="themecolor" id="product_link"></a></p>
                             </div>
+
                             <div class="view_product_detail_txt">
-                                <label>Plug</label>
-                                <p id="order_plug"></p>
+                                <label>Email</label>
+                                <p id="customer_email"></p>
                             </div>
 
                             <div class="view_product_detail_txt">
-                                <label>Payment Gateway</label>
-                                <p id="payment_type">Cash on delivery</p>
+                                <label>Mobile</label>
+                                <p id="customer_mobile"></p>
                             </div>
+
                             <div class="view_product_detail_txt">
-                                <label>Checkout Duration</label>
-                                <p id="checkout_time">3 Minutes 48 Secon</p>
+                                <label>Address</label>
+                                <p id="customer_address">3 Minutes 48 Secon</p>
+                            </div>
+                            
+                            <div class="view_product_detail_txt">
+                                <label>Price</label>
+                                <p id="customer_price"></p>
+                            </div>
+
+                            <div class="view_product_detail_txt">
+                                <label>Quantity</label>
+                                <p id="customer_quantity"></p>
+                            </div>
+
+                            <div class="view_product_detail_txt">
+                                <label>Total</label>
+                                <p id="customer_total"></p>
                             </div>
 
                             <div class="view_product_detail_txt">
                                 <label>Status</label>
                                 <p id="order_status">Pending (Unpaid)</p>
                             </div>
+
+                            <div class="view_product_detail_txt">
+                                <label>Payment Gateway</label>
+                                <p id="payment_type">Cash on delivery</p>
+                            </div>
+
                             <div class="view_product_detail_txt">
                                 <label>Date</label>
                                 <div class="datetime_layout">
@@ -165,10 +209,12 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="view_product_detail_txt">
-                                <label>Address</label>
-                                <p id="customer_address">3 Minutes 48 Secon</p>
+                                <label>Oder ID</label>
+                                <p id="customer_orderid"></p>
                             </div>
+
                         </div>
                     </div>
                     <div class="row view_product_name view_pending_order_detail d-none">
@@ -241,6 +287,144 @@
     </div>
     <!-- View Order Modal end-->
 
+    <!-- approve Order Modal -->
+    <div class="modal fade" id="approveOrderModal" tabindex="-1" role="dialog" aria-labelledby="approveOrderModalLabel">
+        <div class="modal-dialog modal_width_500" role="document">
+            <div class="modal-content">
+                <div class="modal-body approveOrderModal_body">
+                    <div class="row">
+                        <div class="col-md-12 back_btn_txt">
+                            <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
+                                    class="back_btn_img" src="{{ asset('admin/assets/img/orders/back-arrow.svg') }}"
+                                    alt="">
+                                <span>Back</span></a>
+                        </div>
+                    </div>
+                    <div class="delete_product_details approve_order_details ">
+                        <div class="text-center">
+                            <div class="approve_order_img">
+                                <img src="{{ asset('admin/assets/img/orders/salesicon.svg') }}" alt="">
+                            </div>
+                            <h3>Approve Order</h3>
+                            <p class="big">The invoice will be updated and the customer will be
+                                automatically informed
+                                by email.</p>
+                        </div>
+                        <form class="approve_order_form" id="approve_order_form"
+                        autocomplete="off">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="message">Enter a message for the
+                                            customer<span></span></label>
+                                        <input type="text" class="form-control form_field"
+                                            placeholder="Enter a message for the customer" id="approved_message"
+                                            name="approved_message">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="approve_order_btn">
+                                <input type="button" class="theme_btn ripple_btn dark_btn w-100 ml-0"
+                                    id="approved_order" value="Yes, Approve Order">
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <!-- modal-content -->
+        </div>
+        <!-- modal-dialog -->
+    </div>
+    <!-- approve Order Modal end-->
+
+
+    <!-- Decline Order Modal -->
+    <div class="modal fade" id="declineOrderModal" tabindex="-1" role="dialog" aria-labelledby="declineOrderModalLabel">
+        <div class="modal-dialog modal_width_500" role="document">
+            <div class="modal-content">
+                <div class="modal-body declineOrderModal_body">
+                    <div class="row">
+                        <div class="col-md-12 back_btn_txt">
+                            <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
+                                    class="back_btn_img" src="{{ asset('admin/assets/img/orders/back-arrow.svg') }}"
+                                    alt="">
+                                <span>Back</span></a>
+                        </div>
+                    </div>
+                    <div class="delete_product_details approve_order_details ">
+                        <div class="text-center">
+                            <div class="approve_order_img">
+                                <img src="{{ asset('admin/assets/img/orders/salesicon.svg') }}" alt="">
+                            </div>
+                            <h3>Decline Order</h3>
+                            <p class="big">Are you sure you want to decline this order? The customer will be
+                                informed
+                                via email.</p>
+                        </div>
+                        <form class="decline_order_form" id="decline_order_form" autocomplete="off">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="message">Enter a message for the
+                                            customer<span></span></label>
+                                        <input type="text" class="form-control form_field"
+                                            placeholder="Enter a message for the customer" id="message" name="message">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="approve_order_btn">
+                                <input type="button" class="theme_btn ripple_btn dark_btn w-100 ml-0" id="decline_order"
+                                    value="Yes, Decline Order">
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <!-- modal-content -->
+        </div>
+        <!-- modal-dialog -->
+    </div>
+    <!-- Decline Order Modal end-->
+
+    <!-- Mark Paid Modal -->
+    <div class="modal fade" id="markPaidOrderModal" tabindex="-1" role="dialog"
+        aria-labelledby="markPaidOrderModalLabel">
+        <div class="modal-dialog modal_width_500" role="document">
+            <div class="modal-content">
+                <div class="modal-body markPaidOrderModal_body">
+                    <div class="row">
+                        <div class="col-md-12 back_btn_txt">
+                            <a class="back_btn_link" href="" data-dismiss="modal" aria-label="Close"><img
+                                    class="back_btn_img" src="{{ asset('admin/assets/img/orders/back-arrow.svg') }}"
+                                    alt="">
+                                <span>Back</span></a>
+                        </div>
+                    </div>
+                    <div class="delete_product_details approve_order_details ">
+                        <div class="text-center">
+                            <div class="approve_order_img">
+                                <img src="{{ asset('admin/assets/img/orders/salesicon.svg') }}" alt="">
+                            </div>
+                            <h3>Mark Paid</h3>
+                            <p class="big">By marking the sale as paid, we will generate a new updated
+                                invoice and
+                                automatically send it to the customer (unless email block is enabled). </p>
+                        </div>
+
+                        <div class="mark_paid_btn">
+                            <input type="button" id="markpaid_confrim_btn"
+                                class="theme_btn ripple_btn dark_btn w-100 ml-0" value="Confirm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- modal-content -->
+        </div>
+        <!-- modal-dialog -->
+    </div>
+    <!-- Mark Paid Modal end-->
 
     <!-- Remove Sale Modal -->
     <div class="modal fade" id="removeSaleModal" tabindex="-1" role="dialog" aria-labelledby="removeSaleModalLabel">
@@ -282,6 +466,139 @@
 
 @section('scripts')
 <script>
+function approvedOrder(id) {
+    $("#approved_order").click(function() {
+        console.log("approvedOrder", id);
+        $("#approved_order").val("Processing....");
+        $.ajax({
+            headers: {
+
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+            },
+            url: "{{ url('approveorder') }}/" + id,
+            type: "POST",
+            success: function(res) {
+                $("#approved_order").val("Yes, Approve Order");
+                console.log(res);
+                if (res['data']['status'] == "1") {
+                    $(".order_" + id + " #order_status").html(
+                        "<span class='unpaid_text' style='color: #646698 !important;'>New (unpaid)</span>"
+                        );
+                    $(".order_" + id + " #approve_order_option, .order_" + id +
+                        " #decline_order_option").hide();
+                    $(".order_" + id + " .pending_order_droupdown").append(
+                        '<a class="dropdown-item" data-toggle="modal"  data-target="#markPaidOrderModal" onClick="markPaidOrder(' +
+                        id +
+                        ')" id="markpaid_order_option">Mark Paid</a><a class="dropdown-item text-danger" data-toggle="modal" id="remove_order_option" data-target="#removeSaleModal" onClick="removeOrder(' +
+                        id + ')">Remove</a>');
+                    $("#approveOrderModal, #viewOrderModal").modal('hide');
+                    $("#status").html('<div class="alert alert-success"><strong>Success!</strong> Order Approved successfully.</div>');
+                    setTimeout(function() {
+                        $(".alert").css("display", "none");
+                    }, 3000);
+                } else {
+                    $("#status").html(
+                            '<div class="alert alert-danger"><strong>Fail!</strong> Something is wrong.</div>'
+                        );
+                        setTimeout(function() {
+                            $(".alert").css("display", "none");
+                        }, 3000);
+                    }
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                console.log(errorMessage); // Optional
+            }
+        });
+    })
+
+}
+
+function declineOrder(id) {
+    console.log("declineOrder", id);
+
+    $("#decline_order").click(function() {
+        $.ajax({
+            headers: {
+
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+            },
+            url: "{{ url('declineorder') }}/" + id,
+            type: "POST",
+            success: function(res) {
+                console.log(res);
+                if (res['data']['status'] == "1") {
+                    $(".order_" + id + " #order_status").html(
+                        "<span class='warning_txt'>Decline</span>");
+                    $(".order_" + id + " #approve_order_option, .order_" + id + " #decline_order_option").hide();
+                    $(".order_" + id + " .pending_order_droupdown").append(
+                        '<a class="dropdown-item text-danger" data-toggle="modal" id="remove_order_option" data-target="#removeSaleModal" onClick="removeOrder(' +
+                        id + ')">Remove</a>');
+                    $("#declineOrderModal, #viewOrderModal").modal('hide');
+                    $("#status").html('<div class="alert alert-success"><strong>Success!</strong> Order Decline successfully.</div>');
+                    setTimeout(function() {
+                        $(".alert").css("display", "none");
+                    }, 3000);
+                } else {
+                    $("#status").html(
+                            '<div class="alert alert-danger"><strong>Fail!</strong> Something is wrong.</div>'
+                        );
+                        setTimeout(function() {
+                            $(".alert").css("display", "none");
+                        }, 3000);
+                    }
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                console.log(errorMessage); // Optional
+            }
+        });
+    })
+
+}
+
+function markPaidOrder(id) {
+    console.log("markPaidOrder", id);
+    $("#markpaid_confrim_btn").click(function() {
+        $.ajax({
+            headers: {
+
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+            },
+            url: "{{ url('paidorder') }}/" + id,
+            type: "POST",
+            success: function(res) {
+                console.log(res);
+                if (res['data']['status'] == "1") {
+                    $(".order_" + id + " #order_status").html(
+                        "<span class='text-success'>Paid</span>");
+                    $(".order_" + id + " #approve_order_option, .order_" + id +
+                        " #markpaid_order_option").hide();
+                    $(".order_" + id + " .pending_order_droupdown").append(
+                        '<a class="dropdown-item" data-toggle="modal" data-target="#DeliveredOrderModal" onClick="DeliveredOrder(' +
+                        id + ')" id="delivered_order_option">Delivered</a>');
+                    $("#markPaidOrderModal, #viewOrderModal").modal('hide');
+                    $("#status").html('<div class="alert alert-success"><strong>Success!</strong> Order Paid successfully.</div>');
+                    setTimeout(function() {
+                        $(".alert").css("display", "none");
+                    }, 3000);
+                } else {
+                    $("#status").html(
+                            '<div class="alert alert-danger"><strong>Fail!</strong> Something is wrong.</div>'
+                        );
+                        setTimeout(function() {
+                            $(".alert").css("display", "none");
+                        }, 3000);
+                    }
+            },
+            error: function(jqXHR, textStatus, errorMessage) {
+                console.log(errorMessage); // Optional
+            }
+        });
+    })
+
+}
 
 function viewOrder(id) {
     console.log("viewOrder", id);
@@ -296,9 +613,10 @@ function viewOrder(id) {
         type: "POST",
         success: function(res) {
             console.log(res);
-            if (res['data']['status'] == "1") {
-                var res = res['data']['data'][0];
-                var date = moment.utc(res['created_at']);
+            if (res['data']['orderdetail']['status'] == "1") {
+                var res = res['data']['orderdetail']['data'][0];
+                var date1 = moment.utc(res['created_at']);
+                var date = date1.clone().tz("Turkey");
                 if (res['order_status'] == "0") {
                     product_staus = "Pending (Unpaid)";
                 } else if (res['order_status'] == "1") {
@@ -327,6 +645,14 @@ function viewOrder(id) {
                 $("#viewOrderModal #order_hour").text(date.format('h'));
                 $("#viewOrderModal #order_miniute").text(date.format('mm'));
                 $("#viewOrderModal #customer_address").text(res['address']+', '+res['city']+' '+res['zip']+', '+res['country']);
+                $("#viewOrderModal #customer_email").text(res['customer_email']);
+                $("#viewOrderModal #customer_mobile").text(res['customer_mobile']);
+                $("#viewOrderModal #customer_currency").text(res['currency']);
+                $("#viewOrderModal #customer_price").html("<span class='currency_symbol'>"+res['currency'].split('-')[0]+"</span>"+res['price']);
+                $("#viewOrderModal #customer_quantity").text(res['quantity']);
+                $("#viewOrderModal #customer_total").html("<span class='currency_symbol'>"+res['currency'].split('-')[0]+"</span>"+res['total']);
+                $("#viewOrderModal #customer_orderid").text(res['id']);
+
 
                 var url = "{{url('/')}}/l/" + res['link'];
                 console.log(url);

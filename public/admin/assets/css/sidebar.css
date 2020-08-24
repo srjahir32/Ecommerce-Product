@@ -208,9 +208,21 @@ body {
     color: #A7AAF9;
 }
 
+.sidebar-wrapper .sidebar-menu ul li.invoice_droupdown a i {
+    margin-left: 5px;
+    margin-right: 15px;
+}
+
 .sidebar-wrapper .sidebar-menu ul li a:hover>i::before {
     display: inline-block;
     animation: swing ease-in-out 0.5s 1 alternate;
+}
+
+.sidebar-wrapper .sidebar-menu .submenu-list {
+    margin-left: 50px;
+}
+.sidebar-wrapper .sidebar-menu .submenu-list li a {
+    padding: 3px 0;
 }
 
 .sidebar-wrapper .sidebar-menu .sidebar-dropdown>a:after {

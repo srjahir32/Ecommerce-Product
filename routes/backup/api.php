@@ -54,6 +54,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('order/remove', 'API\CreateorderController@remove');
     Route::post('customer', 'API\CustomerController@index');
     Route::post('customer/search', 'API\CustomerController@search');
+    Route::post('customer/remove', 'API\CustomerController@remove');
     
 });
 

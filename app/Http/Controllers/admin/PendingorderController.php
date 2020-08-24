@@ -14,6 +14,8 @@ use App\Order;
 
 use Mail;
 
+use PDF;
+
 
 
 class PendingorderController extends Controller
@@ -35,7 +37,7 @@ class PendingorderController extends Controller
         $data = [
 
             'user_id' => $user_id,
-            'panding_order' => 1
+            'order_status' => 0
 
         ];        
 
@@ -234,11 +236,11 @@ class PendingorderController extends Controller
        
 
         $Bearer_token = session()->get('token');
+        $user_id = session()->get('user')['id'];
 
         $data = [
-
             'order_id' => $id,
-
+            'user_id' => $user_id, 
         ];
 
         $request = Request::create(url('/api/order/view'), 'POST', $data);
@@ -256,10 +258,54 @@ class PendingorderController extends Controller
 
         $customerorder = Order::join("products", "products.id", "=", "orders.product_id")->select("orders.*", "products.link")->where([['orders.customer_email', $customer_email], ['orders.user_id', $user_id]])->get();
 
-        // return response()->json(['data' => $orderdetail]);
+        
+        $request = Request::create(url('/api/user_details'), 'POST');
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
+        $res = app()->handle($request);
+        $userdetail = json_decode($res->getContent(), true);
 
-        return response()->json(['data' => ['orderdetail' => $orderdetail, 'customerorder' => $customerorder]]);
+        $request = Request::create(url('/api/business/view'), 'POST', $data);
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
+        $res = app()->handle($request);
+        $businessdata = json_decode($res->getContent(), true);
 
+        return response()->json(['data' => ['orderdetail' => $orderdetail, 'customerorder' => $customerorder, 'userdetail' => $userdetail, 'businessdata' => $businessdata]]);
+
+    }
+
+    public function generateinvoice($id) {
+        $Bearer_token = session()->get('token');
+        $user_id = session()->get('user')['id'];
+
+        $data = [
+            'order_id' => $id,
+            'user_id' => $user_id, 
+        ];
+
+        $request = Request::create(url('/api/order/view'), 'POST', $data);
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
+        $res = app()->handle($request);
+        $orderdetail = json_decode($res->getContent(), true); 
+        
+        $request = Request::create(url('/api/user_details'), 'POST');
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
+        $res = app()->handle($request);
+        $userdetail = json_decode($res->getContent(), true);
+
+        $request = Request::create(url('/api/business/view'), 'POST', $data);
+        $request->headers->set('Accept', 'application/json');
+        $request->headers->set('Authorization', 'Bearer '.$Bearer_token);
+        $res = app()->handle($request);
+        $businessdata = json_decode($res->getContent(), true);
+
+        $pdf = PDF::loadView('admin/pages/invoicePDF', compact('orderdetail', 'userdetail', 'businessdata'));
+  
+        return $pdf->download('invoice-'.$id.'.pdf');
+        // return view('admin.pages.invoicePDF', compact('orderdetail', 'userdetail', 'businessdata'));
     }
 
 }

@@ -28,6 +28,9 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    date_default_timezone_set('Turkey');
+                @endphp
                 @if($orderlist['status'] == "1")
                 @php
                 $i = 0;
@@ -38,7 +41,7 @@
                 @endphp
                 <tr class="order_{{$order['id']}}">
                     <td>{{$i}}</td>
-                    <td>{{$order['customer_name']}}</td>
+                    <td><span class="panding_order_list_name" data-toggle="modal" data-target="#customerDetailModal" onClick="customerDetail({{$order['id']}})">{{$order['customer_name']}}</span></td>
                     <td><span class="currency_symbol">{{explode('-', $order['currency'])[0]}}</span>{{$order['total']}}</td>
                     <td>{{$order['payment_type']}}</td>
                     <td>
@@ -283,7 +286,8 @@
                                 automatically informed
                                 by email.</p>
                         </div>
-                        <form class="approve_order_form" id="approve_order_form">
+                        <form class="approve_order_form" id="approve_order_form"
+                        autocomplete="off">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
@@ -334,7 +338,7 @@
                                 informed
                                 via email.</p>
                         </div>
-                        <form class="decline_order_form" id="decline_order_form">
+                        <form class="decline_order_form" id="decline_order_form" autocomplete="off">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
@@ -454,6 +458,7 @@ function approvedOrder(id) {
                 $("#approved_order").val("Yes, Approve Order");
                 console.log(res);
                 if (res['data']['status'] == "1") {
+                    $(".order_" + id).remove();
                     $(".order_" + id + " #order_status").html(
                         "<span class='unpaid_text' style='color: #646698 !important;'>New (unpaid)</span>"
                         );
@@ -501,7 +506,7 @@ function declineOrder(id) {
             success: function(res) {
                 console.log(res);
                 if (res['data']['status'] == "1") {
-                    // $(".order_" + id + "").remove();
+                    $(".order_" + id).remove();
                     $(".order_" + id + " #order_status").html(
                         "<span class='warning_txt'>Decline</span>");
                     $(".order_" + id + " #approve_order_option, .order_" + id + " #decline_order_option").hide();
@@ -544,6 +549,7 @@ function markPaidOrder(id) {
             success: function(res) {
                 console.log(res);
                 if (res['data']['status'] == "1") {
+                    $(".order_" + id).remove();
                     $(".order_" + id + " #order_status").html(
                         "<span class='text-success'>Paid</span>");
                     $(".order_" + id + " #approve_order_option, .order_" + id +
@@ -586,9 +592,10 @@ function viewOrder(id) {
         type: "POST",
         success: function(res) {
             console.log(res);
-            if (res['data']['status'] == "1") {
-                var res = res['data']['data'][0];
-                var date = moment.utc(res['created_at']);
+            if (res['data']['orderdetail']['status'] == "1") {
+                var res = res['data']['orderdetail']['data'][0];
+                var date1 = moment.utc(res['created_at']);
+                var date = date1.clone().tz("Turkey");
                 if (res['order_status'] == "0") {
                     product_staus = "Pending (Unpaid)";
                     $("#viewOrderModal #pendingorder_viewmodal_btn").html(
@@ -596,8 +603,8 @@ function viewOrder(id) {
                         res['id'] +
                         ')"> Approve</button> <button class="theme_btn ripple_btn text-danger" data-toggle="modal" data-target="#declineOrderModal" onClick="declineOrder(' +
                         res['id'] +
-                        ')"> Decline</button> </div> <div class="dropdown product_view_droupdown"> <a class="dropdown-toggle" id="productDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-ellipsis-v"></i></a> <div class="dropdown-menu" aria-labelledby="productDropdownMenu"> <a class="dropdown-item " data-toggle="modal" data-target="#markPaidOrderModal" onClick="markPaidOrder(' +
-                        res['id'] + ')">Mark Paid</a></div></div>');
+                        ')"> Decline</button> </div> <div class="dropdown product_view_droupdown"> <a class="dropdown-toggle" id="productDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-ellipsis-v"></i></a> <div class="dropdown-menu" aria-labelledby="productDropdownMenu"> <a class="dropdown-item text-danger" data-toggle="modal" id="remove_order_option" data-target="#removeSaleModal" onClick="removeOrder(' +
+                        res['id'] + ')">Remove</a></div></div>');
                 } else if (res['order_status'] == "1") {
                     product_staus = "New (unpaid)";
                     $("#viewOrderModal #pendingorder_viewmodal_btn").html(
@@ -614,8 +621,7 @@ function viewOrder(id) {
                     product_staus = "Paid";
                     $("#viewOrderModal #pendingorder_viewmodal_btn").html(
                         '<div class="dropdown product_view_droupdown"> <a class="dropdown-toggle" id="productDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-ellipsis-v"></i></a> <div class="dropdown-menu" aria-labelledby="productDropdownMenu"><a class="dropdown-item text-danger" data-toggle="modal" id="remove_order_option" data-target="#removeSaleModal" onClick="removeOrder(' +
-                        res['id'] +
-                        ')">Remove</a><a class="dropdown-item" data-toggle="modal" data-target="#DeliveredOrderModal" onClick="DeliveredOrder(' +
+                        res['id'] + ')">Remove</a><a class="dropdown-item" data-toggle="modal" data-target="#DeliveredOrderModal" onClick="DeliveredOrder(' +
                         res['id'] + ')" id="delivered_order_option">Delivered</a></div></div>');
                 }
 

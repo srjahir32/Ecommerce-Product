@@ -12,7 +12,7 @@
     </div>
     <div class="paymnet_getway_box mb-5">
         <div class="row product_type_list">
-            <div class="col-md-3 product_type" data-toggle="modal" data-target="#payfullmethodModal">
+            <div class="col-md-3 product_type" id="payfull_modal" data-toggle="modal" data-target="#payfullmethodModal">
                 <div class="product_type_inner text-center"> <img class="paymnet_getway_img"
                         src="{{ asset('admin/assets/img/paymnetgetway/payfull.png')}}">
                     <p class="product_type_title">Payfull</p>
